@@ -1,9 +1,7 @@
 package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -28,13 +26,27 @@ class ScheduleFragment : Fragment() {
         return view
     }
 
+    private fun initToolbar() {
+        toolbarSchedule.title = ""
+        toolbarSchedule.tvTitle.text = "Учебные пары"
+        val listener = View.OnClickListener {
+
+        }
+        toolbarSchedule.tvTitle.setOnClickListener(listener)
+        toolbarSchedule.ivArrowDown.setOnClickListener(listener)
+        toolbarSchedule.inflateMenu(R.menu.shedule_toolbar_menu)
+        // (activity as AppCompatActivity?)!!.setSupportActionBar(toolbarSchedule)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ScheduleViewModel::class.java)
-        toolbarSchedule.title = ""
-        toolbarSchedule.tvTitle.text = "Учебные пары"
-        (activity as AppCompatActivity?)!!.setSupportActionBar(toolbarSchedule)
+        initToolbar()
         // TODO: Use the ViewModel
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.shedule_toolbar_menu, menu)
     }
 
 }

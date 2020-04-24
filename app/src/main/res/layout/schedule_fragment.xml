@@ -6,8 +6,6 @@
         android:layout_height="match_parent"
         tools:context=".ui.schedule.ScheduleFragment">
 
-    <include layout="@layout/schedule_toolbar" />
-
     <LinearLayout
             android:id="@+id/toolbarPlace"
             android:layout_width="match_parent"
@@ -20,8 +18,12 @@
 
     <TextView
             android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarPlace" />
+
+    <include layout="@layout/schedule_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
