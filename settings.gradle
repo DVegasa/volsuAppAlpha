@@ -1,0 +1,2 @@
+rootProject.name='VolSU Application Alpha'
+include ':app'
