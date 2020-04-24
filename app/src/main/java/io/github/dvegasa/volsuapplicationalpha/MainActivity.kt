@@ -6,13 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import io.github.dvegasa.volsuapplicationalpha.ui.main.MainFragment
+import io.github.dvegasa.volsuapplicationalpha.ui.schedule.ScheduleFragment
 import kotlinx.android.synthetic.main.main_activity.*
 
 
 class MainActivity : AppCompatActivity() {
 
-    val fragmentLists = listOf(
-        MainFragment.newInstance(),
+    private val fragmentLists = listOf(
+        ScheduleFragment.newInstance(),
         MainFragment.newInstance(),
         MainFragment.newInstance(),
         MainFragment.newInstance()
