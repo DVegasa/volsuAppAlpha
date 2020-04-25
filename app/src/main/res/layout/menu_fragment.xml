@@ -7,10 +7,9 @@
         tools:context=".ui.menu.MenuFragment"
         android:weightSum="10"
         android:orientation="horizontal"
-        android:background="@android:color/transparent"
+        android:background="#A8000000"
         android:baselineAligned="false"
-        android:fitsSystemWindows="true"
-        >
+        android:fitsSystemWindows="true">
 
     <LinearLayout
             android:orientation="horizontal"
@@ -24,7 +23,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
-            android:background="#aaa">
+            android:background="#fff"
+            android:elevation="4dp">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

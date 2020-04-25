@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import io.github.dvegasa.volsuapplicationalpha.ActivityViewModel
 
 import io.github.dvegasa.volsuapplicationalpha.R
+import kotlinx.android.synthetic.main.menu_fragment.*
 
 class MenuFragment : Fragment() {
 
@@ -17,6 +19,7 @@ class MenuFragment : Fragment() {
     }
 
     private lateinit var vm: MenuViewModel
+    private lateinit var activityVm: ActivityViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +31,15 @@ class MenuFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         vm = ViewModelProvider(activity!!).get(MenuViewModel::class.java)
-        // TODO: Use the ViewModel
+        activityVm = ViewModelProvider(activity!!).get(ActivityViewModel::class.java)
+
+        initViews()
+    }
+
+    private fun initViews() {
+        llTransparent.setOnClickListener {
+            activityVm.isMenuShown.value = false
+        }
     }
 
 }
