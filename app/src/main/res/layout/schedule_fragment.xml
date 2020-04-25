@@ -4,8 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.schedule.ScheduleFragment"
-        android:background="@color/colorBackground">
+        android:background="@color/colorBackground"
+        tools:context=".ui.schedule.ScheduleFragment">
 
     <LinearLayout
             android:id="@+id/toolbarPlace"
@@ -17,6 +17,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+            android:id="@+id/llDayweeks"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:background="@color/colorPrimary"
@@ -157,7 +158,17 @@
         </FrameLayout>
     </LinearLayout>
 
-    <include
-            layout="@layout/schedule_toolbar"/>
+    <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/llContent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llDayweeks" />
+
+    <include layout="@layout/schedule_toolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
