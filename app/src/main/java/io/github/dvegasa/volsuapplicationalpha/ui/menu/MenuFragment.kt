@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import io.github.dvegasa.volsuapplicationalpha.ActivityViewModel
 
@@ -34,12 +35,28 @@ class MenuFragment : Fragment() {
         activityVm = ViewModelProvider(activity!!).get(ActivityViewModel::class.java)
 
         initViews()
+        initMenu()
+        initVmObservers()
     }
 
     private fun initViews() {
         llTransparent.setOnClickListener {
             activityVm.isMenuShown.value = false
         }
+    }
+
+    private fun initVmObservers() {
+        vm.username.observe(viewLifecycleOwner, Observer {
+            tvUserName.text = it
+        })
+
+        vm.userSubtitle.observe(viewLifecycleOwner, Observer {
+            tvUserSubtitle.text = it
+        })
+    }
+
+    private fun initMenu() {
+        val menuBuilder = MenuViewBuilder(context!!, llMenuRoot).setupDefaultMenuView()
     }
 
 }

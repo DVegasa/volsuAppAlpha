@@ -40,4 +40,5 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

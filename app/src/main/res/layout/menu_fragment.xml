@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.menu.MenuFragment"
-        android:weightSum="10"
-        android:orientation="horizontal"
         android:background="#A8000000"
         android:baselineAligned="false"
-        android:fitsSystemWindows="true">
+        android:clickable="true"
+        android:fitsSystemWindows="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        tools:context=".ui.menu.MenuFragment">
 
     <LinearLayout
-            android:orientation="horizontal"
             android:id="@+id/llTransparent"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:orientation="horizontal" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -26,6 +28,71 @@
             android:background="#fff"
             android:elevation="4dp">
 
+        <FrameLayout
+                android:id="@+id/flStatusBarBg"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:background="#53000000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/test_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flStatusBarBg" />
+
+        <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/ivAvatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ivAvatar"
+                app:layout_constraintTop_toTopOf="@id/ivAvatar">
+
+            <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textColor="#000"
+                    android:textSize="18sp"
+                    tools:text="Эдуард Халтурин" />
+
+            <TextView
+                    android:id="@+id/tvUserSubtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:textColor="#000"
+                    android:textSize="13sp"
+                    tools:text="МОСб-192, №962941" />
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/llMenuRoot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintVertical_bias="0.7"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                tools:layout_height="200dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
