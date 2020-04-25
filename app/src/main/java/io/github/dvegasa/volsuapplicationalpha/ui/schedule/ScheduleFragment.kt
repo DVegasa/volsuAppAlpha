@@ -36,7 +36,6 @@ class ScheduleFragment : Fragment() {
         toolbarSchedule.title = ""
         toolbarSchedule.tvTitle.text = "Учебные пары"
         toolbarSchedule.inflateMenu(R.menu.shedule_toolbar_menu)
-        // (activity as AppCompatActivity?)!!.setSupportActionBar(toolbarSchedule)
 
     }
 
@@ -78,6 +77,21 @@ class ScheduleFragment : Fragment() {
         tvs[selected-1].setTextColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
     }
 
+    private fun initVpProperties() {
+        val adapter = VpContentPagerAdapter(activity!!)
+        vpContent.adapter = adapter
+        vpContent.offscreenPageLimit = 6
+
+        vpContent.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                vm.curDayweek.value = position + 1
+            }
+        })
+    }
+
     private fun initVpContent() {
         val lls = listOf(llContent1, llContent2, llContent3, llContent4, llContent5, llContent6)
         vm.weekSchedule.observe(viewLifecycleOwner, Observer{listlist->
@@ -112,59 +126,15 @@ class ScheduleFragment : Fragment() {
                 }
             }
         })
-
-        val adapter = VpContentPagerAdapter(activity!!)
-        vpContent.adapter = adapter
-        vpContent.offscreenPageLimit = 6
-
-        vpContent.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {}
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
-            override fun onPageSelected(position: Int) {
-                vm.curDayweek.value = position + 1
-            }
-        })
     }
 
-    private fun initLlContent() {
-        vm.mainContent.observe(viewLifecycleOwner, Observer { list ->
-            llContent1.removeAllViews()
-            for (subj in list) {
-                val view = LayoutInflater.from(context).inflate(R.layout.layout_subject_line, null)
-                view.tvTitle.text = subj.title
-                view.tvSubtitle.text = subj.subtitle
-                view.tvAudi.text = subj.audi
-
-                when (subj.style) {
-                    SubjectStyle.ACCENT -> {
-                        view.tvSubtitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextAccent))
-                    }
-
-                    SubjectStyle.CANCELLED -> {
-                        view.tvSubtitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextRed))
-                    }
-
-                    SubjectStyle.INACTIVE -> {
-                        view.tvTitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextWeak))
-                        view.tvAudi.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextWeak))
-                        view.tvSubtitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextWeak))
-                    }
-
-                    SubjectStyle.NORMAL -> {/*ничего не требуется*/}
-
-                }
-                llContent1.addView(view)
-            }
-        })
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         vm = ViewModelProvider(activity!!).get(ScheduleViewModel::class.java)
         initToolbar()
         initDayweekButtons()
-        // initLlContent()
+        initVpProperties()
         initVpContent()
     }
 
