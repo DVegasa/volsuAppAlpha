@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
 import io.github.dvegasa.volsuapplicationalpha.R
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
 import kotlinx.android.synthetic.main.schedule_fragment.*
@@ -42,6 +43,7 @@ class ScheduleFragment : Fragment() {
     private fun initDayweekButtons() {
         vm.curDayweek.observe(viewLifecycleOwner, Observer { value ->
             updateCurDayweekUi(value)
+            vpContent.currentItem = value - 1
         })
 
         val clickListener = View.OnClickListener { view ->
@@ -76,9 +78,58 @@ class ScheduleFragment : Fragment() {
         tvs[selected-1].setTextColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
     }
 
+    private fun initVpContent() {
+        val lls = listOf(llContent1, llContent2, llContent3, llContent4, llContent5, llContent6)
+        vm.weekSchedule.observe(viewLifecycleOwner, Observer{listlist->
+            for (i in listlist.indices) {
+                val ll = lls[i]
+                ll.removeAllViews()
+                for (subj in listlist[i]) {
+                    val view = LayoutInflater.from(context).inflate(R.layout.layout_subject_line, null)
+                    view.tvTitle.text = subj.title
+                    view.tvSubtitle.text = subj.subtitle
+                    view.tvAudi.text = subj.audi
+
+                    when (subj.style) {
+                        SubjectStyle.ACCENT -> {
+                            view.tvSubtitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextAccent))
+                        }
+
+                        SubjectStyle.CANCELLED -> {
+                            view.tvSubtitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextRed))
+                        }
+
+                        SubjectStyle.INACTIVE -> {
+                            view.tvTitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextWeak))
+                            view.tvAudi.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextWeak))
+                            view.tvSubtitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextWeak))
+                        }
+
+                        SubjectStyle.NORMAL -> {/*ничего не требуется*/}
+
+                    }
+                    ll.addView(view)
+                }
+            }
+        })
+
+        val adapter = VpContentPagerAdapter(activity!!)
+        vpContent.adapter = adapter
+        vpContent.offscreenPageLimit = 6
+
+        vpContent.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                vm.curDayweek.value = position + 1
+            }
+        })
+    }
+
     private fun initLlContent() {
         vm.mainContent.observe(viewLifecycleOwner, Observer { list ->
-            llContent.removeAllViews()
+            llContent1.removeAllViews()
             for (subj in list) {
                 val view = LayoutInflater.from(context).inflate(R.layout.layout_subject_line, null)
                 view.tvTitle.text = subj.title
@@ -103,7 +154,7 @@ class ScheduleFragment : Fragment() {
                     SubjectStyle.NORMAL -> {/*ничего не требуется*/}
 
                 }
-                llContent.addView(view)
+                llContent1.addView(view)
             }
         })
     }
@@ -113,7 +164,8 @@ class ScheduleFragment : Fragment() {
         vm = ViewModelProvider(activity!!).get(ScheduleViewModel::class.java)
         initToolbar()
         initDayweekButtons()
-        initLlContent()
+        // initLlContent()
+        initVpContent()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

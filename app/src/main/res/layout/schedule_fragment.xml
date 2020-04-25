@@ -158,16 +158,54 @@
         </FrameLayout>
     </LinearLayout>
 
-    <LinearLayout
-            android:layout_marginTop="8dp"
-            android:id="@+id/llContent"
+    <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vpContent"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/llDayweeks" />
+            app:layout_constraintTop_toBottomOf="@id/llDayweeks"
+            android:layout_marginTop="8dp" >
+
+        <LinearLayout
+                android:id="@+id/llContent1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+
+        <LinearLayout
+                android:id="@+id/llContent2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+
+        <LinearLayout
+                android:id="@+id/llContent3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+
+        <LinearLayout
+                android:id="@+id/llContent4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+
+        <LinearLayout
+                android:id="@+id/llContent5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+
+        <LinearLayout
+                android:id="@+id/llContent6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" />
+    </androidx.viewpager.widget.ViewPager>
+
+
 
     <include layout="@layout/schedule_toolbar" />
 
