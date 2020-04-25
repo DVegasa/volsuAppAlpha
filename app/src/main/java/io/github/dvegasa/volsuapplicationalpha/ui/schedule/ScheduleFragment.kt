@@ -78,6 +78,7 @@ class ScheduleFragment : Fragment() {
 
     private fun initLlContent() {
         vm.mainContent.observe(viewLifecycleOwner, Observer { list ->
+            llContent.removeAllViews()
             for (subj in list) {
                 val view = LayoutInflater.from(context).inflate(R.layout.layout_subject_line, null)
                 view.tvTitle.text = subj.title
