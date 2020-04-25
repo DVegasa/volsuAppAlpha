@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        android:paddingLeft="12dp"
+        android:paddingTop="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp">
+
+    <TextView
+            android:id="@+id/tvEmoji"
+            style="@style/AppTheme.TextViewSubjectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="👍" />
+
+    <LinearLayout
+            android:id="@+id/llTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/tvSubjectName"
+                style="@style/AppTheme.TextViewSubjectName"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                tools:text="Алгебра и теория чисел" />
+
+        <TextView
+                android:id="@+id/tvSubjectEkzamen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:text="Зачет с оценкой"
+                tools:visibility="visible" />
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/tvRating"
+            style="@style/AppTheme.TextViewSubjectNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            app:fontFamily="@font/montserrat"
+            tools:text="47" />
+
+    <LinearLayout
+            android:id="@+id/flExpandablePart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="59dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+        <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/tvSubjRating"
+                    style="@style/AppTheme.TextViewSubjectNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="center_vertical"
+                    app:fontFamily="@font/montserrat"
+                    tools:text="2 из 25" />
+
+            <TextView
+                    style="@style/AppTheme.TextViewSubjectName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Рейтинг в этом предмете" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/tvMedian"
+                    style="@style/AppTheme.TextViewSubjectNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="center_vertical"
+                    app:fontFamily="@font/montserrat"
+                    tools:text="32" />
+
+            <TextView
+                    style="@style/AppTheme.TextViewSubjectName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Медианное значение" />
+        </FrameLayout>
+
+    </LinearLayout>
+</FrameLayout>

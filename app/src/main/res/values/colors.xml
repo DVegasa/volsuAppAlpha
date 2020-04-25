@@ -10,4 +10,6 @@
     <color name="colorTextRed">#A73232</color>
 
     <color name="colorBottomNavPicked">#2260AE</color>
+
+    <color name="colorLineSeparator">#E4E4E4</color>
 </resources>
