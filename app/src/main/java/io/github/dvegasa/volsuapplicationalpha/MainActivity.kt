@@ -2,6 +2,7 @@ package io.github.dvegasa.volsuapplicationalpha
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -93,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fl_root, fragmentLists[position])
             .commitNow()
+        bottomnav.setCurrentItem(position, false)
     }
 
     private fun showMenu() {

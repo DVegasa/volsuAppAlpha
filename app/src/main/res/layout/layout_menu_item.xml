@@ -4,10 +4,11 @@
         android:layout_height="wrap_content"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="horizontal"
-        android:layout_marginTop="9dp"
-        android:layout_marginBottom="9dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:gravity="center_vertical"
-        android:id="@+id/llRoot">
+        android:id="@+id/llRoot"
+        android:background="@drawable/bg_menu_item">
 
     <ImageView
             android:id="@+id/ivIcon"
@@ -25,6 +26,6 @@
             tools:text="Навигация в вузе"
             android:layout_gravity="center_vertical"
             android:textColor="#000"
-            android:textSize="18sp"/>
+            android:textSize="17sp"/>
 
 </LinearLayout>

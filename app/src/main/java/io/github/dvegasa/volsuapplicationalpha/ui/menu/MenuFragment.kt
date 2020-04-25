@@ -1,6 +1,5 @@
 package io.github.dvegasa.volsuapplicationalpha.ui.menu
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -56,7 +55,39 @@ class MenuFragment : Fragment() {
     }
 
     private fun initMenu() {
-        val menuBuilder = MenuViewBuilder(context!!, llMenuRoot).setupDefaultMenuView()
+        val menubuilder = MenuBuilder(context!!)
+        val menuList = menubuilder.getDefaultMenuViews(llMenuRoot)
+        val bottomMenuList = menubuilder.setupBottomMenuView(llMenuBottom)
+        val listener = View.OnClickListener { view ->
+            when (view.id) {
+                R.id.miSchedule -> activityVm.currentScreen.value = 0
+                R.id.miRating -> activityVm.currentScreen.value = 1
+                R.id.miNotifications -> activityVm.currentScreen.value = 2
+
+                R.id.miNavigation -> {
+                    // TODO: Тут открывать экран с навигацией
+                }
+                R.id.miEmail -> {
+                    // TODO: Тут открывать экран с почтой
+                }
+                R.id.miHelp -> {
+                }
+                R.id.miSettings -> {
+                }
+                R.id.miLogout -> {
+                }
+            }
+            activityVm.isMenuShown.value = false
+        }
+
+        for (view in menuList) {
+            view.setOnClickListener(listener)
+            llMenuRoot.addView(view)
+        }
+        for (view in bottomMenuList) {
+            view.setOnClickListener(listener)
+            llMenuBottom.addView(view)
+        }
     }
 
 }

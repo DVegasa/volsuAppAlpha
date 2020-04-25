@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="miRating" type="id"/>
+    <item name="miSchedule" type="id"/>
+    <item name="miNavigation" type="id"/>
+    <item name="miEmail" type="id"/>
+    <item name="miNotifications" type="id"/>
+    <item name="miHelp" type="id"/>
+    <item name="miSettings" type="id"/>
+    <item name="miLogout" type="id"/>
+</resources>
