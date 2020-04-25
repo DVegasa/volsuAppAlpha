@@ -2,10 +2,12 @@ package io.github.dvegasa.volsuapplicationalpha
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import io.github.dvegasa.volsuapplicationalpha.ui.main.MainFragment
+import io.github.dvegasa.volsuapplicationalpha.ui.menu.MenuFragment
 import io.github.dvegasa.volsuapplicationalpha.ui.rating.RatingFragment
 import io.github.dvegasa.volsuapplicationalpha.ui.schedule.ScheduleFragment
 import kotlinx.android.synthetic.main.main_activity.*
@@ -23,12 +25,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        );
         supportFragmentManager.beginTransaction()
             .replace(R.id.fl_root, fragmentLists[0])
             .commitNow()
 
         initNavBar()
+
+        supportFragmentManager.beginTransaction()
+            .add(android.R.id.content, MenuFragment.newInstance())
+            .commitNow()
+
     }
 
     private fun initNavBar() {
