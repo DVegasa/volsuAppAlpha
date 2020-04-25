@@ -24,7 +24,7 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        vm = ViewModelProvider(this).get(MainViewModel::class.java)
+        vm = ViewModelProvider(activity!!).get(MainViewModel::class.java)
         tvNum.text = vm.randomNumber.value.toString()
     }
 

@@ -17,4 +17,12 @@
         <item name="fontFamily">@font/montserrat</item>
     </style>
 
+    <style name="EdTextSchedule">
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>

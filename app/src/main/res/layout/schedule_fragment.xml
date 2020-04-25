@@ -4,7 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.schedule.ScheduleFragment">
+        tools:context=".ui.schedule.ScheduleFragment"
+        android:background="@color/colorBackground">
 
     <LinearLayout
             android:id="@+id/toolbarPlace"
@@ -15,15 +16,148 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello"
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/colorPrimary"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:weightSum="6"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbarPlace" />
+            app:layout_constraintTop_toBottomOf="@id/toolbarPlace">
 
-    <include layout="@layout/schedule_toolbar" />
+        <FrameLayout
+                android:id="@+id/flDayweek1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_dayweek_selected">
+
+            <TextView
+                    android:id="@+id/tvDayweek1"
+                    style="@style/EdTextSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ПН"
+                    android:textColor="@color/colorPrimary"
+                    app:fontFamily="@font/montserrat" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/flDayweek2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/tvDayweek2"
+                    style="@style/EdTextSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ВТ"
+                    app:fontFamily="@font/montserrat" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/flDayweek3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/tvDayweek3"
+                    style="@style/EdTextSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="СР"
+                    app:fontFamily="@font/montserrat" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/flDayweek4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/tvDayweek4"
+                    style="@style/EdTextSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ЧТ"
+                    app:fontFamily="@font/montserrat" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/flDayweek5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/tvDayweek5"
+                    style="@style/EdTextSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ПТ"
+                    app:fontFamily="@font/montserrat" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/flDayweek6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/tvDayweek6"
+                    style="@style/EdTextSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="СБ"
+                    app:fontFamily="@font/montserrat" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1">
+
+            <TextView
+                    style="@style/EdTextSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="ВТ"
+                    app:fontFamily="@font/montserrat" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <include
+            layout="@layout/schedule_toolbar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
