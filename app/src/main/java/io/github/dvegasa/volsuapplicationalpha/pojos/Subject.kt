@@ -1,4 +1,4 @@
-package io.github.dvegasa.volsuapplicationalpha.ui.schedule
+package io.github.dvegasa.volsuapplicationalpha.pojos
 
 /**
  * Created by Ed Khalturin @DVegasa

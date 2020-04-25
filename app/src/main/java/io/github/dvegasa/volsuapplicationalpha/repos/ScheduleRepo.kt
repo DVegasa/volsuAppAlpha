@@ -3,8 +3,8 @@ package io.github.dvegasa.volsuapplicationalpha.repos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.github.dvegasa.volsuapplicationalpha.default
-import io.github.dvegasa.volsuapplicationalpha.ui.schedule.Subject
-import io.github.dvegasa.volsuapplicationalpha.ui.schedule.SubjectStyle
+import io.github.dvegasa.volsuapplicationalpha.pojos.Subject
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStyle
 
 /**
  * Created by Ed Khalturin @DVegasa
@@ -12,14 +12,24 @@ import io.github.dvegasa.volsuapplicationalpha.ui.schedule.SubjectStyle
 class ScheduleRepo {
     fun getTestWeekSchedule(): LiveData<List<List<Subject>>> {
         val subj1 =
-            Subject("3-01 A", "Алгебра и теория чисел", "Косенко Д.А.", SubjectStyle.INACTIVE)
+            Subject(
+                "3-01 A",
+                "Алгебра и теория чисел",
+                "Косенко Д.А.",
+                SubjectStyle.INACTIVE
+            )
         val subj2 = Subject(
             "4-01 B",
             "Физическая культура и спорт",
             "Начнётся через 3 минуты",
             SubjectStyle.ACCENT
         )
-        val subj3 = Subject("", "Окно", "10:30 — 12:00", SubjectStyle.NORMAL)
+        val subj3 = Subject(
+            "",
+            "Окно",
+            "10:30 — 12:00",
+            SubjectStyle.NORMAL
+        )
         val subj4 = Subject(
             "1-11 М",
             "Информатика и программирование",

@@ -9,12 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import io.github.dvegasa.volsuapplicationalpha.R
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStyle
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import kotlinx.android.synthetic.main.schedule_toolbar.*
-import kotlinx.android.synthetic.main.schedule_toolbar.view.*
 import kotlinx.android.synthetic.main.schedule_toolbar.view.tvTitle
-import kotlin.Exception
 
 class ScheduleFragment : Fragment() {
 
@@ -30,6 +29,15 @@ class ScheduleFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.schedule_fragment, container, false)
         return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        vm = ViewModelProvider(activity!!).get(ScheduleViewModel::class.java)
+        initToolbar()
+        initDayweekButtons()
+        initVpProperties()
+        initVpContent()
     }
 
     private fun initToolbar() {
@@ -129,14 +137,6 @@ class ScheduleFragment : Fragment() {
     }
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        vm = ViewModelProvider(activity!!).get(ScheduleViewModel::class.java)
-        initToolbar()
-        initDayweekButtons()
-        initVpProperties()
-        initVpContent()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.shedule_toolbar_menu, menu)
