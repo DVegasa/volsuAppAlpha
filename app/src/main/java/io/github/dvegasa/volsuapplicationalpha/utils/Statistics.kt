@@ -2,14 +2,14 @@ package io.github.dvegasa.volsuapplicationalpha.utils
 
 import com.github.mikephil.charting.data.BarEntry
 import io.github.dvegasa.volsuapplicationalpha.pojos.Emoji
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectRich
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectRating
 
 /**
  * Created by Ed Khalturin @DVegasa
  */
 class Statistics {
     companion object {
-        fun userSum(dataset: ArrayList<SubjectRich>): Int {
+        fun userSum(dataset: ArrayList<SubjectRating>): Int {
             var sum = 0
             for (subjectRich in dataset) {
                 sum += subjectRich.userRate
@@ -17,7 +17,7 @@ class Statistics {
             return sum
         }
 
-        fun userRating(dataset: ArrayList<SubjectRich>): Int {
+        fun userRating(dataset: ArrayList<SubjectRating>): Int {
             val userSum =
                 userSum(
                     dataset
@@ -39,7 +39,7 @@ class Statistics {
             return -1
         }
 
-        fun getEmojiForSubject(subj: SubjectRich): String {
+        fun getEmojiForSubject(subj: SubjectRating): String {
             if (subj.userRate == 0) {
                 return ""
             }
@@ -65,7 +65,7 @@ class Statistics {
             }
         }
 
-        fun getMedian(subj: SubjectRich): Int {
+        fun getMedian(subj: SubjectRating): Int {
             if (subj.rates.isEmpty()) {
                 return 0
             }
@@ -77,13 +77,13 @@ class Statistics {
             }
         }
 
-        fun getTercelBordersIndicies(subj: SubjectRich): Array<Int> {
+        fun getTercelBordersIndicies(subj: SubjectRating): Array<Int> {
             val iFirst = subj.rates.size - (subj.rates.size / 3)
             val iSecond = subj.rates.size - (subj.rates.size / 3 * 2)
             return arrayOf(iFirst, iSecond)
         }
 
-        fun getSufficientRate(subj: SubjectRich): Int {
+        fun getSufficientRate(subj: SubjectRating): Int {
             return when {
                 subj.ekzamen.contains("Экзамен") -> 91
                 subj.ekzamen.contains("Зачет с оценкой") -> 91
@@ -92,7 +92,7 @@ class Statistics {
             }
         }
 
-        fun getChartData(subj: SubjectRich): ArrayList<BarEntry> {
+        fun getChartData(subj: SubjectRating): ArrayList<BarEntry> {
             val result = ArrayList<BarEntry>()
             val temp = Array(20) { 0 }
 
@@ -132,7 +132,7 @@ class Statistics {
             else -> 0
         }
 
-        fun getSubjRating(subj: SubjectRich): Int {
+        fun getSubjRating(subj: SubjectRating): Int {
             val sorted = subj.rates.sortedDescending()
             for (i in sorted.indices) {
                 if (sorted[i] == subj.userRate) {

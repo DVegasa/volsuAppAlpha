@@ -12,12 +12,11 @@ class ScheduleViewModel : ViewModel() {
 
     val chosenTitle = MutableLiveData<Int>().default(0).apply {
         observeForever {
-            // TODO Переключение заголовка из spintb
-            Log.d("ed__", "VM chosenTitle")
+            // Переключение заголовка из spintb
         }
     }
 
-    val weekSchedule = scheduleRepo.getTestWeekSchedule()
+    val weekSchedule = scheduleRepo.getFakeWeekSchedule()
 
     val curDayweek = MutableLiveData<Int>().default(
         when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)){
@@ -27,7 +26,7 @@ class ScheduleViewModel : ViewModel() {
             Calendar.THURSDAY -> 4
             Calendar.FRIDAY -> 5
             Calendar.SATURDAY -> 6
-            else -> 1
+            else /* SUNDAY */ -> 1
         }
     )
 

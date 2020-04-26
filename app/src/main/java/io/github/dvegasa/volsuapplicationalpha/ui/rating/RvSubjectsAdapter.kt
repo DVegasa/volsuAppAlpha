@@ -18,27 +18,27 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import io.github.dvegasa.volsuapplicationalpha.R
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectRich
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectRating
 import io.github.dvegasa.volsuapplicationalpha.utils.Statistics
 import kotlinx.android.synthetic.main.item_subject.view.*
 
 /**
  * Created by Ed Khalturin @DVegasa
  */
-class RvSubjectsAdapter(lifecycleOwner: LifecycleOwner, list: MutableLiveData<ArrayList<SubjectRich>>) :
+class RvSubjectsAdapter(lifecycleOwner: LifecycleOwner, list: MutableLiveData<ArrayList<SubjectRating>>) :
     RecyclerView.Adapter<RvSubjectsAdapter.VH>() {
 
     private val values = list.value!!
 
-    private var visibleSubjects = ArrayList<SubjectRich>()
-    private var hiddenSubjects = ArrayList<SubjectRich>()
+    private var visibleSubjects = ArrayList<SubjectRating>()
+    private var hiddenSubjects = ArrayList<SubjectRating>()
     private var expandedIndicies = Array(values.size) { false }
 
     // ok
     init {
         list.observe(lifecycleOwner, Observer {
-            val tempList = arrayListOf<SubjectRich>()
-            val tempHidden = arrayListOf<SubjectRich>()
+            val tempList = arrayListOf<SubjectRating>()
+            val tempHidden = arrayListOf<SubjectRating>()
             for (i in values.indices) {
                 Log.d("ed__", "userRate: ${values[i].userRate}")
                 if (values[i].userRate == 0) {

@@ -7,9 +7,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingStart="12dp"
-        android:paddingTop="8dp"
         android:paddingEnd="12dp"
-        android:paddingBottom="8dp"
+        android:paddingBottom="16dp"
         android:weightSum="30">
 
     <TextView

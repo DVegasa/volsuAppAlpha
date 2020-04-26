@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import io.github.dvegasa.volsuapplicationalpha.R
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStyle
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import kotlinx.android.synthetic.main.schedule_toolbar.*
@@ -136,41 +135,10 @@ class ScheduleFragment : Fragment() {
 
     private fun initVpContent() {
         val lls = listOf(llContent1, llContent2, llContent3, llContent4, llContent5, llContent6)
-        vm.weekSchedule.observe(viewLifecycleOwner, Observer{listlist->
-            for (i in listlist.indices) {
-                val ll = lls[i]
-                ll.removeAllViews()
-                for (subj in listlist[i]) {
-                    val view = LayoutInflater.from(context).inflate(R.layout.layout_subject_line, ll, false)
-                    view.tvTitle.text = subj.title
-                    view.tvSubtitle.text = subj.subtitle
-                    view.tvAudi.text = subj.audi
-
-                    when (subj.style) {
-                        SubjectStyle.ACCENT -> {
-                            view.tvSubtitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextAccent))
-                        }
-
-                        SubjectStyle.CANCELLED -> {
-                            view.tvSubtitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextRed))
-                        }
-
-                        SubjectStyle.INACTIVE -> {
-                            view.tvTitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextWeak))
-                            view.tvAudi.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextWeak))
-                            view.tvSubtitle.setTextColor(ContextCompat.getColor(context!!, R.color.colorTextWeak))
-                        }
-
-                        SubjectStyle.NORMAL -> {/*ничего не требуется*/}
-
-                    }
-                    ll.addView(view)
-                }
-            }
+        vm.weekSchedule.observe(viewLifecycleOwner, Observer{ data ->
+            SubjectLineInflater(context!!).publish(lls, data)
         })
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.shedule_toolbar_menu, menu)
