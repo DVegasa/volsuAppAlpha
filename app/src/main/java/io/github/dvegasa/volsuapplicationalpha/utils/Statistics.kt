@@ -57,13 +57,12 @@ class Statistics {
                 getSubjRating(
                     subj
                 )
-            val result = when (userRating) {
+            return when (userRating) {
                 in iFirst..999 -> Emoji.exclamation
                 in iSecond..iFirst -> Emoji.novice
                 in 0..iSecond -> Emoji.thumbUp
                 else -> Emoji.question
             }
-            return result
         }
 
         fun getMedian(subj: SubjectRich): Int {

@@ -1,8 +1,6 @@
 package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.github.dvegasa.volsuapplicationalpha.default

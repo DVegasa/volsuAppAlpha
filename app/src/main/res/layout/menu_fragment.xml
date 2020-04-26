@@ -11,7 +11,8 @@
         android:focusable="true"
         android:orientation="horizontal"
         android:weightSum="10"
-        tools:context=".ui.menu.MenuFragment">
+        tools:context=".ui.menu.MenuFragment"
+        tools:ignore="Overdraw">
 
     <LinearLayout
             android:id="@+id/llTransparent"

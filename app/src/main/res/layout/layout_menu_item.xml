@@ -19,7 +19,8 @@
             tools:src="@drawable/ic_map_accent"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="10dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            tools:ignore="ContentDescription" />
 
     <TextView
             android:id="@+id/tvTitle"

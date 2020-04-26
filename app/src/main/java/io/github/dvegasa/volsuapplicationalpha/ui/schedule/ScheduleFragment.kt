@@ -2,7 +2,6 @@ package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -30,8 +29,7 @@ class ScheduleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.schedule_fragment, container, false)
-        return view
+        return inflater.inflate(R.layout.schedule_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -143,7 +141,7 @@ class ScheduleFragment : Fragment() {
                 val ll = lls[i]
                 ll.removeAllViews()
                 for (subj in listlist[i]) {
-                    val view = LayoutInflater.from(context).inflate(R.layout.layout_subject_line, null)
+                    val view = LayoutInflater.from(context).inflate(R.layout.layout_subject_line, ll, false)
                     view.tvTitle.text = subj.title
                     view.tvSubtitle.text = subj.subtitle
                     view.tvAudi.text = subj.audi

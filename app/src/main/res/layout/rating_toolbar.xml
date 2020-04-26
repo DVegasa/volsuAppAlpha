@@ -39,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="6dp"
-                android:src="@drawable/ic_arrow_down" />
+                android:src="@drawable/ic_arrow_down"
+                tools:ignore="ContentDescription" />
     </LinearLayout>
 </androidx.appcompat.widget.Toolbar>

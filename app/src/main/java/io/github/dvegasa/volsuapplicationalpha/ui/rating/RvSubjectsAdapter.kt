@@ -1,11 +1,14 @@
 package io.github.dvegasa.volsuapplicationalpha.ui.rating
 
-import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -22,59 +25,65 @@ import kotlinx.android.synthetic.main.item_subject.view.*
 /**
  * Created by Ed Khalturin @DVegasa
  */
-class RvSubjectsAdapter(private var list: ArrayList<SubjectRich>) :
+class RvSubjectsAdapter(lifecycleOwner: LifecycleOwner, list: MutableLiveData<ArrayList<SubjectRich>>) :
     RecyclerView.Adapter<RvSubjectsAdapter.VH>() {
 
+    private val values = list.value!!
+
+    private var visibleSubjects = ArrayList<SubjectRich>()
     private var hiddenSubjects = ArrayList<SubjectRich>()
-    private var expandedIndicies = Array(list.size) { false }
+    private var expandedIndicies = Array(values.size) { false }
 
-    fun updateList(list: ArrayList<SubjectRich>) {
-        this.list.clear()
-        this.hiddenSubjects.clear()
-        notifyDataSetChanged()
-
-        val tempList = arrayListOf<SubjectRich>()
-        val tempHidden = arrayListOf<SubjectRich>()
-        for (i in list.indices) {
-            if (list[i].userRate == 0) {
-                tempHidden.add(list[i])
-            } else {
-                tempList.add(list[i])
+    // ok
+    init {
+        list.observe(lifecycleOwner, Observer {
+            val tempList = arrayListOf<SubjectRich>()
+            val tempHidden = arrayListOf<SubjectRich>()
+            for (i in values.indices) {
+                Log.d("ed__", "userRate: ${values[i].userRate}")
+                if (values[i].userRate == 0) {
+                    tempHidden.add(values[i])
+                } else {
+                    tempList.add(values[i])
+                }
             }
-        }
-        this.list = ArrayList(tempList)
-        this.hiddenSubjects = ArrayList(tempHidden)
-        this.expandedIndicies = Array(list.size) { false }
-        notifyDataSetChanged()
+            this.visibleSubjects = ArrayList(tempList)
+            this.hiddenSubjects = ArrayList(tempHidden)
+            this.expandedIndicies = Array(values.size) { false }
+            notifyDataSetChanged()
+            Log.d("ed__", "NewAdapter.init. visible: ${this.visibleSubjects.size}, hidden: ${this.hiddenSubjects.size}")
+        })
     }
 
+    // ok
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_subject, parent, false)
         return VH(v)
     }
 
-    override fun getItemCount() = list.size + if (hiddenSubjects.isEmpty()) 0 else 1
+    // ok
+    override fun getItemCount() = visibleSubjects.size + if (hiddenSubjects.isEmpty()) 0 else 1
 
+    // ok
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.bind(position)
     }
 
-    inner class VH(private val v: View) : RecyclerView.ViewHolder(v) {
-        @SuppressLint("SetTextI18n")
+    inner class VH(val v: View) : RecyclerView.ViewHolder(v) {
         fun bind(pos: Int) {
-            if (pos == list.size) {
-                initHiddenTitle(v, pos)
+            if (pos == visibleSubjects.size) {
+                initHiddenTitle(v)
             } else {
                 initSubjectTitle(v, pos)
             }
         }
 
-        private fun initHiddenTitle(v: View, pos: Int) {
+        private fun initHiddenTitle(v: View) {
             if (hiddenSubjects.isEmpty()) return
 
             v.apply {
-                tvSubjectName.setText("Предметы без рейтинга: ${hiddenSubjects.size}")
-                tvRating.setText("")
+                tvSubjectName.text = "Предметы без рейтинга: ${hiddenSubjects.size}"
+                tvRating.text = ""
                 tvSubjectName.setTextColor(
                     ResourcesCompat.getColor(
                         v.resources,
@@ -84,7 +93,7 @@ class RvSubjectsAdapter(private var list: ArrayList<SubjectRich>) :
                 )
 
                 setOnClickListener {
-                    list.addAll(hiddenSubjects)
+                    visibleSubjects.addAll(hiddenSubjects)
                     hiddenSubjects.clear()
                     notifyDataSetChanged()
                 }
@@ -92,13 +101,13 @@ class RvSubjectsAdapter(private var list: ArrayList<SubjectRich>) :
         }
 
         private fun initSubjectTitle(v: View, pos: Int) {
-            val subj = list[pos]
+            val subj = visibleSubjects[pos]
 
             v.apply {
-                tvSubjectName.setText(subj.name)
-                tvEmoji.setText(Statistics.getEmojiForSubject(subj))
-                tvRating.setText(subj.userRate.toString())
-                tvSubjectEkzamen.setText(subj.ekzamen)
+                tvSubjectName.text = subj.name
+                tvEmoji.text = Statistics.getEmojiForSubject(subj)
+                tvRating.text = subj.userRate.toString()
+                tvSubjectEkzamen.text = subj.ekzamen
                 tvSubjectName.setTextColor(
                     ResourcesCompat.getColor(
                         resources,
@@ -117,11 +126,11 @@ class RvSubjectsAdapter(private var list: ArrayList<SubjectRich>) :
         }
 
         private fun initPlot(v: View, pos: Int) {
-            val values = Statistics.getChartData(list[pos])
+            val values = Statistics.getChartData(visibleSubjects[pos])
             v.apply {
                 val weakColor = ColorTemplate.rgb("#E3E3E3")
                 val data = BarData(BarDataSet(values, "").apply {
-                    setColor(ColorTemplate.rgb("#1460F5"))
+                    color = ColorTemplate.rgb("#1460F5")
                     valueTextColor = ColorTemplate.COLOR_NONE
                     isHighlightEnabled = true
                 })
@@ -153,7 +162,7 @@ class RvSubjectsAdapter(private var list: ArrayList<SubjectRich>) :
                     ColorTemplate.rgb("#FF000000")
 
                 chart.highlightValue(
-                    Statistics.getColumnByRate(list[pos].userRate).toFloat(),
+                    Statistics.getColumnByRate(visibleSubjects[pos].userRate).toFloat(),
                     0,
                     false
                 )
@@ -164,8 +173,8 @@ class RvSubjectsAdapter(private var list: ArrayList<SubjectRich>) :
         }
 
         private fun initSubjStats(v: View, pos: Int) {
-            v.tvSubjRating.setText("${Statistics.getSubjRating(list[pos])} из ${list[pos].rates.size}")
-            v.tvMedian.setText(Statistics.getMedian(list[pos]).toString())
+            v.tvSubjRating.text = "${Statistics.getSubjRating(visibleSubjects[pos])} из ${visibleSubjects[pos].rates.size}"
+            v.tvMedian.text = Statistics.getMedian(visibleSubjects[pos]).toString()
         }
 
         private fun updatedExpandedState(v: View, pos: Int) {

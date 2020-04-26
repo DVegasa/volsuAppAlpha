@@ -1,7 +1,9 @@
 package io.github.dvegasa.volsuapplicationalpha.ui.rating
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
@@ -9,9 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import io.github.dvegasa.volsuapplicationalpha.R
-import io.github.dvegasa.volsuapplicationalpha.ui.schedule.ScheduleViewModel
 import kotlinx.android.synthetic.main.rating_fragment.*
 import kotlinx.android.synthetic.main.rating_toolbar.*
 import kotlinx.android.synthetic.main.rating_toolbar.view.*
@@ -81,7 +81,7 @@ class RatingFragment : Fragment() {
 
     private fun initContent() {
         // vm.subjectRiches наблюдается из адаптера
-        val adapter = NewAdapter(viewLifecycleOwner, vm.subjectRiches)
+        val adapter = RvSubjectsAdapter(viewLifecycleOwner, vm.subjectRiches)
         rvSubjects.adapter = adapter
         val ll = LinearLayoutManager(context)
         rvSubjects.layoutManager = ll

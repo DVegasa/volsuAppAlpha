@@ -20,9 +20,9 @@
             android:id="@+id/llSpintbArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            android:orientation="horizontal">
 
         <Spinner
                 android:id="@+id/spintb"
@@ -30,28 +30,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/spintb_bg"
+                android:gravity="start"
                 android:spinnerMode="dropdown"
-                tools:layout_height="24dp"
-                tools:layout_width="100dp"
                 android:visibility="invisible"
-                android:gravity="start"/>
+                tools:layout_height="24dp"
+                tools:layout_width="100dp" />
 
         <TextView
                 android:id="@+id/tvToolbarTitle"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                app:fontFamily="@font/montserrat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Кафедра"
-                android:textColor="#fff"/>
+                android:textColor="#fff"
+                app:fontFamily="@font/montserrat"
+                tools:text="Кафедра" />
 
         <ImageView
                 android:id="@+id/ivArrowDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="6dp"
+                android:layout_toEndOf="@id/tvToolbarTitle"
                 android:paddingStart="2dp"
+                android:paddingTop="6dp"
                 android:src="@drawable/ic_arrow_down"
-                android:layout_toEndOf="@id/tvToolbarTitle"/>
+                tools:ignore="ContentDescription,RtlSymmetry" />
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>
