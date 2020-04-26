@@ -1,7 +1,6 @@
 package io.github.dvegasa.volsuapplicationalpha.utils
 
 import com.github.mikephil.charting.data.BarEntry
-import io.github.dvegasa.volsuapplicationalpha.pojos.Emoji
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectRating
 
 /**

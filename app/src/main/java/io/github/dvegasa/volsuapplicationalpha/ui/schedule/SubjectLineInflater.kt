@@ -5,10 +5,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.MutableLiveData
 import io.github.dvegasa.volsuapplicationalpha.R
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectScheduleNew
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
 import io.github.dvegasa.volsuapplicationalpha.repos.Timetable
 import kotlinx.android.synthetic.main.layout_starttime_line.view.*
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
@@ -17,7 +15,7 @@ import kotlinx.android.synthetic.main.layout_subject_line.view.*
  * Created by Ed Khalturin @DVegasa
  */
 class SubjectLineInflater(private val context: Context) {
-    fun publish(lls: List<ViewGroup>, data: List<List<SubjectScheduleNew>>) {
+    fun publish(lls: List<ViewGroup>, data: List<List<SubjectSchedule>>) {
         inflate(lls, data)
     }
 
@@ -32,7 +30,7 @@ class SubjectLineInflater(private val context: Context) {
     @SuppressLint("SetTextI18n")
     private fun inflate(
         viewgroups: List<ViewGroup>,
-        data: List<List<SubjectScheduleNew>>
+        data: List<List<SubjectSchedule>>
     ) {
 
         for (day in data.indices) {

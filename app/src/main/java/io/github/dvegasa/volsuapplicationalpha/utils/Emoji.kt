@@ -1,4 +1,4 @@
-package io.github.dvegasa.volsuapplicationalpha.pojos
+package io.github.dvegasa.volsuapplicationalpha.utils
 
 /**
  * Created by Ed Khalturin @DVegasa

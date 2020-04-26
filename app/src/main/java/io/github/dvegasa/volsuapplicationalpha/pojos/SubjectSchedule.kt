@@ -5,7 +5,7 @@ import java.time.DayOfWeek
 /**
  * Created by Ed Khalturin @DVegasa
  */
-data class SubjectScheduleNew(
+data class SubjectSchedule(
     val title: String,
     val teacher: String,
     val audi: String,
