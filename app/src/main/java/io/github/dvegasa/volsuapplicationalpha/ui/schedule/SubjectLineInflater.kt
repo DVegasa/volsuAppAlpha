@@ -5,8 +5,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus
+import io.github.dvegasa.volsuapplicationalpha.repos.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.repos.Timetable
 import kotlinx.android.synthetic.main.layout_starttime_line.view.*
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
@@ -14,10 +17,7 @@ import kotlinx.android.synthetic.main.layout_subject_line.view.*
 /**
  * Created by Ed Khalturin @DVegasa
  */
-class SubjectLineInflater(private val context: Context) {
-    fun publish(lls: List<ViewGroup>, data: List<List<SubjectSchedule>>) {
-        inflate(lls, data)
-    }
+class SubjectLineInflater(private val context: Context, private val vm: ScheduleViewModel) {
 
     /**
      * Принимает в себя параметр data, в котором внешний лист представляет собой день недели, а
@@ -28,15 +28,13 @@ class SubjectLineInflater(private val context: Context) {
      * Окон в начале и в конце списка быть НЕ должно.
      */
     @SuppressLint("SetTextI18n")
-    private fun inflate(
-        viewgroups: List<ViewGroup>,
-        data: List<List<SubjectSchedule>>
-    ) {
+    fun publish(viewgroups: List<ViewGroup>, data: List<List<SubjectSchedule>>) {
 
         for (day in data.indices) {
             val ll = viewgroups[day]
             ll.removeAllViews()
 
+            // Показывает вверху плашку "Начало пар в HH:mm", если первый урок отсутсвует
             if (data[day].isNotEmpty() && data[day][0].slot != 1) {
                 ll.addView(getStartTimeView(data[day][0].slot, ll))
             }

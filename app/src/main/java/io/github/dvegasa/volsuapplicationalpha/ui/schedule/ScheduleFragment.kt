@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import io.github.dvegasa.volsuapplicationalpha.R
-import kotlinx.android.synthetic.main.layout_subject_line.view.*
+import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import kotlinx.android.synthetic.main.schedule_toolbar.*
 import kotlinx.android.synthetic.main.schedule_toolbar.view.*
@@ -38,6 +38,7 @@ class ScheduleFragment : Fragment() {
         initDayweekButtons()
         initVpProperties()
         initVpContent()
+        initBottomTimer()
     }
 
     private fun initToolbar() {
@@ -73,28 +74,40 @@ class ScheduleFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 vm.chosenTitle.value = pos
                 tvToolbarTitle.text = titles[pos]
+                // TODO: Ненужные вызовы?       [отсюда]
                 spintb.forceLayout()
                 ivArrowDown.forceLayout()
                 llSpintbArea.requestLayout()
+                //                              [досюда]
             }
         }
     }
 
+    private fun initBottomTimer() {
+        vm.timerCaption.observe(viewLifecycleOwner, Observer {
+            tvTimerCaption.text = it
+        })
+
+        vm.timerMain.observe(viewLifecycleOwner, Observer {
+            tvTimerContent.text = it
+        })
+    }
+
     private fun initDayweekButtons() {
-        vm.curDayweek.observe(viewLifecycleOwner, Observer { value ->
+        vm.pickedDayweekTab.observe(viewLifecycleOwner, Observer { value ->
             updateCurDayweekUi(value)
             vpContent.currentItem = value - 1
         })
 
         val clickListener = View.OnClickListener { view ->
-            vm.curDayweek.value = when (view.id) {
-                flDayweek1.id -> 1
-                flDayweek2.id -> 2
-                flDayweek3.id -> 3
-                flDayweek4.id -> 4
-                flDayweek5.id -> 5
-                flDayweek6.id -> 6
-                else -> -1
+            vm.pickedDayweekTab.value = when (view.id) {
+                flDayweek1.id -> Dayweek.MONDAY.value
+                flDayweek2.id -> Dayweek.TUESDAY.value
+                flDayweek3.id -> Dayweek.WEDNESDAY.value
+                flDayweek4.id -> Dayweek.THURSDAY.value
+                flDayweek5.id -> Dayweek.FRIDAY.value
+                flDayweek6.id -> Dayweek.SATURDAY.value
+                else -> Dayweek.SATURDAY.value
             }
         }
 
@@ -128,15 +141,15 @@ class ScheduleFragment : Fragment() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
-                vm.curDayweek.value = position + 1
+                vm.pickedDayweekTab.value = position + 1
             }
         })
     }
 
     private fun initVpContent() {
         val lls = listOf(llContent1, llContent2, llContent3, llContent4, llContent5, llContent6)
-        vm.weekSchedule.observe(viewLifecycleOwner, Observer{ data ->
-            SubjectLineInflater(context!!).publish(lls, data)
+        vm.weekSchedule.observe(viewLifecycleOwner, Observer{ adaptedData ->
+            SubjectLineInflater(context!!, vm).publish(lls, adaptedData)
         })
     }
 

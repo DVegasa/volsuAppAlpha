@@ -14,11 +14,11 @@ import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus.*
 class ScheduleRepo {
 
     /* Метод для демонстрации поведения приложения */
-    fun getFakeWeekSchedule(): LiveData<List<List<SubjectSchedule>>> {
+    fun getFakeWeekSchedule(): MutableLiveData<List<List<SubjectSchedule>>> {
         val algl = "Алгебра и теория чисел (л)"
         val algp = "Алгебра и теория чисел (пр)"
-        val infl = "Информатика и программирование (л)"
-        val infp = "Информатика и программирование (пр)"
+        val infl = "Информатика и программирование"
+        val infp = "Информатика и программирование"
         val matl = "Математический анализ (л)"
         val matp = "Математический анализ (пр)"
         val inya = "Иностранный язык"

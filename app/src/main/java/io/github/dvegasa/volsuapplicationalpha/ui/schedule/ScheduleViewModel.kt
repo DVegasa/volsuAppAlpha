@@ -4,11 +4,16 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.github.dvegasa.volsuapplicationalpha.default
+import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus
 import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleRepo
+import io.github.dvegasa.volsuapplicationalpha.repos.TimeCalculator
 import java.util.*
 
 class ScheduleViewModel : ViewModel() {
     private val scheduleRepo = ScheduleRepo()
+    private val timeCalc = TimeCalculator()
 
     val chosenTitle = MutableLiveData<Int>().default(0).apply {
         observeForever {
@@ -16,18 +21,33 @@ class ScheduleViewModel : ViewModel() {
         }
     }
 
+    // Уже адаптировано. Адаптация данных на уровне Repository, в данном случае ScheduleRepo
     val weekSchedule = scheduleRepo.getFakeWeekSchedule()
 
-    val curDayweek = MutableLiveData<Int>().default(
-        when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)){
-            Calendar.MONDAY -> 1
-            Calendar.TUESDAY -> 2
-            Calendar.WEDNESDAY -> 3
-            Calendar.THURSDAY -> 4
-            Calendar.FRIDAY -> 5
-            Calendar.SATURDAY -> 6
-            else /* SUNDAY */ -> 1
-        }
+    val subjStatuses = MutableLiveData<List<SubjectStatus>>()
+
+    val pickedDayweekTab = MutableLiveData<Int>().default(
+        timeCalc.getCurrentDayweek().value
     )
+
+    val timerCaption = MutableLiveData<String>().default("Стандартный текстик")
+
+    val timerMain = MutableLiveData<String>().default("42 минуты")
+
+    init {
+        // TODO: Каждые 15 секунд обновлять информацию таймеров
+        weekSchedule.observeForever {
+            updateSubjStatuses()
+        }
+    }
+    private fun updateSubjStatuses() {
+        val todayDayweekIndex = timeCalc.getCurrentDayweek().value - 1
+        Log.d("ed__", "todayDayweekIndex: $todayDayweekIndex")
+
+        // val todaySubjes = weekSchedule.value?.get(todayDayweekIndex)
+        Log.d("ed__", "weekSchedule.value: ${weekSchedule.value}")
+
+//        subjStatuses.value = timeCalc.getTodaySubjStatuses(todaySubjes)
+    }
 
 }

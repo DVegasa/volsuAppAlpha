@@ -6,6 +6,7 @@
     <color name="colorBackground">#F9F9F9</color>
 
     <color name="colorTextWeak">#888888</color>
+    <color name="colorSubjSkipped">#A8A8A8</color>
     <color name="colorTextAccent">@color/colorPrimary</color>
     <color name="colorTextRed">#A73232</color>
 
