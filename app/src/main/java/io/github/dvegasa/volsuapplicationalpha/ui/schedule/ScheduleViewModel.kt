@@ -12,6 +12,13 @@ import java.util.*
 class ScheduleViewModel : ViewModel() {
     private val scheduleRepo = ScheduleRepo()
 
+    val chosenTitle = MutableLiveData<Int>().default(0).apply {
+        observeForever {
+            // TODO Переключение заголовка из spintb
+            Log.d("ed__", "VM chosenTitle")
+        }
+    }
+
     val weekSchedule = scheduleRepo.getTestWeekSchedule()
 
     val curDayweek = MutableLiveData<Int>().default(

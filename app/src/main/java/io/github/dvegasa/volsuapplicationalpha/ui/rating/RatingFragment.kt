@@ -15,9 +15,6 @@ import io.github.dvegasa.volsuapplicationalpha.ui.schedule.ScheduleViewModel
 import kotlinx.android.synthetic.main.rating_fragment.*
 import kotlinx.android.synthetic.main.rating_toolbar.*
 import kotlinx.android.synthetic.main.rating_toolbar.view.*
-import kotlinx.android.synthetic.main.schedule_toolbar.*
-import kotlinx.android.synthetic.main.schedule_toolbar.view.*
-import kotlinx.android.synthetic.main.schedule_toolbar.view.tvTitle
 
 class RatingFragment : Fragment() {
 
@@ -46,7 +43,9 @@ class RatingFragment : Fragment() {
         toolbarRating.title = ""
         initSpintb()
         vm.chosenSemestr.observe(viewLifecycleOwner, Observer {
-            spintb.setSelection(it-1)
+            if (it != spintb.selectedItemPosition) {
+                spintb.setSelection(it - 1)
+            }
         })
     }
 
@@ -74,7 +73,7 @@ class RatingFragment : Fragment() {
         spintb.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
-                val semestr = pos+1
+                val semestr = pos + 1
                 vm.chosenSemestr.value = semestr
             }
         }

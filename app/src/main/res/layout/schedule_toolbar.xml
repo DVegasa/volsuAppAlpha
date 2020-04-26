@@ -16,20 +16,29 @@
         app:titleTextColor="#fff"
         tools:showIn="@layout/schedule_fragment">
 
-    <TextView
-            android:id="@+id/tvTitle"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+    <LinearLayout
+            android:id="@+id/llSpintbArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#fff"
-            tools:text="Учебные пары" />
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true">
 
-    <ImageView
-            android:id="@+id/ivArrowDown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="4dp"
-            android:paddingTop="7dp"
-            android:src="@drawable/ic_arrow_down" />
+        <Spinner
+                android:id="@+id/spintb"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spintb_bg"
+                android:spinnerMode="dropdown"
+                tools:layout_height="24dp"
+                tools:layout_width="100dp" />
 
+        <ImageView
+                android:id="@+id/ivArrowDown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:src="@drawable/ic_arrow_down" />
+    </LinearLayout>
 </androidx.appcompat.widget.Toolbar>

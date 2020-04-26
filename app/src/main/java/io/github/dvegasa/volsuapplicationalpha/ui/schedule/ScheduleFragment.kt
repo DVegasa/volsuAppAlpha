@@ -2,7 +2,10 @@ package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,7 +16,7 @@ import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStyle
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import kotlinx.android.synthetic.main.schedule_toolbar.*
-import kotlinx.android.synthetic.main.schedule_toolbar.view.tvTitle
+import kotlinx.android.synthetic.main.schedule_toolbar.view.*
 
 class ScheduleFragment : Fragment() {
 
@@ -42,9 +45,39 @@ class ScheduleFragment : Fragment() {
 
     private fun initToolbar() {
         toolbarSchedule.title = ""
-        toolbarSchedule.tvTitle.text = "Учебные пары"
         toolbarSchedule.inflateMenu(R.menu.shedule_toolbar_menu)
+        initSpintb()
+        vm.chosenTitle.observe(viewLifecycleOwner, Observer {
+            if (it != spintb.selectedItemPosition) {
+                spintb.setSelection(it)
+            }
+        })
+    }
 
+    private fun initSpintb() {
+        val titles = arrayOf(
+            "Учебные пары",
+            "Доп. занятия",
+            "Кафедры"
+        )
+        val adapter = ArrayAdapter<CharSequence>(
+            toolbarSchedule.context,
+            R.layout.spintb_item,
+            titles
+        )
+        adapter.setDropDownViewResource(R.layout.spintb_dropdown_item)
+        toolbarSchedule.spintb.adapter = adapter
+        llSpintbArea.setOnClickListener {
+            spintb.performClick()
+        }
+        spintb.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                vm.chosenTitle.value = pos
+                Log.d("ed__", "Schedule onItemSelected")
+            }
+        }
     }
 
     private fun initDayweekButtons() {
