@@ -19,6 +19,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectRich
+import io.github.dvegasa.volsuapplicationalpha.utils.Statistics
 import kotlinx.android.synthetic.main.item_subject.view.*
 
 /**

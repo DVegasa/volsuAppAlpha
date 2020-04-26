@@ -8,7 +8,9 @@
         android:paddingBottom="8dp"
         android:gravity="center_vertical"
         android:id="@+id/llRoot"
-        android:background="@drawable/bg_menu_item">
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground">
 
     <ImageView
             android:id="@+id/ivIcon"

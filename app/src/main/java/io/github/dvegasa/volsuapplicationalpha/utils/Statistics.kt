@@ -1,6 +1,5 @@
-package io.github.dvegasa.volsuapplicationalpha.ui.rating
+package io.github.dvegasa.volsuapplicationalpha.utils
 
-import android.util.Log
 import com.github.mikephil.charting.data.BarEntry
 import io.github.dvegasa.volsuapplicationalpha.pojos.Emoji
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectRich
@@ -19,7 +18,10 @@ class Statistics {
         }
 
         fun userRating(dataset: ArrayList<SubjectRich>): Int {
-            val userSum = userSum(dataset)
+            val userSum =
+                userSum(
+                    dataset
+                )
             val count = dataset[0].rates.size
             val othersSum = Array(count) { 0 }
 
@@ -42,11 +44,19 @@ class Statistics {
                 return ""
             }
 
-            val (iFirst, iSecond) = getTercelBordersIndicies(subj)
-            if (subj.userRate >= getSufficientRate(subj)) {
+            val (iFirst, iSecond) = getTercelBordersIndicies(
+                subj
+            )
+            if (subj.userRate >= getSufficientRate(
+                    subj
+                )
+            ) {
                 return Emoji.check
             }
-            val userRating = getSubjRating(subj)
+            val userRating =
+                getSubjRating(
+                    subj
+                )
             val result = when (userRating) {
                 in iFirst..999 -> Emoji.exclamation
                 in iSecond..iFirst -> Emoji.novice
@@ -88,7 +98,9 @@ class Statistics {
             val temp = Array(20) { 0 }
 
             for (rate in subj.rates) {
-                temp[getColumnByRate(rate)]++
+                temp[getColumnByRate(
+                    rate
+                )]++
             }
 
             for (i in temp.indices) {
