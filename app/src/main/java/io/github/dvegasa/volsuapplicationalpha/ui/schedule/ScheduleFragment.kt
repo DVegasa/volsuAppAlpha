@@ -75,7 +75,10 @@ class ScheduleFragment : Fragment() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 vm.chosenTitle.value = pos
-                Log.d("ed__", "Schedule onItemSelected")
+                tvToolbarTitle.text = titles[pos]
+                spintb.forceLayout()
+                ivArrowDown.forceLayout()
+                llSpintbArea.requestLayout()
             }
         }
     }

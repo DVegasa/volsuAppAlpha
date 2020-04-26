@@ -16,7 +16,7 @@
         app:titleTextColor="#fff"
         tools:showIn="@layout/schedule_fragment">
 
-    <LinearLayout
+    <RelativeLayout
             android:id="@+id/llSpintbArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,13 +32,26 @@
                 android:background="@drawable/spintb_bg"
                 android:spinnerMode="dropdown"
                 tools:layout_height="24dp"
-                tools:layout_width="100dp" />
+                tools:layout_width="100dp"
+                android:visibility="invisible"
+                android:gravity="start"/>
+
+        <TextView
+                android:id="@+id/tvToolbarTitle"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                app:fontFamily="@font/montserrat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Кафедра"
+                android:textColor="#fff"/>
 
         <ImageView
                 android:id="@+id/ivArrowDown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="6dp"
-                android:src="@drawable/ic_arrow_down" />
-    </LinearLayout>
+                android:paddingStart="2dp"
+                android:src="@drawable/ic_arrow_down"
+                android:layout_toEndOf="@id/tvToolbarTitle"/>
+    </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>
