@@ -3,9 +3,7 @@ package io.github.dvegasa.volsuapplicationalpha.repos
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import io.github.dvegasa.volsuapplicationalpha.default
-import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus
+import io.github.dvegasa.volsuapplicationalpha.pojos.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -53,10 +51,13 @@ class TimeCalculator {
     }
 
     /* Тестовые данные */
-    fun getTodaySubjStatuses(subjes: List<SubjectSchedule>): List<SubjectStatus> {
-        val list = arrayListOf<SubjectStatus>()
-        for (i in subjes.indices) {
-            list.add(SubjectStatus.OK)
+    fun getTodaySubjStatuses(subjes: List<SubjectSchedule>): List<TimeStatus> {
+        // TODO Тут считается временной статус для сегодняшних пар
+        val list = arrayListOf<TimeStatus>()
+        list.add(TimeStatus(SubjectTimeStatus.SKIPPED, ""))
+        list.add(TimeStatus(SubjectTimeStatus.UPCOMING, "Начнётся через 14 минут"))
+        for (i in 2 until subjes.size) {
+            list.add(TimeStatus(SubjectTimeStatus.FUTURE, ""))
         }
         return list
     }

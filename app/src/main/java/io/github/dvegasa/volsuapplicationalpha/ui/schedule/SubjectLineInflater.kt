@@ -9,6 +9,8 @@ import androidx.core.content.res.ResourcesCompat
 import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectTimeStatus
+import io.github.dvegasa.volsuapplicationalpha.pojos.TimeStatus
 import io.github.dvegasa.volsuapplicationalpha.repos.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.repos.Timetable
 import kotlinx.android.synthetic.main.layout_starttime_line.view.*
@@ -39,31 +41,61 @@ class SubjectLineInflater(private val context: Context, private val vm: Schedule
                 ll.addView(getStartTimeView(data[day][0].slot, ll))
             }
 
-            for (subj in data[day]) {
+            for (i in data[day].indices) {
+                val subj = data[day][i]
                 val view =
                     LayoutInflater.from(context).inflate(R.layout.layout_subject_line, ll, false)
 
-                if (subj.title == "-") {
-                    // Окно
-                    view.apply {
-                        tvTitle.text = "Окно"
-                        tvSubtitle.text =
-                            "${Timetable.subjStart[subj.slot]} — ${Timetable.subjStart[subj.slot + 1]}"
-                        tvAudi.text = ""
-                    }
-
-                } else {
-                    // Предмет
-                    view.apply {
-                        tvTitle.text = subj.title
-                        tvSubtitle.text = subj.teacher
-                        tvAudi.text = subj.audi
-                    }
-                }
+                fillContent(subj, view)
+                val timeStatus = vm.subjStatuses.value!![i]
+                showTimeStatus(subj, view, timeStatus)
                 ll.addView(view)
             }
         }
+    }
 
+    private fun fillContent(subj: SubjectSchedule, view: View) {
+        view.apply {
+            if (subj.title == "-") {
+                // Окно
+                tvTitle.text = "Окно"
+                tvSubtitle.text =
+                    "${Timetable.subjStart[subj.slot]} — ${Timetable.subjStart[subj.slot + 1]}"
+                tvAudi.text = ""
+
+            } else {
+                // Предмет
+                tvTitle.text = subj.title
+                tvSubtitle.text = subj.teacher
+                tvAudi.text = subj.audi
+            }
+        }
+    }
+
+    private fun showTimeStatus(subj: SubjectSchedule, view: View, timeStatus: TimeStatus) {
+        view.apply {
+            if (subj.dayweek == TimeCalculator().getCurrentDayweek()) {
+                when (timeStatus.status) {
+                    SubjectTimeStatus.SKIPPED -> {
+                        val weakColor =
+                            ResourcesCompat.getColor(resources, R.color.colorSubjSkipped, null)
+                        tvTitle.setTextColor(weakColor)
+                        tvSubtitle.setTextColor(weakColor)
+                        tvAudi.setTextColor(weakColor)
+                    }
+                    SubjectTimeStatus.UPCOMING -> {
+                        val accentColor =
+                            ResourcesCompat.getColor(resources, R.color.colorAccent, null)
+                        tvSubtitle.setTextColor(accentColor)
+                        tvSubtitle.text = timeStatus.msg
+                    }
+                    SubjectTimeStatus.ONGOING -> {
+                    }
+                    SubjectTimeStatus.FUTURE -> {
+                    }
+                }
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")

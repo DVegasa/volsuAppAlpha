@@ -7,6 +7,7 @@ import io.github.dvegasa.volsuapplicationalpha.default
 import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus
+import io.github.dvegasa.volsuapplicationalpha.pojos.TimeStatus
 import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleRepo
 import io.github.dvegasa.volsuapplicationalpha.repos.TimeCalculator
 import java.util.*
@@ -24,7 +25,7 @@ class ScheduleViewModel : ViewModel() {
     // Уже адаптировано. Адаптация данных на уровне Repository, в данном случае ScheduleRepo
     val weekSchedule = scheduleRepo.getFakeWeekSchedule()
 
-    val subjStatuses = MutableLiveData<List<SubjectStatus>>()
+    val subjStatuses = MutableLiveData<List<TimeStatus>>()
 
     val pickedDayweekTab = MutableLiveData<Int>().default(
         timeCalc.getCurrentDayweek().value
@@ -42,12 +43,8 @@ class ScheduleViewModel : ViewModel() {
     }
     private fun updateSubjStatuses() {
         val todayDayweekIndex = timeCalc.getCurrentDayweek().value - 1
-        Log.d("ed__", "todayDayweekIndex: $todayDayweekIndex")
-
-        // val todaySubjes = weekSchedule.value?.get(todayDayweekIndex)
-        Log.d("ed__", "weekSchedule.value: ${weekSchedule.value}")
-
-//        subjStatuses.value = timeCalc.getTodaySubjStatuses(todaySubjes)
+        val todaySubjes = weekSchedule.value?.get(todayDayweekIndex)
+        subjStatuses.value = timeCalc.getTodaySubjStatuses(todaySubjes!!)
     }
 
 }

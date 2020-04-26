@@ -74,11 +74,6 @@ class ScheduleFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 vm.chosenTitle.value = pos
                 tvToolbarTitle.text = titles[pos]
-                // TODO: Ненужные вызовы?       [отсюда]
-                spintb.forceLayout()
-                ivArrowDown.forceLayout()
-                llSpintbArea.requestLayout()
-                //                              [досюда]
             }
         }
     }
