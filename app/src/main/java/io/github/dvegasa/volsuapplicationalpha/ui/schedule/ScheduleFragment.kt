@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import io.github.dvegasa.volsuapplicationalpha.R
+import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import kotlinx.android.synthetic.main.schedule_toolbar.*
@@ -79,12 +80,14 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun initBottomTimer() {
-        vm.timerCaption.observe(viewLifecycleOwner, Observer {
-            tvTimerCaption.text = it
-        })
-
-        vm.timerMain.observe(viewLifecycleOwner, Observer {
-            tvTimerContent.text = it
+        vm.timerSubjToFinish.observe(viewLifecycleOwner, Observer {
+            if (it <= 0) {
+                tvTimerContent.text = ""
+                tvTimerCaption.text = ""
+            } else {
+                tvTimerContent.text = TimeCalculator.stringMin(it)
+                tvTimerCaption.text = "До конца пары"
+            }
         })
     }
 

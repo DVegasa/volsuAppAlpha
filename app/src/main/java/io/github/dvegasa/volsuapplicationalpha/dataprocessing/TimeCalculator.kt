@@ -1,7 +1,9 @@
 package io.github.dvegasa.volsuapplicationalpha.dataprocessing
 
+import androidx.lifecycle.MutableLiveData
 import io.github.dvegasa.volsuapplicationalpha.pojos.*
 import io.github.dvegasa.volsuapplicationalpha.repos.Timetable
+import io.github.dvegasa.volsuapplicationalpha.utils.default
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -10,12 +12,43 @@ import java.util.*
  */
 
 const val UPCOMING_APPROACH_TIME = 10 * 60 // min * sec
+const val TIMER_UPDATE_RATE_SECONDS = 10L // в секундах
 
 @Suppress("UNREACHABLE_CODE")
 class TimeCalculator {
 
+    companion object {
+        fun stringMin(n: Long): String {
+            val textForms = arrayOf("минута", "минуты", "минут")
+            val n1 = n % 10
+            val f: String
+            f = when {
+                n in 11..19 -> textForms[2]
+                n1 in 2..4 -> textForms[1]
+                n1 == 1L -> textForms[0]
+                else -> textForms[2]
+            }
+            return "$n $f"
+        }
+    }
+
+    val timerSubjToFinish = MutableLiveData<Long>().default(-1L)
+
+    private val timer = Timer()
+
+    fun startTimerSubjToFinish() {
+        timer.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                timerSubjToFinish.postValue(getTimeLeft())
+            }
+        }, 0, TIMER_UPDATE_RATE_SECONDS * 1000)
+    }
+
+    fun stopTimerSubjToFinish() {
+        timer.cancel()
+    }
+
     fun getCurrentDayweek(): Dayweek {
-        return Dayweek.MONDAY
         return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
             Calendar.MONDAY -> Dayweek.MONDAY
             Calendar.TUESDAY -> Dayweek.TUESDAY
@@ -23,21 +56,8 @@ class TimeCalculator {
             Calendar.THURSDAY -> Dayweek.THURSDAY
             Calendar.FRIDAY -> Dayweek.FRIDAY
             Calendar.SATURDAY -> Dayweek.SATURDAY
-            Calendar.SUNDAY -> Dayweek.SUNDAY
+            else -> Dayweek.SUNDAY
         }
-    }
-
-    fun stringMin(n: Long): String {
-        val textForms = arrayOf("минута", "минуты", "минут")
-        val n1 = n % 10
-        val f: String
-        f = when {
-            n in 11..19 -> textForms[2]
-            n1 in 2..4 -> textForms[1]
-            n1 == 1L -> textForms[0]
-            else -> textForms[2]
-        }
-        return "$n $f"
     }
 
     fun getTodaySubjStatuses(subjes: List<SubjectSchedule>): List<TimeStatus> {
@@ -64,7 +84,7 @@ class TimeCalculator {
         return list
     }
 
-    fun getTimeLeft(): Long {
+    private fun getTimeLeft(): Long {
         for (et in Timetable.subjEnd) {
             if (et == "xxx") continue
             // endTime == "10:00"
@@ -137,3 +157,4 @@ class TimeCalculator {
         }
     }
 }
+

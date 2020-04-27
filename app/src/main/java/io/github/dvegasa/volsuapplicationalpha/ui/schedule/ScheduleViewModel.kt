@@ -1,6 +1,5 @@
 package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 
-import android.os.Handler
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,15 +7,12 @@ import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.pojos.TimeStatus
 import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleRepo
 import io.github.dvegasa.volsuapplicationalpha.utils.default
-import java.util.*
 
-const val TIMER_UPDATE_RATE_SECONDS = 10
 
 class ScheduleViewModel : ViewModel() {
     //////////// Объекты
     private val scheduleRepo = ScheduleRepo()
-    private val timeCalc =
-        TimeCalculator()
+    private val timeCalc = TimeCalculator()
 
     //////////// LiveData
     val chosenTitle = MutableLiveData<Int>().default(0).apply {
@@ -34,16 +30,14 @@ class ScheduleViewModel : ViewModel() {
         timeCalc.getCurrentDayweek().value
     )
 
-    val timerCaption = MutableLiveData<String>().default("До конца пары")
-    val timerMain = MutableLiveData<String>().default("NN минут")
+    val timerSubjToFinish = timeCalc.timerSubjToFinish
 
-    lateinit var timerUpdateLifeCycle: Lifecycle
     //////////// Инициализация
     init {
+        timeCalc.startTimerSubjToFinish()
         weekSchedule.observeForever {
             updateSubjStatuses()
         }
-
         updateSubjStatuses()
     }
 
