@@ -2,7 +2,7 @@ package io.github.dvegasa.volsuapplicationalpha.ui.menu
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.github.dvegasa.volsuapplicationalpha.default
+import io.github.dvegasa.volsuapplicationalpha.utils.default
 
 class MenuViewModel : ViewModel() {
     val username = MutableLiveData<String>().default("Александр Михайловский")

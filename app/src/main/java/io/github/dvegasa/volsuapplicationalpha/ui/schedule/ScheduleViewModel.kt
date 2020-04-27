@@ -1,21 +1,24 @@
 package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 
-import android.util.Log
+import android.os.Handler
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.github.dvegasa.volsuapplicationalpha.default
-import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus
+import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.pojos.TimeStatus
 import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleRepo
-import io.github.dvegasa.volsuapplicationalpha.repos.TimeCalculator
+import io.github.dvegasa.volsuapplicationalpha.utils.default
 import java.util.*
 
-class ScheduleViewModel : ViewModel() {
-    private val scheduleRepo = ScheduleRepo()
-    private val timeCalc = TimeCalculator()
+const val TIMER_UPDATE_RATE_SECONDS = 10
 
+class ScheduleViewModel : ViewModel() {
+    //////////// Объекты
+    private val scheduleRepo = ScheduleRepo()
+    private val timeCalc =
+        TimeCalculator()
+
+    //////////// LiveData
     val chosenTitle = MutableLiveData<Int>().default(0).apply {
         observeForever {
             // Переключение заголовка из spintb
@@ -31,16 +34,20 @@ class ScheduleViewModel : ViewModel() {
         timeCalc.getCurrentDayweek().value
     )
 
-    val timerCaption = MutableLiveData<String>().default("Стандартный текстик")
+    val timerCaption = MutableLiveData<String>().default("До конца пары")
+    val timerMain = MutableLiveData<String>().default("NN минут")
 
-    val timerMain = MutableLiveData<String>().default("42 минуты")
-
+    lateinit var timerUpdateLifeCycle: Lifecycle
+    //////////// Инициализация
     init {
-        // TODO: Каждые 15 секунд обновлять информацию таймеров
         weekSchedule.observeForever {
             updateSubjStatuses()
         }
+
+        updateSubjStatuses()
     }
+
+    //////////// Приватные методы
     private fun updateSubjStatuses() {
         val todayDayweekIndex = timeCalc.getCurrentDayweek().value - 1
         val todaySubjes = weekSchedule.value?.get(todayDayweekIndex)

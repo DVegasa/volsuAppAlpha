@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectTimeStatus
 import io.github.dvegasa.volsuapplicationalpha.pojos.TimeStatus
-import io.github.dvegasa.volsuapplicationalpha.repos.TimeCalculator
+import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.repos.Timetable
 import kotlinx.android.synthetic.main.layout_starttime_line.view.*
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
@@ -74,7 +73,9 @@ class SubjectLineInflater(private val context: Context, private val vm: Schedule
 
     private fun showTimeStatus(subj: SubjectSchedule, view: View, timeStatus: TimeStatus) {
         view.apply {
-            if (subj.dayweek == TimeCalculator().getCurrentDayweek()) {
+            if (subj.dayweek == TimeCalculator()
+                    .getCurrentDayweek()) {
+                flOngoing.visibility = View.INVISIBLE
                 when (timeStatus.status) {
                     SubjectTimeStatus.SKIPPED -> {
                         val weakColor =
@@ -90,6 +91,7 @@ class SubjectLineInflater(private val context: Context, private val vm: Schedule
                         tvSubtitle.text = timeStatus.msg
                     }
                     SubjectTimeStatus.ONGOING -> {
+                        flOngoing.visibility = View.VISIBLE
                     }
                     SubjectTimeStatus.FUTURE -> {
                     }

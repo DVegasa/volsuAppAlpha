@@ -6,12 +6,13 @@ package io.github.dvegasa.volsuapplicationalpha.repos
 object Timetable {
     val subjStart = arrayOf(
         "xxx",
-        "8:30",
+        "08:30",
         "10:10",
         "12:00",
         "13:40",
         "15:20",
-        "17:nn"
+        "17:00",
+        "18:40"
     )
 
     val subjEnd = arrayOf(
@@ -20,7 +21,8 @@ object Timetable {
         "11:40",
         "13:30",
         "15:10",
-        "18:nn",
-        "20:nn"
+        "16:50",
+        "18:30",
+        "20:10"
     )
 }

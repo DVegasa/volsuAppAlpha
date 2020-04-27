@@ -1,4 +1,4 @@
-package io.github.dvegasa.volsuapplicationalpha
+package io.github.dvegasa.volsuapplicationalpha.utils
 
 import androidx.lifecycle.MutableLiveData
 

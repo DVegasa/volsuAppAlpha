@@ -1,7 +1,7 @@
 package io.github.dvegasa.volsuapplicationalpha.repos
 
 import androidx.lifecycle.MutableLiveData
-import io.github.dvegasa.volsuapplicationalpha.default
+import io.github.dvegasa.volsuapplicationalpha.utils.default
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectRating
 
 /**

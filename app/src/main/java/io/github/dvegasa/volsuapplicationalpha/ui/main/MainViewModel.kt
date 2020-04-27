@@ -2,7 +2,7 @@ package io.github.dvegasa.volsuapplicationalpha.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.github.dvegasa.volsuapplicationalpha.default
+import io.github.dvegasa.volsuapplicationalpha.utils.default
 import kotlin.random.Random
 
 class MainViewModel : ViewModel() {
