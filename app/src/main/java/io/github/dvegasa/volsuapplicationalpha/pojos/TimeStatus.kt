@@ -4,12 +4,12 @@ package io.github.dvegasa.volsuapplicationalpha.pojos
  * Created by Ed Khalturin @DVegasa
  */
 data class TimeStatus (
-    val status: SubjectTimeStatus,
+    val status: SubjectTimeStatuses,
     val msg: String
 ) {
-    constructor(status: SubjectTimeStatus) : this(status, "")
+    constructor(status: SubjectTimeStatuses) : this(status, "")
 }
 
-enum class SubjectTimeStatus {
+enum class SubjectTimeStatuses {
     SKIPPED, UPCOMING, ONGOING, FUTURE
 }

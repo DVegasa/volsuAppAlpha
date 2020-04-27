@@ -1,7 +1,5 @@
 package io.github.dvegasa.volsuapplicationalpha.pojos
 
-import java.time.DayOfWeek
-
 /**
  * Created by Ed Khalturin @DVegasa
  */
@@ -12,7 +10,8 @@ data class SubjectSchedule(
     val dayweek: Dayweek,
     val slot: Int,
     val period: SubjectPeriod,
-    val status: SubjectStatus
+    val status: SubjectStatus,
+    var timeStatus: TimeStatus = TimeStatus(SubjectTimeStatuses.FUTURE)
 )
 
 enum class SubjectStatus {

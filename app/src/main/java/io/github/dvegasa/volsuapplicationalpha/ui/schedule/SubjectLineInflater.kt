@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectTimeStatus
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectTimeStatuses
 import io.github.dvegasa.volsuapplicationalpha.pojos.TimeStatus
 import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.repos.Timetable
@@ -46,7 +46,8 @@ class SubjectLineInflater(private val context: Context, private val vm: Schedule
                     LayoutInflater.from(context).inflate(R.layout.layout_subject_line, ll, false)
 
                 fillContent(subj, view)
-                val timeStatus = vm.subjStatuses.value!![i]
+                val timeStatus =
+                    vm.weekSchedule.value!![TimeCalculator.getCurrentDayweek().value - 1][i].timeStatus
                 showTimeStatus(subj, view, timeStatus)
                 ll.addView(view)
             }
@@ -73,27 +74,26 @@ class SubjectLineInflater(private val context: Context, private val vm: Schedule
 
     private fun showTimeStatus(subj: SubjectSchedule, view: View, timeStatus: TimeStatus) {
         view.apply {
-            if (subj.dayweek == TimeCalculator()
-                    .getCurrentDayweek()) {
+            if (subj.dayweek == TimeCalculator.getCurrentDayweek()) {
                 flOngoing.visibility = View.INVISIBLE
                 when (timeStatus.status) {
-                    SubjectTimeStatus.SKIPPED -> {
+                    SubjectTimeStatuses.SKIPPED -> {
                         val weakColor =
                             ResourcesCompat.getColor(resources, R.color.colorSubjSkipped, null)
                         tvTitle.setTextColor(weakColor)
                         tvSubtitle.setTextColor(weakColor)
                         tvAudi.setTextColor(weakColor)
                     }
-                    SubjectTimeStatus.UPCOMING -> {
+                    SubjectTimeStatuses.UPCOMING -> {
                         val accentColor =
                             ResourcesCompat.getColor(resources, R.color.colorAccent, null)
                         tvSubtitle.setTextColor(accentColor)
                         tvSubtitle.text = timeStatus.msg
                     }
-                    SubjectTimeStatus.ONGOING -> {
+                    SubjectTimeStatuses.ONGOING -> {
                         flOngoing.visibility = View.VISIBLE
                     }
-                    SubjectTimeStatus.FUTURE -> {
+                    SubjectTimeStatuses.FUTURE -> {
                     }
                 }
             }

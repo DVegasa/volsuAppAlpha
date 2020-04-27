@@ -30,6 +30,18 @@ class TimeCalculator {
             }
             return "$n $f"
         }
+
+        fun getCurrentDayweek(): Dayweek {
+            return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+                Calendar.MONDAY -> Dayweek.MONDAY
+                Calendar.TUESDAY -> Dayweek.TUESDAY
+                Calendar.WEDNESDAY -> Dayweek.WEDNESDAY
+                Calendar.THURSDAY -> Dayweek.THURSDAY
+                Calendar.FRIDAY -> Dayweek.FRIDAY
+                Calendar.SATURDAY -> Dayweek.SATURDAY
+                else -> Dayweek.SUNDAY
+            }
+        }
     }
 
     val timerSubjToFinish = MutableLiveData<Long>().default(-1L)
@@ -48,40 +60,24 @@ class TimeCalculator {
         timer.cancel()
     }
 
-    fun getCurrentDayweek(): Dayweek {
-        return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-            Calendar.MONDAY -> Dayweek.MONDAY
-            Calendar.TUESDAY -> Dayweek.TUESDAY
-            Calendar.WEDNESDAY -> Dayweek.WEDNESDAY
-            Calendar.THURSDAY -> Dayweek.THURSDAY
-            Calendar.FRIDAY -> Dayweek.FRIDAY
-            Calendar.SATURDAY -> Dayweek.SATURDAY
-            else -> Dayweek.SUNDAY
-        }
-    }
-
-    fun getTodaySubjStatuses(subjes: List<SubjectSchedule>): List<TimeStatus> {
-        val list = arrayListOf<TimeStatus>()
-        for (i in subjes.indices) {
-
-            // Пропущенная пара
-            if (isSubjSkipped(subjes[i])) {
-                list.add(TimeStatus(SubjectTimeStatus.SKIPPED))
-            }
-            // Предстоящая пара (скоро будет)
-            else if (isSubjUpcoming(subjes[i]).isNotEmpty()) {
-                list.add(TimeStatus(SubjectTimeStatus.UPCOMING, isSubjUpcoming(subjes[i])))
-            }
-            // Пара будет
-            else if (isSubjFuture(subjes[i])) {
-                list.add(TimeStatus(SubjectTimeStatus.FUTURE))
-            }
-            // Пара идёт сейчас
-            else {
-                list.add(TimeStatus(SubjectTimeStatus.ONGOING))
+    fun updateSubjStatuses(subjes: List<SubjectSchedule>): List<SubjectSchedule>{
+        for (s in subjes) {
+            when {
+                isSubjSkipped(s) -> { // Пропущенная пара
+                    s.timeStatus = TimeStatus(SubjectTimeStatuses.SKIPPED)
+                }
+                isSubjUpcoming(s).isNotEmpty() -> { // Предстоящая пара (скоро будет)
+                    s.timeStatus = TimeStatus(SubjectTimeStatuses.UPCOMING, isSubjUpcoming(s))
+                }
+                isSubjFuture(s) -> { // Пара будет
+                    s.timeStatus = TimeStatus(SubjectTimeStatuses.FUTURE)
+                }
+                else -> { // Пара идёт сейчас
+                    s.timeStatus = TimeStatus(SubjectTimeStatuses.ONGOING)
+                }
             }
         }
-        return list
+        return subjes
     }
 
     private fun getTimeLeft(): Long {
