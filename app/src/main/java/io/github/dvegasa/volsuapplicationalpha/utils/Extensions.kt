@@ -12,14 +12,14 @@ fun <T : Any?> MutableLiveData<T>.defaultAsync(initialValue: T) = apply { postVa
 
 fun Array<SubjectSchedule>.firstSlot(): Int {
     for (i in this.indices) {
-        if (!this[i].isOkno()) return i
+        if (!this[i].isOkno()) return i+1
     }
     return -1
 }
 
 fun Array<SubjectSchedule>.lastSlot(): Int {
     for (i in (this.size-1) downTo 0) {
-        if (!this[i].isOkno()) return i
+        if (!this[i].isOkno()) return i+1
     }
     return -1
 }

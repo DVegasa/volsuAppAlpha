@@ -21,6 +21,7 @@ data class ScheduleDay(
             throw Exception("Массивы в ScheduleDay обязаны быть размера $MAX_SLOT")
     }
 
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

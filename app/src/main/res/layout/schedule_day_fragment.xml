@@ -1,13 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.schedule.ScheduleDayFragment">
+        android:orientation="vertical"
+        tools:context=".ui.schedule.ScheduleDayFragment"
+        android:id="@+id/llRoot">
 
-    <TextView
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/llSwitcher"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Hello" />
+            android:layout_height="50dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/colorAccent"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-</FrameLayout>
+        <FrameLayout
+                android:id="@+id/flChis"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/tvChis"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="ЧИСЛИТЕЛЬ"
+                    android:textAlignment="center"
+                    android:textColor="#FFF"
+                    app:fontFamily="@font/montserrat"
+                    tools:background="@drawable/bg_chisznam_picker"
+                    tools:textColor="@color/colorPrimary" />
+        </FrameLayout>
+
+        <FrameLayout
+                android:id="@+id/flZnam"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/tvZnam"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="ЗНАМЕНАТЕЛЬ"
+                    android:textAlignment="center"
+                    android:textColor="#FFF"
+                    app:fontFamily="@font/montserrat" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="4dp" />
+
+    <include
+            layout="@layout/layout_starttime_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" />
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llSubjectLines"
+            android:orientation="vertical"
+            android:layout_marginTop="4dp"/>
+
+
+</LinearLayout>
