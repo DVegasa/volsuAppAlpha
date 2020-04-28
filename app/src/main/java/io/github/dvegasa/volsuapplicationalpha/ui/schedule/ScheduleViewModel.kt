@@ -10,7 +10,6 @@ import io.github.dvegasa.volsuapplicationalpha.utils.default
 class ScheduleViewModel : ViewModel() {
     //////////// Объекты
     private val scheduleRepo = ScheduleRepo()
-    private val timeCalc = TimeCalculator()
 
     //////////// LiveData
     val chosenTitle = MutableLiveData<Int>().default(0)
@@ -18,7 +17,7 @@ class ScheduleViewModel : ViewModel() {
     val weekSchedule = scheduleRepo.getFakeScheduleWeek()
 
     val pickedDayweekTab = MutableLiveData<Int>().default(
-        timeCalc.getCurrentDayweek().value
+        TimeCalculator.currentDayweek.value
     )
 
 

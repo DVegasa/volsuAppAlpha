@@ -1,8 +1,6 @@
 package io.github.dvegasa.volsuapplicationalpha.dataprocessing
 
 import io.github.dvegasa.volsuapplicationalpha.pojos.*
-import io.github.dvegasa.volsuapplicationalpha.repos.Timetable
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -11,19 +9,21 @@ import java.util.*
 
 const val UPCOMING_APPROACH_TIME = 10 * 60 // min * sec
 
-@Suppress("UNREACHABLE_CODE")
 class TimeCalculator {
 
-    fun getCurrentDayweek(): Dayweek {
-        return Dayweek.MONDAY
-        return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-            Calendar.MONDAY -> Dayweek.MONDAY
-            Calendar.TUESDAY -> Dayweek.TUESDAY
-            Calendar.WEDNESDAY -> Dayweek.WEDNESDAY
-            Calendar.THURSDAY -> Dayweek.THURSDAY
-            Calendar.FRIDAY -> Dayweek.FRIDAY
-            Calendar.SATURDAY -> Dayweek.SATURDAY
-            Calendar.SUNDAY -> Dayweek.SUNDAY
+    companion object {
+        val currentDayweek: Dayweek
+        get () {
+            /* Fake */ return Dayweek.MONDAY
+            return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+                Calendar.MONDAY -> Dayweek.MONDAY
+                Calendar.TUESDAY -> Dayweek.TUESDAY
+                Calendar.WEDNESDAY -> Dayweek.WEDNESDAY
+                Calendar.THURSDAY -> Dayweek.THURSDAY
+                Calendar.FRIDAY -> Dayweek.FRIDAY
+                Calendar.SATURDAY -> Dayweek.SATURDAY
+                Calendar.SUNDAY -> Dayweek.SUNDAY
+            }
         }
     }
 
@@ -64,21 +64,7 @@ class TimeCalculator {
 //        return list
 //    }
 
-    fun getTimeLeft(): Long {
-        for (et in Timetable.subjEnd) {
-            if (et == "xxx") continue
-            // endTime == "10:00"
-            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-            val curTime = sdf.parse(getCurrentTime())!!
-            val endTime = sdf.parse(et)
 
-            val delta = (endTime.time - curTime.time) / (1000 * 60) // в минутах
-            if (delta in 0..90) {
-                return delta
-            }
-        }
-        return -1
-    }
 
 //    private fun isSubjUpcoming(subj: SubjectSchedule): String {
 //        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -92,11 +78,6 @@ class TimeCalculator {
 //            ""
 //        }
 //    }
-
-    private fun getCurrentTime(): String {
-        val s = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
-        return s
-    }
 
 //    private fun isSubjSkipped(subj: SubjectSchedule): Boolean {
 //        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())

@@ -11,13 +11,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
 import io.github.dvegasa.volsuapplicationalpha.R
+import io.github.dvegasa.volsuapplicationalpha.dataprocessing.Time
+import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
+import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleTimetable
 import io.github.dvegasa.volsuapplicationalpha.utils.default
 import io.github.dvegasa.volsuapplicationalpha.utils.firstNonOknoIndex
 import io.github.dvegasa.volsuapplicationalpha.utils.lastNonOknoIndex
 import kotlinx.android.synthetic.main.layout_starttime_line.*
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
 import kotlinx.android.synthetic.main.schedule_day_fragment.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val DAYWEEK_KEY = "dayweek_key"
 
@@ -75,26 +80,26 @@ class ScheduleDayFragment : Fragment() {
         }
 
         val l = if (isShownZnam.value!!) subjes.znam else subjes.chis
-        val firstSlot = l.firstNonOknoIndex()
-        val lastSlot = l.lastNonOknoIndex()
+        val firstSubjIndex = l.firstNonOknoIndex()
+        val lastSubjIndex = l.lastNonOknoIndex()
 
         var toShow = ArrayList(l.toList())
-        if (firstSlot < 0) {
+        if (firstSubjIndex < 0) {
             toShow.clear()
         } else {
-            toShow = ArrayList(toShow.subList(firstSlot, lastSlot+1))
+            toShow = ArrayList(toShow.subList(firstSubjIndex, lastSubjIndex+1))
         }
 
-        if (firstSlot >= 1) {
+        if (firstSubjIndex >= 1) {
             llStartTime.visibility = View.VISIBLE
             // TODO Указать правильное время
-            tvTime.text = "Начало пар в 20:00"
+            tvTime.text = "Начало пар в ${ScheduleTimetable.subjStart[firstSubjIndex]}"
         } else {
             llStartTime.visibility = View.GONE
         }
 
         llSubjectLines.removeAllViews()
-        if (firstSlot < 0) {
+        if (firstSubjIndex < 0) {
             val v =
                 LayoutInflater.from(context)
                     .inflate(R.layout.layout_subject_line, llSubjectLines, false)
@@ -103,13 +108,22 @@ class ScheduleDayFragment : Fragment() {
             llSubjectLines.addView(v)
         }
 
-        for (s in toShow) {
+        val curSubjIndex = ScheduleTimetable.getSubjectIndexByTime(Time.current)
+        // Плашки уроков
+        for (i in toShow.indices) {
+            val s = toShow[i]
             val v =
                 LayoutInflater.from(context)
                     .inflate(R.layout.layout_subject_line, llSubjectLines, false)
             v.tvAudi.text = s.audi
             v.tvTitle.text = s.title
             v.tvSubtitle.text = s.teacher
+
+            if (curSubjIndex == i && TimeCalculator.currentDayweek == dayweek) {
+                v.flOngoing.visibility = View.VISIBLE
+            } else {
+                v.flOngoing.visibility = View.INVISIBLE
+            }
 
             llSubjectLines.addView(v)
         }
