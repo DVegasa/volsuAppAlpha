@@ -3,6 +3,10 @@ package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.PagerAdapter
 import io.github.dvegasa.volsuapplicationalpha.R
 
@@ -10,26 +14,11 @@ import io.github.dvegasa.volsuapplicationalpha.R
 /**
  * Created by Ed Khalturin @DVegasa
  */
-class VpContentPagerAdapter(val activity: Activity) : PagerAdapter() {
+class VpContentPagerAdapter(fm: FragmentManager, private val fragments: Array<ScheduleDayFragment>) :
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        var resId = 0
-        when (position) {
-            0 -> resId = R.id.llContent1
-            1 -> resId = R.id.llContent2
-            2 -> resId = R.id.llContent3
-            3 -> resId = R.id.llContent4
-            4 -> resId = R.id.llContent5
-            5 -> resId = R.id.llContent6
-        }
-        return activity.findViewById(resId)
-    }
+    override fun getItem(position: Int) = fragments[position]
 
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+    override fun getCount() = fragments.size
 
-    }
-
-    override fun isViewFromObject(view: View, `object`: Any) = view == `object`
-
-    override fun getCount() = 6
 }

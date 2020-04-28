@@ -24,6 +24,15 @@ class ScheduleFragment : Fragment() {
 
     private lateinit var vm: ScheduleViewModel
 
+    private val dayFragments = arrayOf(
+        ScheduleDayFragment.newInstance(Dayweek.MONDAY),
+        ScheduleDayFragment.newInstance(Dayweek.TUESDAY),
+        ScheduleDayFragment.newInstance(Dayweek.WEDNESDAY),
+        ScheduleDayFragment.newInstance(Dayweek.THURSDAY),
+        ScheduleDayFragment.newInstance(Dayweek.FRIDAY),
+        ScheduleDayFragment.newInstance(Dayweek.SATURDAY)
+    )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +46,6 @@ class ScheduleFragment : Fragment() {
         initToolbar()
         initDayweekButtons()
         initVpProperties()
-        initVpContent()
         initBottomTimer()
     }
 
@@ -79,13 +87,7 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun initBottomTimer() {
-        vm.timerCaption.observe(viewLifecycleOwner, Observer {
-            tvTimerCaption.text = it
-        })
 
-        vm.timerMain.observe(viewLifecycleOwner, Observer {
-            tvTimerContent.text = it
-        })
     }
 
     private fun initDayweekButtons() {
@@ -127,9 +129,8 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun initVpProperties() {
-        val adapter = VpContentPagerAdapter(activity!!)
+        val adapter = VpContentPagerAdapter(childFragmentManager, dayFragments)
         vpContent.adapter = adapter
-        vpContent.offscreenPageLimit = 6
 
         vpContent.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
@@ -138,13 +139,6 @@ class ScheduleFragment : Fragment() {
             override fun onPageSelected(position: Int) {
                 vm.pickedDayweekTab.value = position + 1
             }
-        })
-    }
-
-    private fun initVpContent() {
-        val lls = listOf(llContent1, llContent2, llContent3, llContent4, llContent5, llContent6)
-        vm.weekSchedule.observe(viewLifecycleOwner, Observer{ adaptedData ->
-            SubjectLineInflater(context!!, vm).publish(lls, adaptedData)
         })
     }
 

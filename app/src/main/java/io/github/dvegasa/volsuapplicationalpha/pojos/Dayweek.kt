@@ -1,6 +1,10 @@
 package io.github.dvegasa.volsuapplicationalpha.pojos
 
-enum class Dayweek(val value: Int) {
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+enum class Dayweek(val value: Int) : Parcelable {
     MONDAY(1),
     TUESDAY(2),
     WEDNESDAY(3),
