@@ -1,19 +1,20 @@
 package io.github.dvegasa.volsuapplicationalpha.repos
 
 import androidx.lifecycle.MutableLiveData
-import io.github.dvegasa.volsuapplicationalpha.utils.default
+import io.github.dvegasa.volsuapplicationalpha.pojos.ScheduleDay
+import io.github.dvegasa.volsuapplicationalpha.pojos.ScheduleWeek
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
-import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek.*
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectPeriod.*
+import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus.*
+import io.github.dvegasa.volsuapplicationalpha.utils.default
 
 /**
  * Created by Ed Khalturin @DVegasa
  */
 class ScheduleRepo {
 
-    /* Метод для демонстрации поведения приложения */
-    fun getFakeWeekSchedule(): MutableLiveData<List<List<SubjectSchedule>>> {
+    /* Fake */
+    fun getFakeScheduleWeek(): MutableLiveData<ScheduleWeek> {
         val algl = "Алгебра и теория чисел (л)"
         val algp = "Алгебра и теория чисел (пр)"
         val infl = "Информатика и программирование"
@@ -21,52 +22,96 @@ class ScheduleRepo {
         val matl = "Математический анализ (л)"
         val matp = "Математический анализ (пр)"
         val inya = "Иностранный язык"
-        val okno = "-"
-        val day1 = listOf(
-            SubjectSchedule(algl, "Косенко Д.А.", "3-01 А", MONDAY, 1, CHISLZNAM, OK),
-            SubjectSchedule(algp, "Пенкорь Е.В.", "4-02 А", MONDAY, 2, CHISLZNAM, OK),
-            SubjectSchedule(infl, "Романвский Е.Е.", "1-01 В", MONDAY, 3, CHISLZNAM, OK),
-            SubjectSchedule(infl, "Романвский Е.Е.", "1-01 В", MONDAY, 4, CHISLZNAM, OK)
-        )
-        val day2 = listOf(
-            SubjectSchedule(
-                "Правоведение",
-                "Юристиченко Д.О.",
-                "4-07 А",
-                TUESDAY,
-                3,
-                CHISLZNAM,
-                OK
-            ),
-            SubjectSchedule(
-                "Прикладная физическая культура",
-                "Пенкорь Е.В.",
-                "4-02 А",
-                TUESDAY,
-                4,
-                CHISLZNAM,
-                OK
+        val fizl = "Физкультура (л)"
+        val fizp = "Физкультура (пр)"
+
+        val t1 = "Пеньшин. В.А."
+        val t2 = "Кулебяка О.У."
+        val t3 = "Косенков У.В."
+        val t4 = "Юристиченко У.А."
+        val t5 = "Маринкина К.К."
+        val t6 = "Шол О.В,"
+        val t7 = "Грац И.К."
+        val t8 = "Леньков Л.Л."
+        val t9 = "Иванова Е.Л"
+
+        val monday = ScheduleDay(
+            arrayOf(
+                SubjectSchedule(algl, t1, "3-01 А"),
+                SubjectSchedule.none,
+                SubjectSchedule(algp, t1, "3-01 В"),
+                SubjectSchedule(algl, t2, "4-01 Г"),
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none
             )
         )
-        val day3 = listOf(
-            SubjectSchedule(infp, "Романвский Е.Е.", "3-01 А", WEDNESDAY, 1, CHISLZNAM, OK),
-            SubjectSchedule(okno, "", "", WEDNESDAY, 2, CHISLZNAM, OK),
-            SubjectSchedule(matl, "Косенко Д.А.", "4-02 А", WEDNESDAY, 3, CHISLZNAM, OK),
-            SubjectSchedule(algl, "Пенкорь Е.В.", "4-02 А", WEDNESDAY, 4, CHISLZNAM, OK)
+        val tuesday = ScheduleDay(
+            arrayOf(
+                SubjectSchedule.none,
+                SubjectSchedule(inya, t5, "1-01 М"),
+                SubjectSchedule(inya, t5, "1-01 М"),
+                SubjectSchedule(matl, t7, "4-01 Г"),
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none
+            )
         )
-        val day4 = listOf(
-            SubjectSchedule(inya, "Татьянова Т.В.", "3-07 Б", THURSDAY, 1, CHISLZNAM, OK),
-            SubjectSchedule(inya, "Татьянова Т.В.", "3-07 Б", THURSDAY, 2, CHISLZNAM, OK),
-            SubjectSchedule(matp, "Пенкорь Е.В.", "1-01 В", THURSDAY, 3, CHISLZNAM, OK)
+        val wednesday = ScheduleDay(
+            arrayOf(
+                SubjectSchedule(matp, t1, "3-01 А"),
+                SubjectSchedule(infp, t1, "2-10 А"), // ТОЛЬКО ЧИСЛ
+                SubjectSchedule(infl, t2, "4-01 М"), // ТОЛЬКО ЧИСЛ
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none
+            ),
+            arrayOf(
+                SubjectSchedule(matp, t1, "3-01 А"),
+                SubjectSchedule(matp, t1, "2-11 В"), // ТОЛЬКО ЗНАМ
+                SubjectSchedule.none,                // ТОЛЬКО ЗНАМ
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none
+            )
         )
-        val day5 = listOf<SubjectSchedule>()
-        val day6 = listOf(
-            SubjectSchedule(matl, "Косенко Д.А.", "3-07 Б", SATURDAY, 2, CHISLZNAM, OK),
-            SubjectSchedule(okno, "", "", SATURDAY, 3, CHISLZNAM, OK),
-            SubjectSchedule(matp, "Пенкорь Е.В.", "3-07 Б", SATURDAY, 4, CHISLZNAM, OK)
+        val thursday = ScheduleDay(
+            arrayOf(
+                SubjectSchedule(algl, t1, "3-01 А"),
+                SubjectSchedule.none,
+                SubjectSchedule(algp, t1, "3-01 В"),
+                SubjectSchedule(algl, t2, "4-01 Г"),
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none
+            )
         )
-        return MutableLiveData<List<List<SubjectSchedule>>>().default(
-            listOf(day1, day2, day3, day4, day5, day6)
+        val friday = ScheduleDay(
+            arrayOf(
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none
+            )
+        )
+        val saturday = ScheduleDay(
+            arrayOf(
+                SubjectSchedule(algl, t1, "1-01 Б"),
+                SubjectSchedule(matl, t1, "1-01 В"),
+                SubjectSchedule(fizp, t3, "3-07 Б"),
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none,
+                SubjectSchedule.none
+            )
+        )
+        return MutableLiveData<ScheduleWeek>().default(
+            ScheduleWeek(monday, tuesday, wednesday, thursday, friday, saturday)
         )
     }
 }
