@@ -11,7 +11,6 @@
             android:id="@+id/llSwitcher"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="4dp"
             android:background="@color/colorAccent"
             android:orientation="horizontal"
             android:weightSum="2">
@@ -63,7 +62,7 @@
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="4dp" />
+            android:layout_height="8dp" />
 
     <include
             layout="@layout/layout_starttime_line"
@@ -76,8 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/llSubjectLines"
-            android:orientation="vertical"
-            android:layout_marginTop="4dp"/>
+            android:orientation="vertical"/>
 
 
 </LinearLayout>

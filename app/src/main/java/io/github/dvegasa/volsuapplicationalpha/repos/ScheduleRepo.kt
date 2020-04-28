@@ -68,9 +68,9 @@ class ScheduleRepo {
                 SubjectSchedule.none
             ),
             arrayOf(
-                SubjectSchedule(matp, t1, "3-01 А"),
+                SubjectSchedule.none,
                 SubjectSchedule(matp, t1, "2-11 В"), // ТОЛЬКО ЗНАМ
-                SubjectSchedule.none,                // ТОЛЬКО ЗНАМ
+                SubjectSchedule(matp, t1, "3-01 А"), // ТОЛЬКО ЗНАМ
                 SubjectSchedule.none,
                 SubjectSchedule.none,
                 SubjectSchedule.none,
