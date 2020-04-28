@@ -38,4 +38,5 @@ object ScheduleTimetable {
         if (t.isAfter(subjEnd[subjEnd.lastIndex])) return AFTER_SUBJECTS
         return IN_BREAK
     }
+
 }

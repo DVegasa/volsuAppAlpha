@@ -14,7 +14,7 @@ data class Time(
     companion object {
         val current: Time
             get() {
-                /* Fake */ return Time(8, 45)
+                /* Fake */ return Time(11, 11)
                 val m = SimpleDateFormat("HH", Locale.getDefault()).format(Date()).toInt()
                 val h = SimpleDateFormat("mm", Locale.getDefault()).format(Date()).toInt()
                 return Time(h, m)
@@ -31,6 +31,6 @@ data class Time(
 
     override fun toString(): String {
         val mm = if (m<10) "0$m" else "$m"
-        return "$h:$m"
+        return "$h:$mm"
     }
 }

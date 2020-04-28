@@ -7,8 +7,6 @@ import java.util.*
  * Created by Ed Khalturin @DVegasa
  */
 
-const val UPCOMING_APPROACH_TIME = 10 * 60 // min * sec
-
 class TimeCalculator {
 
     companion object {
