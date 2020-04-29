@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val menuFragment = MenuFragment.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         vm = ViewModelProvider(this).get(ActivityViewModel::class.java)
