@@ -1,42 +1,50 @@
 package io.github.dvegasa.volsuapplicationalpha.dataprocessing
 
+import android.util.Log
 import io.github.dvegasa.volsuapplicationalpha.pojos.*
+import io.github.dvegasa.volsuapplicationalpha.repos.IN_BREAK
 import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleTimetable
 import java.util.*
 
 /**
  * Created by Ed Khalturin @DVegasa
  */
-const val UPCOMING_APPROACH_TIME = 10 * 60 // min * sec
 
 class TimeCalculator {
 
     companion object {
         val currentDayweek: Dayweek
-        get () {
-            // /* Fake */ return Dayweek.SUNDAY
-            return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-                Calendar.MONDAY -> Dayweek.MONDAY
-                Calendar.TUESDAY -> Dayweek.TUESDAY
-                Calendar.WEDNESDAY -> Dayweek.WEDNESDAY
-                Calendar.THURSDAY -> Dayweek.THURSDAY
-                Calendar.FRIDAY -> Dayweek.FRIDAY
-                Calendar.SATURDAY -> Dayweek.SATURDAY
-                else -> Dayweek.SUNDAY
+            get() {
+                // /* Fake */ return Dayweek.SUNDAY
+                return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+                    Calendar.MONDAY -> Dayweek.MONDAY
+                    Calendar.TUESDAY -> Dayweek.TUESDAY
+                    Calendar.WEDNESDAY -> Dayweek.WEDNESDAY
+                    Calendar.THURSDAY -> Dayweek.THURSDAY
+                    Calendar.FRIDAY -> Dayweek.FRIDAY
+                    Calendar.SATURDAY -> Dayweek.SATURDAY
+                    else -> Dayweek.SUNDAY
+                }
             }
-        }
 
-        fun defineTimeStatuses(subjes: ArrayList<SubjectSchedule>, dayweek: Dayweek) {
+        fun defineTimeStatuses(
+            subjes: ArrayList<SubjectSchedule>,
+            dayweek: Dayweek,
+            isListZnam: Boolean,
+            isWeekRealZnam: Boolean
+        ) {
             for (i in 0 until MAX_SUBJES_IN_DAY) {
                 val startTime = ScheduleTimetable.subjStart[i]
                 val endTime = ScheduleTimetable.subjEnd[i]
                 val s = subjes[i]
                 val prevSubjEndTime =
-                    if (i == 0) Time.fromMins(startTime.mins-10)
-                    else ScheduleTimetable.subjEnd[i-1]
+                    if (i == 0) Time.fromMins(startTime.mins - 10) // Для первого урока статус ONGOING будет поставлен за десять минут до его начала
+                    else ScheduleTimetable.subjEnd[i - 1]
+
+                val isPeriodCorrect = isListZnam == isWeekRealZnam
 
                 when {
-                    currentDayweek != dayweek -> {
+                    currentDayweek != dayweek || !isPeriodCorrect -> {
                         s.timeStatus = TimeStatus.FUTURE
                     }
 
@@ -84,20 +92,27 @@ class TimeCalculator {
                 else -> "Ошибка замера"
             }
         }
-    }
 
-    fun stringMin(n: Long): String {
-        val textForms = arrayOf("минута", "минуты", "минут")
-        val n1 = n % 10
-        val f: String
-        f = when {
-            n in 11..19 -> textForms[2]
-            n1 in 2..4 -> textForms[1]
-            n1 == 1L -> textForms[0]
-            else -> textForms[2]
+        fun getTimerValue(): Int {
+            val curIndex = ScheduleTimetable.getSubjectIndexByTime(Time.current)
+            if (curIndex in 0 until MAX_SUBJES_IN_DAY) {
+                val subjEnd = ScheduleTimetable.subjEnd[curIndex]
+                return subjEnd.mins - Time.current.mins
+            }
+            return -1
         }
-        return "$n $f"
+
+        fun stringMin(n: Int): String {
+            val textForms = arrayOf("минута", "минуты", "минут")
+            val n1 = n % 10
+            val f: String
+            f = when {
+                n in 11..19 -> textForms[2]
+                n1 in 2..4 -> textForms[1]
+                n1 == 1 -> textForms[0]
+                else -> textForms[2]
+            }
+            return "$n $f"
+        }
     }
-
-
 }

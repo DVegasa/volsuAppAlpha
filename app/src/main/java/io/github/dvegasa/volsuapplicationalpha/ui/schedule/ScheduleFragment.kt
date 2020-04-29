@@ -7,10 +7,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import io.github.dvegasa.volsuapplicationalpha.R
+import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import kotlinx.android.synthetic.main.schedule_toolbar.*
@@ -38,6 +41,17 @@ class ScheduleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.schedule_fragment, container, false)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        vm.startTimerUntilSubjectEnd()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        vm.stopTimerUntilSubjectEnd()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -87,6 +101,14 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun initBottomTimer() {
+        vm.timeUntilSubjectEnd.observe(viewLifecycleOwner, Observer {
+            tvTimerContent.text = vm.timeUntilSubjectEnd.value
+            if (vm.timeUntilSubjectEnd.value!!.isNotEmpty()) {
+                tvTimerCaption.visibility = View.VISIBLE
+            } else {
+                tvTimerCaption.visibility = View.INVISIBLE
+            }
+        })
 
     }
 
@@ -126,8 +148,8 @@ class ScheduleFragment : Fragment() {
             fls[i].setBackgroundColor(0)
             tvs[i].setTextColor(Color.WHITE)
         }
-        fls[selected-1].setBackgroundResource(R.drawable.bg_dayweek_selected)
-        tvs[selected-1].setTextColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        fls[selected - 1].setBackgroundResource(R.drawable.bg_dayweek_selected)
+        tvs[selected - 1].setTextColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
     }
 
     private fun initVpProperties() {
@@ -136,7 +158,12 @@ class ScheduleFragment : Fragment() {
 
         vpContent.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
 
             override fun onPageSelected(position: Int) {
                 vm.pickedDayweekTab.value = position + 1

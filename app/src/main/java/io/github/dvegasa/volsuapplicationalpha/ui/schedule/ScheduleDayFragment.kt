@@ -91,7 +91,7 @@ class ScheduleDayFragment : Fragment() {
     private fun updateUI() {
         defineChisZnamSwitcherVisibility()
         val toShow = (if (isShownZnam.value!!) scheduleDay.znam else scheduleDay.chis).apply {
-            TimeCalculator.defineTimeStatuses(this, dayweek)
+            TimeCalculator.defineTimeStatuses(this, dayweek, isShownZnam.value!!, vm.isThisWeekZnam)
         }
 
         llSubjectLines.removeAllViews()

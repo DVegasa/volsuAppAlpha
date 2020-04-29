@@ -13,12 +13,18 @@ data class Time(
     val m: Int
 ) {
     companion object {
+
+        val hh = SimpleDateFormat("HH", Locale.getDefault())
+        val mm = SimpleDateFormat("mm", Locale.getDefault())
+
         val current: Time
             get() {
-                // /* Fake */ return Time(18, 33)
-                val h = SimpleDateFormat("HH", Locale.getDefault()).format(Date()).toInt()
-                val m = SimpleDateFormat("mm", Locale.getDefault()).format(Date()).toInt()
-                Log.d("ed__", "current time: $h:$m")
+                // /* Fake */ return Time(11, 44)
+
+                val t = Calendar.getInstance().time
+
+                val h = hh.format(t).toInt()
+                val m = mm.format(t).toInt()
                 return Time(h, m)
                 /**
                  * TODO[!]: Потенциально опасное место переполнения памяти (создание нового объекта Time() при каждом обращении к Time.current)

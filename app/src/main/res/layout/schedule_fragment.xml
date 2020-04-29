@@ -172,12 +172,12 @@
             android:id="@+id/tvTimerCaption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="До начала пары"
+            android:text="До конца пары"
             android:textAlignment="center"
             android:textColor="@color/colorTextWeak"
+            app:layout_constraintBottom_toTopOf="@id/tvTimerContent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tvTimerContent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
             android:id="@+id/tvTimerContent"
