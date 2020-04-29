@@ -36,7 +36,7 @@ class ScheduleRepo {
         val t9 = "Иванова Е.Л"
 
         val monday = ScheduleDay(
-            arrayOf(
+            arrayListOf(
                 SubjectSchedule(algl, t1, "3-01 А"),
                 SubjectSchedule.none,
                 SubjectSchedule(algp, t1, "3-01 В"),
@@ -47,18 +47,18 @@ class ScheduleRepo {
             )
         )
         val tuesday = ScheduleDay(
-            arrayOf(
+            arrayListOf(
                 SubjectSchedule.none,
                 SubjectSchedule(inya, t5, "1-01 М"),
-                SubjectSchedule(inya, t5, "1-01 М"),
+                SubjectSchedule.none,
                 SubjectSchedule(matl, t7, "4-01 Г"),
-                SubjectSchedule.none,
+                SubjectSchedule(inya, t5, "1-01 М"),
                 SubjectSchedule.none,
                 SubjectSchedule.none
             )
         )
         val wednesday = ScheduleDay(
-            arrayOf(
+            arrayListOf(
                 SubjectSchedule(matp, t1, "3-01 А"),
                 SubjectSchedule(infp, t1, "2-10 А"), // ТОЛЬКО ЧИСЛ
                 SubjectSchedule(infl, t2, "4-01 М"), // ТОЛЬКО ЧИСЛ
@@ -67,7 +67,7 @@ class ScheduleRepo {
                 SubjectSchedule.none,
                 SubjectSchedule.none
             ),
-            arrayOf(
+            arrayListOf(
                 SubjectSchedule.none,
                 SubjectSchedule(matp, t1, "2-11 В"), // ТОЛЬКО ЗНАМ
                 SubjectSchedule(matp, t1, "3-01 А"), // ТОЛЬКО ЗНАМ
@@ -78,7 +78,7 @@ class ScheduleRepo {
             )
         )
         val thursday = ScheduleDay(
-            arrayOf(
+            arrayListOf(
                 SubjectSchedule(algl, t1, "3-01 А"),
                 SubjectSchedule.none,
                 SubjectSchedule(algp, t1, "3-01 В"),
@@ -89,7 +89,7 @@ class ScheduleRepo {
             )
         )
         val friday = ScheduleDay(
-            arrayOf(
+            arrayListOf(
                 SubjectSchedule.none,
                 SubjectSchedule.none,
                 SubjectSchedule.none,
@@ -100,7 +100,7 @@ class ScheduleRepo {
             )
         )
         val saturday = ScheduleDay(
-            arrayOf(
+            arrayListOf(
                 SubjectSchedule(algl, t1, "1-01 Б"),
                 SubjectSchedule(matl, t1, "1-01 В"),
                 SubjectSchedule(fizp, t3, "3-07 Б"),

@@ -1,6 +1,5 @@
 package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 
-import android.icu.text.TimeZoneFormat
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +14,7 @@ import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.dataprocessing.Time
 import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
+import io.github.dvegasa.volsuapplicationalpha.pojos.ScheduleDay
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
 import io.github.dvegasa.volsuapplicationalpha.pojos.TimeStatus
 import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleTimetable
@@ -24,11 +24,9 @@ import io.github.dvegasa.volsuapplicationalpha.utils.lastNonOknoIndex
 import kotlinx.android.synthetic.main.layout_starttime_line.*
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
 import kotlinx.android.synthetic.main.schedule_day_fragment.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 const val DAYWEEK_KEY = "dayweek_key"
-const val UPCOMING_APPROACH_TIME = 10 * 60 // min * sec
 
 class ScheduleDayFragment : Fragment() {
 
@@ -44,7 +42,12 @@ class ScheduleDayFragment : Fragment() {
 
     private lateinit var dayweek: Dayweek
     private lateinit var vm: ScheduleViewModel
-    private val isShownZnam = MutableLiveData<Boolean>().default(false)
+    private val isShownZnam = MutableLiveData<Boolean>().default(
+        // TODO: Показывать по умолчанию то, какая неделя по факту (сейчас числ или сейчас знам)
+        false
+    )
+    private val scheduleDay: ScheduleDay
+        get() = vm.weekSchedule.value!!.schedule(dayweek)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,39 +89,31 @@ class ScheduleDayFragment : Fragment() {
 
     private fun updateUI() {
         defineChisZnamSwitcherVisibility()
-        val subjes = vm.weekSchedule.value!!.schedule(dayweek)
-        val l = if (isShownZnam.value!!) subjes.znam else subjes.chis
-        val firstSubjIndex = l.firstNonOknoIndex()
-        val lastSubjIndex = l.lastNonOknoIndex()
-
-        var toShow = ArrayList(l.toList())
-        if (firstSubjIndex < 0) {
-            toShow.clear()
-        } else {
-            toShow = ArrayList(toShow.subList(firstSubjIndex, lastSubjIndex + 1))
-        }
-
-
-        if (firstSubjIndex >= 1) {
-            llStartTime.visibility = View.VISIBLE
-            tvTime.text = "Начало пар в ${ScheduleTimetable.subjStart[firstSubjIndex]}"
-        } else {
-            llStartTime.visibility = View.GONE
+        val toShow = (if (isShownZnam.value!!) scheduleDay.znam else scheduleDay.chis).apply {
+            TimeCalculator.defineTimeStatuses(this)
         }
 
         llSubjectLines.removeAllViews()
-        if (firstSubjIndex < 0) {
-            val v =
-                LayoutInflater.from(context)
-                    .inflate(R.layout.layout_subject_line, llSubjectLines, false)
-            v.tvTitle.text = "В этот день пар нет"
-
-            llSubjectLines.addView(v)
+        if (toShow.firstNonOknoIndex() < 0) {
+            llSubjectLines.addView(LayoutInflater.from(context)
+                .inflate(R.layout.layout_subject_line, llSubjectLines, false).apply {
+                    tvTitle.text = "В этот день пар нет"
+                })
+        } else {
+            addSubjects(toShow)
         }
 
-        val curSubjIndex = ScheduleTimetable.getSubjectIndexByTime(Time.current)
-        // Плашки уроков
-        for (i in toShow.indices) {
+        if (toShow.firstNonOknoIndex() >= 1) {
+            llStartTime.visibility = View.VISIBLE
+            tvTime.text = "Начало пар в ${ScheduleTimetable.subjStart[toShow.firstNonOknoIndex()]}"
+        } else {
+            llStartTime.visibility = View.GONE
+        }
+    }
+
+    private fun addSubjects(toShow: java.util.ArrayList<SubjectSchedule>) {
+        for (i in toShow.firstNonOknoIndex()..toShow.lastNonOknoIndex()) {
+            if (i < 0) continue
             val s = toShow[i]
             val v =
                 LayoutInflater.from(context)
@@ -127,7 +122,7 @@ class ScheduleDayFragment : Fragment() {
             if (s.isOkno()) {
                 v.tvTitle.text = "Окно"
                 v.tvSubtitle.text =
-                    "${ScheduleTimetable.subjStart[i]} — ${ScheduleTimetable.subjStart[i + 1]}"
+                    "${ScheduleTimetable.subjStart[i]} — ${ScheduleTimetable.subjEnd[i]}"
                 v.tvAudi.text = ""
             } else {
                 v.tvAudi.text = s.audi
@@ -135,43 +130,29 @@ class ScheduleDayFragment : Fragment() {
                 v.tvSubtitle.text = s.teacher
             }
 
-            if (curSubjIndex == i && TimeCalculator.currentDayweek == dayweek) {
-                v.flOngoing.visibility = View.VISIBLE
-            } else {
-                v.flOngoing.visibility = View.INVISIBLE
-            }
-
+            displayTimeStatus(s, v)
             llSubjectLines.addView(v)
+        }
+    }
 
-            // Обработка TimeStatus
-            var timeStatus: TimeStatus = TimeStatus.FUTURE
-
-            if (TimeCalculator.currentDayweek == dayweek) {
-                if (Time.current.isBefore(ScheduleTimetable.subjStart[i])) timeStatus =
-                    TimeStatus.FUTURE
-                else if (Time.current.isBetween(
-                        ScheduleTimetable.subjStart[i],
-                        ScheduleTimetable.subjEnd[i]
+    private fun displayTimeStatus(s: SubjectSchedule, v: View) {
+        v.flOngoing.visibility = View.INVISIBLE
+        when (s.timeStatus) {
+            TimeStatus.PAST -> {
+                val c =
+                    ResourcesCompat.getColor(
+                        context!!.resources,
+                        R.color.colorSubjSkipped,
+                        null
                     )
-                ) timeStatus = TimeStatus.ONGOING
-                else if (Time.current.isAfter(ScheduleTimetable.subjEnd[i])) timeStatus =
-                    TimeStatus.PAST
+                v.tvTitle.setTextColor(c)
+                v.tvSubtitle.setTextColor(c)
+                v.tvAudi.setTextColor(c)
             }
-
-            when (timeStatus) {
-                TimeStatus.PAST -> {
-                    val c =
-                        ResourcesCompat.getColor(
-                            context!!.resources,
-                            R.color.colorSubjSkipped,
-                            null
-                        )
-                    v.tvTitle.setTextColor(c)
-                    v.tvSubtitle.setTextColor(c)
-                    v.tvAudi.setTextColor(c)
-                }
-                else -> {
-                }
+            TimeStatus.ONGOING -> {
+                v.flOngoing.visibility = View.VISIBLE
+            }
+            else -> {
             }
         }
     }

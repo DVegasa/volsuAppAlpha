@@ -6,6 +6,7 @@ import java.util.*
 /**
  * Created by Ed Khalturin @DVegasa
  */
+const val UPCOMING_APPROACH_TIME = 10 * 60 // min * sec
 
 class TimeCalculator {
 
@@ -23,7 +24,15 @@ class TimeCalculator {
                 Calendar.SUNDAY -> Dayweek.SUNDAY
             }
         }
+
+        fun defineTimeStatuses(subjes: ArrayList<SubjectSchedule>) {
+            for (i in 0 until MAX_SUBJES_IN_DAY) {
+
+            }
+        }
     }
+
+
 
     fun stringMin(n: Long): String {
         val textForms = arrayOf("минута", "минуты", "минут")
@@ -37,61 +46,6 @@ class TimeCalculator {
         }
         return "$n $f"
     }
-
-//    fun getTodaySubjStatuses(subjes: List<SubjectSchedule>): List<TimeStatus> {
-//        val list = arrayListOf<TimeStatus>()
-//        for (i in subjes.indices) {
-//
-//            // Пропущенная пара
-//            if (isSubjSkipped(subjes[i])) {
-//                list.add(TimeStatus(SubjectTimeStatus.SKIPPED))
-//            }
-//            // Предстоящая пара (скоро будет)
-//            else if (isSubjUpcoming(subjes[i]).isNotEmpty()) {
-//                list.add(TimeStatus(SubjectTimeStatus.UPCOMING, isSubjUpcoming(subjes[i])))
-//            }
-//            // Пара будет
-//            else if (isSubjFuture(subjes[i])) {
-//                list.add(TimeStatus(SubjectTimeStatus.FUTURE))
-//            }
-//            // Пара идёт сейчас
-//            else {
-//                list.add(TimeStatus(SubjectTimeStatus.ONGOING))
-//            }
-//        }
-//        return list
-//    }
-
-
-
-//    private fun isSubjUpcoming(subj: SubjectSchedule): String {
-//        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-//        val curTime = sdf.parse(getCurrentTime())!!
-//        val subjStart = sdf.parse(Timetable.subjStart[subj.slot])
-//
-//        val delta = (subjStart.time - curTime.time) / 1000 // in seconds
-//        return if (delta <= UPCOMING_APPROACH_TIME) {
-//            stringFromSeconds(delta)
-//        } else {
-//            ""
-//        }
-//    }
-
-//    private fun isSubjSkipped(subj: SubjectSchedule): Boolean {
-//        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-//        val curTime = sdf.parse(getCurrentTime())!!
-//        val subjEnd = sdf.parse(Timetable.subjEnd[subj.slot])
-//
-//        return curTime.after(subjEnd)
-//    }
-
-//    private fun isSubjFuture(subj: SubjectSchedule): Boolean {
-//        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
-//        val curTime = sdf.parse(getCurrentTime())!!
-//        val subjStart = sdf.parse(Timetable.subjStart[subj.slot])
-//
-//        return curTime.before(subjStart)
-//    }
 
     private fun stringFromSeconds(sec: Long): String {
         val m = 60

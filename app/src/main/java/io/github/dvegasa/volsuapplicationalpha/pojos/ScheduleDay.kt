@@ -6,36 +6,18 @@ import kotlinx.android.parcel.Parcelize
 /**
  * Created by Ed Khalturin @DVegasa
  */
-const val MAX_SLOT = 7
+const val MAX_SUBJES_IN_DAY = 7
 
 @Parcelize
 data class ScheduleDay(
-    val chis: Array<SubjectSchedule>,
-    val znam: Array<SubjectSchedule> = chis
+    val chis: ArrayList<SubjectSchedule>,
+    val znam: ArrayList<SubjectSchedule> = chis
 ) : Parcelable {
     val isChisZnamIdentical: Boolean
-        get() = znam.contentEquals(chis)
+        get() = znam == chis
 
     init {
-        if (chis.size != MAX_SLOT || znam.size != MAX_SLOT)
-            throw Exception("Массивы в ScheduleDay обязаны быть размера $MAX_SLOT")
-    }
-
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as ScheduleDay
-
-        if (!chis.contentEquals(other.chis)) return false
-        if (!znam.contentEquals(other.znam)) return false
-
-        return true
-    }
-    override fun hashCode(): Int {
-        var result = chis.contentHashCode()
-        result = 31 * result + znam.contentHashCode()
-        return result
+        if (chis.size != MAX_SUBJES_IN_DAY || znam.size != MAX_SUBJES_IN_DAY)
+            throw Exception("Массивы в ScheduleDay обязаны быть размера $MAX_SUBJES_IN_DAY")
     }
 }

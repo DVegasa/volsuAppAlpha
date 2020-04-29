@@ -10,14 +10,14 @@ import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
 fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { setValue(initialValue) }
 fun <T : Any?> MutableLiveData<T>.defaultAsync(initialValue: T) = apply { postValue(initialValue) }
 
-fun Array<SubjectSchedule>.firstNonOknoIndex(): Int {
+fun ArrayList<SubjectSchedule>.firstNonOknoIndex(): Int {
     for (i in this.indices) {
         if (!this[i].isOkno()) return i
     }
     return -1
 }
 
-fun Array<SubjectSchedule>.lastNonOknoIndex(): Int {
+fun ArrayList<SubjectSchedule>.lastNonOknoIndex(): Int {
     for (i in (this.size-1) downTo 0) {
         if (!this[i].isOkno()) return i
     }
