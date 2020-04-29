@@ -20,6 +20,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectRating
 import io.github.dvegasa.volsuapplicationalpha.dataprocessing.Statistics
+import io.github.dvegasa.volsuapplicationalpha.utils.color
 import kotlinx.android.synthetic.main.item_subject.view.*
 
 /**
@@ -84,13 +85,7 @@ class RvSubjectsAdapter(lifecycleOwner: LifecycleOwner, list: MutableLiveData<Ar
             v.apply {
                 tvSubjectName.text = "Предметы без рейтинга: ${hiddenSubjects.size}"
                 tvRating.text = ""
-                tvSubjectName.setTextColor(
-                    ResourcesCompat.getColor(
-                        v.resources,
-                        R.color.colorPrimaryDark,
-                        null
-                    )
-                )
+                tvSubjectName.setTextColor(context.color(R.color.colorPrimaryDark))
 
                 setOnClickListener {
                     visibleSubjects.addAll(hiddenSubjects)
@@ -108,13 +103,7 @@ class RvSubjectsAdapter(lifecycleOwner: LifecycleOwner, list: MutableLiveData<Ar
                 tvEmoji.text = Statistics.getEmojiForSubject(subj)
                 tvRating.text = subj.userRate.toString()
                 tvSubjectEkzamen.text = subj.ekzamen
-                tvSubjectName.setTextColor(
-                    ResourcesCompat.getColor(
-                        resources,
-                        android.R.color.black,
-                        null
-                    )
-                )
+                tvSubjectName.setTextColor(context.color(android.R.color.black))
                 initPlot(v, pos)
                 initSubjStats(v, pos)
                 setOnClickListener {

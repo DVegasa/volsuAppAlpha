@@ -1,6 +1,10 @@
 package io.github.dvegasa.volsuapplicationalpha.utils
 
+import android.app.Application
+import android.content.Context
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.MutableLiveData
+import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
 
 /**
@@ -23,3 +27,5 @@ fun ArrayList<SubjectSchedule>.lastNonOknoIndex(): Int {
     }
     return -1
 }
+
+fun Context.color(id: Int) = ResourcesCompat.getColor(resources, id, null)

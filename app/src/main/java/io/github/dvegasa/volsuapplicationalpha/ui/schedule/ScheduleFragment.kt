@@ -92,8 +92,10 @@ class ScheduleFragment : Fragment() {
 
     private fun initDayweekButtons() {
         vm.pickedDayweekTab.observe(viewLifecycleOwner, Observer { value ->
-            updateCurDayweekUi(value)
-            vpContent.currentItem = value - 1
+            val v = if (value == Dayweek.SUNDAY.value) Dayweek.MONDAY.value else value
+
+            updateCurDayweekUi(v)
+            vpContent.currentItem = v - 1
         })
 
         val clickListener = View.OnClickListener { view ->

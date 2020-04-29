@@ -18,6 +18,7 @@ import io.github.dvegasa.volsuapplicationalpha.pojos.ScheduleDay
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
 import io.github.dvegasa.volsuapplicationalpha.pojos.TimeStatus
 import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleTimetable
+import io.github.dvegasa.volsuapplicationalpha.utils.color
 import io.github.dvegasa.volsuapplicationalpha.utils.default
 import io.github.dvegasa.volsuapplicationalpha.utils.firstNonOknoIndex
 import io.github.dvegasa.volsuapplicationalpha.utils.lastNonOknoIndex
@@ -90,7 +91,7 @@ class ScheduleDayFragment : Fragment() {
     private fun updateUI() {
         defineChisZnamSwitcherVisibility()
         val toShow = (if (isShownZnam.value!!) scheduleDay.znam else scheduleDay.chis).apply {
-            TimeCalculator.defineTimeStatuses(this)
+            TimeCalculator.defineTimeStatuses(this, dayweek)
         }
 
         llSubjectLines.removeAllViews()
@@ -137,22 +138,21 @@ class ScheduleDayFragment : Fragment() {
 
     private fun displayTimeStatus(s: SubjectSchedule, v: View) {
         v.flOngoing.visibility = View.INVISIBLE
-        when (s.timeStatus) {
-            TimeStatus.PAST -> {
-                val c =
-                    ResourcesCompat.getColor(
-                        context!!.resources,
-                        R.color.colorSubjSkipped,
-                        null
-                    )
-                v.tvTitle.setTextColor(c)
-                v.tvSubtitle.setTextColor(c)
-                v.tvAudi.setTextColor(c)
-            }
-            TimeStatus.ONGOING -> {
-                v.flOngoing.visibility = View.VISIBLE
-            }
-            else -> {
+        with(v) {
+            when (s.timeStatus) {
+                TimeStatus.PAST -> {
+                    val c = context.color(R.color.colorSubjSkipped)
+                    tvTitle.setTextColor(c)
+                    tvSubtitle.setTextColor(c)
+                    tvAudi.setTextColor(c)
+                }
+                TimeStatus.ONGOING -> {
+                    flOngoing.visibility = View.VISIBLE
+                }
+                TimeStatus.COMING -> {
+                    tvSubtitle.setTextColor(context.color(R.color.colorAccent))
+                    tvSubtitle.text = s.timeStatusMsg
+                }
             }
         }
     }
@@ -161,58 +161,22 @@ class ScheduleDayFragment : Fragment() {
     private fun activateChisUISwitcher() {
         tvChis.apply {
             setBackgroundResource(R.drawable.bg_chisznam_picker)
-            setTextColor(
-                ResourcesCompat.getColor(
-                    context.resources,
-                    R.color.colorAccent,
-                    null
-                )
-            )
+            setTextColor(context.color(R.color.colorAccent))
         }
         tvZnam.apply {
-            setTextColor(
-                ResourcesCompat.getColor(
-                    context.resources,
-                    android.R.color.white,
-                    null
-                )
-            )
-            setBackgroundColor(
-                ResourcesCompat.getColor(
-                    context.resources,
-                    android.R.color.transparent,
-                    null
-                )
-            )
+            setTextColor(context.color(android.R.color.white))
+            setBackgroundColor(context.color(android.R.color.transparent))
         }
     }
 
     private fun activateZnamUISwitcher() {
         tvZnam.apply {
             setBackgroundResource(R.drawable.bg_chisznam_picker)
-            setTextColor(
-                ResourcesCompat.getColor(
-                    context.resources,
-                    R.color.colorAccent,
-                    null
-                )
-            )
+            setTextColor(context.color(R.color.colorAccent))
         }
         tvChis.apply {
-            setTextColor(
-                ResourcesCompat.getColor(
-                    context.resources,
-                    android.R.color.white,
-                    null
-                )
-            )
-            setBackgroundColor(
-                ResourcesCompat.getColor(
-                    context.resources,
-                    android.R.color.transparent,
-                    null
-                )
-            )
+            setTextColor(context.color(android.R.color.white))
+            setBackgroundColor(context.color(android.R.color.transparent))
         }
     }
 

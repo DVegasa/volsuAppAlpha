@@ -1,6 +1,7 @@
 package io.github.dvegasa.volsuapplicationalpha.dataprocessing
 
 import io.github.dvegasa.volsuapplicationalpha.pojos.*
+import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleTimetable
 import java.util.*
 
 /**
@@ -13,7 +14,7 @@ class TimeCalculator {
     companion object {
         val currentDayweek: Dayweek
         get () {
-            /* Fake */ return Dayweek.MONDAY
+            // /* Fake */ return Dayweek.SUNDAY
             return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
                 Calendar.MONDAY -> Dayweek.MONDAY
                 Calendar.TUESDAY -> Dayweek.TUESDAY
@@ -21,18 +22,69 @@ class TimeCalculator {
                 Calendar.THURSDAY -> Dayweek.THURSDAY
                 Calendar.FRIDAY -> Dayweek.FRIDAY
                 Calendar.SATURDAY -> Dayweek.SATURDAY
-                Calendar.SUNDAY -> Dayweek.SUNDAY
+                else -> Dayweek.SUNDAY
             }
         }
 
-        fun defineTimeStatuses(subjes: ArrayList<SubjectSchedule>) {
+        fun defineTimeStatuses(subjes: ArrayList<SubjectSchedule>, dayweek: Dayweek) {
             for (i in 0 until MAX_SUBJES_IN_DAY) {
+                val startTime = ScheduleTimetable.subjStart[i]
+                val endTime = ScheduleTimetable.subjEnd[i]
+                val s = subjes[i]
+                val prevSubjEndTime =
+                    if (i == 0) Time.fromMins(startTime.mins-10)
+                    else ScheduleTimetable.subjEnd[i-1]
 
+                when {
+                    currentDayweek != dayweek -> {
+                        s.timeStatus = TimeStatus.FUTURE
+                    }
+
+                    Time.current.isBetween(startTime, endTime) -> {
+                        s.timeStatus = TimeStatus.ONGOING
+                    }
+
+                    Time.current.isBetween(prevSubjEndTime, startTime) -> {
+                        s.timeStatus = TimeStatus.COMING
+                        s.timeStatusMsg = stringFromMins(startTime.mins - Time.current.mins)
+                    }
+
+                    Time.current.isAfter(startTime) -> {
+                        s.timeStatus = TimeStatus.PAST
+                    }
+
+                }
+            }
+        }
+
+        private fun stringFromMins(m: Int): String {
+            return when {
+                m <= 0 -> "ноль"
+                m <= 1 -> "Начнётся через 1 минуту"
+                m <= 2 -> "Начнётся через 2 минуты"
+                m <= 3 -> "Начнётся через 3 минуты"
+                m <= 4 -> "Начнётся через 4 минуты"
+                m <= 5 -> "Начнётся через 5 минут"
+                m <= 6 -> "Начнётся через 6 минут"
+                m <= 7 -> "Начнётся через 7 минут"
+                m <= 8 -> "Начнётся через 8 минут"
+                m <= 9 -> "Начнётся через 9 минут"
+                m <= 10 -> "Начнётся через 10 минут"
+                m <= 11 -> "Начнётся через 11 минут"
+                m <= 12 -> "Начнётся через 12 минут"
+                m <= 13 -> "Начнётся через 13 минут"
+                m <= 14 -> "Начнётся через 14 минут"
+                m <= 15 -> "Начнётся через 15 минут"
+                m <= 16 -> "Начнётся через 16 минут"
+                m <= 17 -> "Начнётся через 17 минут"
+                m <= 18 -> "Начнётся через 18 минут"
+                m <= 19 -> "Начнётся через 19 минут"
+                m <= 20 -> "Начнётся через 20 минут"
+                m > 20 -> "До начала более 20 минут"
+                else -> "Ошибка замера"
             }
         }
     }
-
-
 
     fun stringMin(n: Long): String {
         val textForms = arrayOf("минута", "минуты", "минут")
@@ -47,26 +99,5 @@ class TimeCalculator {
         return "$n $f"
     }
 
-    private fun stringFromSeconds(sec: Long): String {
-        val m = 60
-        return when {
-            sec <= 0 -> ""
-            sec <= 1 * m -> "Начнётся через 1 минуту"
-            sec <= 2 * m -> "Начнётся через 2 минуты"
-            sec <= 3 * m -> "Начнётся через 3 минуты"
-            sec <= 4 * m -> "Начнётся через 4 минуты"
-            sec <= 5 * m -> "Начнётся через 5 минут"
-            sec <= 6 * m -> "Начнётся через 6 минут"
-            sec <= 7 * m -> "Начнётся через 7 минут"
-            sec <= 8 * m -> "Начнётся через 8 минут"
-            sec <= 9 * m -> "Начнётся через 9 минут"
-            sec <= 10 * m -> "Начнётся через 10 минут"
-            sec <= 11 * m -> "Начнётся через 11 минут"
-            sec <= 12 * m -> "Начнётся через 12 минут"
-            sec <= 13 * m -> "Начнётся через 13 минут"
-            sec <= 14 * m -> "Начнётся через 14 минут"
-            sec <= 15 * m -> "Начнётся через 15 минут"
-            else -> ""
-        }
-    }
+
 }
