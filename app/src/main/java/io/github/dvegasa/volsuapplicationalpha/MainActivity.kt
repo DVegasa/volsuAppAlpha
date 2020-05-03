@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         vm = ViewModelProvider(this).get(ActivityViewModel::class.java)
         vm.currentScreen.value = 0 // Начальный экран. 0 - расписание
 
-        initWindowProperties()
+        // initWindowProperties()
         initNavBar()
         initVmObservers()
     }
