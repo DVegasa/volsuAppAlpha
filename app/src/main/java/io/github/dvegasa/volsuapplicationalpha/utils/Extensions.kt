@@ -11,8 +11,8 @@ import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
  * Created by Ed Khalturin @DVegasa
  */
 
-fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { setValue(initialValue) }
-fun <T : Any?> MutableLiveData<T>.defaultAsync(initialValue: T) = apply { postValue(initialValue) }
+@Deprecated("") fun <T : Any?> MutableLiveData<T>.default(initialValue: T) = apply { setValue(initialValue) }
+@Deprecated("") fun <T : Any?> MutableLiveData<T>.defaultAsync(initialValue: T) = apply { postValue(initialValue) }
 
 fun ArrayList<SubjectSchedule>.firstNonOknoIndex(): Int {
     for (i in this.indices) {

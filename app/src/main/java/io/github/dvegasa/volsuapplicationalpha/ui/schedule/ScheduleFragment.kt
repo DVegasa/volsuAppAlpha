@@ -43,24 +43,12 @@ class ScheduleFragment : Fragment() {
         return inflater.inflate(R.layout.schedule_fragment, container, false)
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        vm.startTimerUntilSubjectEnd()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        vm.stopTimerUntilSubjectEnd()
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         vm = ViewModelProvider(activity!!).get(ScheduleViewModel::class.java)
         initToolbar()
         initDayweekButtons()
         initVpProperties()
-        initBottomTimer()
     }
 
     private fun initToolbar() {
@@ -98,18 +86,6 @@ class ScheduleFragment : Fragment() {
                 tvToolbarTitle.text = titles[pos]
             }
         }
-    }
-
-    private fun initBottomTimer() {
-        vm.timeUntilSubjectEnd.observe(viewLifecycleOwner, Observer {
-            tvTimerContent.text = vm.timeUntilSubjectEnd.value
-            if (vm.timeUntilSubjectEnd.value!!.isNotEmpty()) {
-                tvTimerCaption.visibility = View.VISIBLE
-            } else {
-                tvTimerCaption.visibility = View.INVISIBLE
-            }
-        })
-
     }
 
     private fun initDayweekButtons() {

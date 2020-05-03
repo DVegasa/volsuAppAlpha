@@ -27,43 +27,43 @@ class TimeCalculator {
                 }
             }
 
-        fun defineTimeStatuses(
-            subjes: ArrayList<SubjectSchedule>,
-            dayweek: Dayweek,
-            isListZnam: Boolean,
-            isWeekRealZnam: Boolean
-        ) {
-            for (i in 0 until MAX_SUBJES_IN_DAY) {
-                val startTime = ScheduleTimetable.subjStart[i]
-                val endTime = ScheduleTimetable.subjEnd[i]
-                val s = subjes[i]
-                val prevSubjEndTime =
-                    if (i == 0) Time.fromMins(startTime.mins - 10) // Для первого урока статус ONGOING будет поставлен за десять минут до его начала
-                    else ScheduleTimetable.subjEnd[i - 1]
-
-                val isPeriodCorrect = isListZnam == isWeekRealZnam
-
-                when {
-                    currentDayweek != dayweek || !isPeriodCorrect -> {
-                        s.timeStatus = TimeStatus.FUTURE
-                    }
-
-                    Time.current.isBetween(startTime, endTime) -> {
-                        s.timeStatus = TimeStatus.ONGOING
-                    }
-
-                    Time.current.isBetween(prevSubjEndTime, startTime) -> {
-                        s.timeStatus = TimeStatus.COMING
-                        s.timeStatusMsg = stringFromMins(startTime.mins - Time.current.mins)
-                    }
-
-                    Time.current.isAfter(startTime) -> {
-                        s.timeStatus = TimeStatus.PAST
-                    }
-
-                }
-            }
-        }
+//        fun defineTimeStatuses(
+//            subjes: ArrayList<SubjectSchedule>,
+//            dayweek: Dayweek,
+//            isListZnam: Boolean,
+//            isWeekRealZnam: Boolean
+//        ) {
+//            for (i in 0 until MAX_SUBJES_IN_DAY) {
+//                val startTime = ScheduleTimetable.subjStart[i]
+//                val endTime = ScheduleTimetable.subjEnd[i]
+//                val s = subjes[i]
+//                val prevSubjEndTime =
+//                    if (i == 0) Time.fromMins(startTime.mins - 10) // Для первого урока статус ONGOING будет поставлен за десять минут до его начала
+//                    else ScheduleTimetable.subjEnd[i - 1]
+//
+//                val isPeriodCorrect = isListZnam == isWeekRealZnam
+//
+//                when {
+//                    currentDayweek != dayweek || !isPeriodCorrect -> {
+//                        s.timeStatus = TimeStatus.FUTURE
+//                    }
+//
+//                    Time.current.isBetween(startTime, endTime) -> {
+//                        s.timeStatus = TimeStatus.ONGOING
+//                    }
+//
+//                    Time.current.isBetween(prevSubjEndTime, startTime) -> {
+//                        s.timeStatus = TimeStatus.COMING
+//                        s.timeStatusMsg = stringFromMins(startTime.mins - Time.current.mins)
+//                    }
+//
+//                    Time.current.isAfter(startTime) -> {
+//                        s.timeStatus = TimeStatus.PAST
+//                    }
+//
+//                }
+//            }
+//        }
 
         private fun stringFromMins(m: Int): String {
             return when {

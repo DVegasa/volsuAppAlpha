@@ -11,9 +11,7 @@ data class SubjectSchedule(
     val title: String,
     val teacher: String,
     val audi: String,
-    val status: SubjectStatus = SubjectStatus.OK,
-    var timeStatus: TimeStatus = TimeStatus.FUTURE,
-    var timeStatusMsg: String = ""
+    val status: SubjectStatus = SubjectStatus.OK
 ) : Parcelable {
     companion object {
         val none: SubjectSchedule

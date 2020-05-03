@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -43,12 +44,9 @@ class ScheduleDayFragment : Fragment() {
 
     private lateinit var dayweek: Dayweek
     private lateinit var vm: ScheduleViewModel
-    private val isShownZnam = MutableLiveData<Boolean>().default(
-        // TODO: Показывать по умолчанию то, какая неделя по факту (сейчас числ или сейчас знам)
-        false
-    )
-    private val scheduleDay: ScheduleDay
-        get() = vm.weekSchedule.value!!.schedule(dayweek)
+
+    private lateinit var scheduleDay: LiveData<ScheduleDay>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,38 +59,31 @@ class ScheduleDayFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         vm = ViewModelProvider(activity!!).get(ScheduleViewModel::class.java)
+        scheduleDay = (vm.scheduleByDayweek[dayweek]
+            ?: error("Ошибка получения расписания для дня $dayweek")).apply {
+            this.observe(viewLifecycleOwner, Observer {
+                updateUI()
+            })
+        }
 
-        flChis.setOnClickListener { isShownZnam.value = false }
-        flZnam.setOnClickListener { isShownZnam.value = true }
+        flChis.setOnClickListener { vm.isZnamPicked.value = false }
+        flZnam.setOnClickListener { vm.isZnamPicked.value = true }
 
-        isShownZnam.observeForever {
+        vm.isZnamPicked.observe(viewLifecycleOwner, Observer {
             if (it == false) {// Числитель
                 activateChisUISwitcher()
             } else { // Знаменатель
                 activateZnamUISwitcher()
             }
-            updateUI()
-        }
-
-        vm.weekSchedule.observe(viewLifecycleOwner, Observer {
-            updateUI()
+            if (scheduleDay.value != null) updateUI()
         })
-    }
-
-    private fun defineChisZnamSwitcherVisibility() {
-        val subjes = vm.weekSchedule.value!!.schedule(dayweek)
-        if (subjes.isChisZnamIdentical) {
-            llSwitcher.visibility = View.GONE
-        } else {
-            llSwitcher.visibility = View.VISIBLE
-        }
     }
 
     private fun updateUI() {
         defineChisZnamSwitcherVisibility()
-        val toShow = (if (isShownZnam.value!!) scheduleDay.znam else scheduleDay.chis).apply {
-            TimeCalculator.defineTimeStatuses(this, dayweek, isShownZnam.value!!, vm.isThisWeekZnam)
-        }
+        val toShow =
+            (if (vm.isZnamPicked.value == true) scheduleDay.value?.znam
+            else scheduleDay.value?.chis)!!
 
         llSubjectLines.removeAllViews()
         if (toShow.firstNonOknoIndex() < 0) {
@@ -112,7 +103,16 @@ class ScheduleDayFragment : Fragment() {
         }
     }
 
-    private fun addSubjects(toShow: java.util.ArrayList<SubjectSchedule>) {
+    private fun defineChisZnamSwitcherVisibility() {
+        val subjes = scheduleDay.value!!
+        if (subjes.isChisZnamIdentical) {
+            llSwitcher.visibility = View.GONE
+        } else {
+            llSwitcher.visibility = View.VISIBLE
+        }
+    }
+
+    private fun addSubjects(toShow: ArrayList<SubjectSchedule>) {
         for (i in toShow.firstNonOknoIndex()..toShow.lastNonOknoIndex()) {
             if (i < 0) continue
             val s = toShow[i]
@@ -131,31 +131,31 @@ class ScheduleDayFragment : Fragment() {
                 v.tvSubtitle.text = s.teacher
             }
 
-            displayTimeStatus(s, v)
+            // displayTimeStatus(s, v)
             llSubjectLines.addView(v)
         }
     }
 
-    private fun displayTimeStatus(s: SubjectSchedule, v: View) {
-        v.flOngoing.visibility = View.INVISIBLE
-        with(v) {
-            when (s.timeStatus) {
-                TimeStatus.PAST -> {
-                    val c = context.color(R.color.colorSubjSkipped)
-                    tvTitle.setTextColor(c)
-                    tvSubtitle.setTextColor(c)
-                    tvAudi.setTextColor(c)
-                }
-                TimeStatus.ONGOING -> {
-                    flOngoing.visibility = View.VISIBLE
-                }
-                TimeStatus.COMING -> {
-                    tvSubtitle.setTextColor(context.color(R.color.colorAccent))
-                    tvSubtitle.text = s.timeStatusMsg
-                }
-            }
-        }
-    }
+//    private fun displayTimeStatus(s: SubjectSchedule, v: View) {
+//        v.flOngoing.visibility = View.INVISIBLE
+//        with(v) {
+//            when (s.timeStatus) {
+//                TimeStatus.PAST -> {
+//                    val c = context.color(R.color.colorSubjSkipped)
+//                    tvTitle.setTextColor(c)
+//                    tvSubtitle.setTextColor(c)
+//                    tvAudi.setTextColor(c)
+//                }
+//                TimeStatus.ONGOING -> {
+//                    flOngoing.visibility = View.VISIBLE
+//                }
+//                TimeStatus.COMING -> {
+//                    tvSubtitle.setTextColor(context.color(R.color.colorAccent))
+//                    tvSubtitle.text = s.timeStatusMsg
+//                }
+//            }
+//        }
+//    }
 
 
     private fun activateChisUISwitcher() {
@@ -179,5 +179,4 @@ class ScheduleDayFragment : Fragment() {
             setBackgroundColor(context.color(android.R.color.transparent))
         }
     }
-
 }

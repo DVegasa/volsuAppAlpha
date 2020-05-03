@@ -1,18 +1,30 @@
 package io.github.dvegasa.volsuapplicationalpha.pojos
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import io.github.dvegasa.volsuapplicationalpha.db.DataTypeConverters
+import io.github.dvegasa.volsuapplicationalpha.db.GLOBAL_CACHE_VALUE_ID
+
 /**
  * Created by Ed Khalturin @DVegasa
  */
 
+const val SCHEDULE_WEEK_TABLE_NAME = "schedule_week_cache"
 
-data class ScheduleWeek (
-    val monday: ScheduleDay,
-    val tuesday: ScheduleDay,
-    val wednesday: ScheduleDay,
-    val thursday: ScheduleDay,
-    val friday: ScheduleDay,
-    val saturday: ScheduleDay
+@Entity(tableName = SCHEDULE_WEEK_TABLE_NAME)
+data class ScheduleWeek(
+    @TypeConverters(DataTypeConverters::class) val monday: ScheduleDay,
+    @TypeConverters(DataTypeConverters::class) val tuesday: ScheduleDay,
+    @TypeConverters(DataTypeConverters::class) val wednesday: ScheduleDay,
+    @TypeConverters(DataTypeConverters::class) val thursday: ScheduleDay,
+    @TypeConverters(DataTypeConverters::class) val friday: ScheduleDay,
+    @TypeConverters(DataTypeConverters::class) val saturday: ScheduleDay
 ) {
+    @PrimaryKey
+    var id: Long = GLOBAL_CACHE_VALUE_ID
+
     fun schedule(dayweek: Dayweek) = when (dayweek) {
         Dayweek.MONDAY -> monday
         Dayweek.TUESDAY -> tuesday

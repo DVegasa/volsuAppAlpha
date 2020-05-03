@@ -1,6 +1,8 @@
 package io.github.dvegasa.volsuapplicationalpha.pojos
 
 import android.os.Parcelable
+import androidx.room.TypeConverters
+import io.github.dvegasa.volsuapplicationalpha.db.DataTypeConverters
 import kotlinx.android.parcel.Parcelize
 
 /**

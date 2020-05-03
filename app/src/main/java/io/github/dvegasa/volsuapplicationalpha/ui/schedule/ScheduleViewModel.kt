@@ -2,10 +2,14 @@ package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 
 import android.icu.text.TimeZoneFormat
 import android.os.Handler
+import android.text.method.TransformationMethod
 import android.util.Log
 import androidx.lifecycle.*
 import io.github.dvegasa.volsuapplicationalpha.dataprocessing.Time
 import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
+import io.github.dvegasa.volsuapplicationalpha.network.RequestStatus
+import io.github.dvegasa.volsuapplicationalpha.network.Status
+import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
 import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleRepo
 import io.github.dvegasa.volsuapplicationalpha.repos.ScheduleTimetable
 import io.github.dvegasa.volsuapplicationalpha.utils.default
@@ -19,41 +23,58 @@ class ScheduleViewModel : ViewModel() {
     private val scheduleRepo = ScheduleRepo()
     private val handler = Handler()
 
-    //////////// LiveData
-    val chosenTitle = MutableLiveData<Int>().default(0)
+    //////////// UI состояния
+    val chosenTitle = MutableLiveData<Int>(0)
+    val pickedDayweekTab = MutableLiveData<Int>(TimeCalculator.currentDayweek.value)
+    val isZnamPicked = MutableLiveData<Boolean>(false)
 
-    val weekSchedule = scheduleRepo.getFakeScheduleWeek()
-
-    val pickedDayweekTab = MutableLiveData<Int>().default(
-        TimeCalculator.currentDayweek.value
-    )
-
-    private val timerRunnable = object : Runnable {
-        override fun run() {
-            val subjes = weekSchedule.value!!.schedule(TimeCalculator.currentDayweek)
-            val t = if (isThisWeekZnam) subjes.znam else subjes.chis
-            val range = t.firstNonOknoIndex()..t.lastNonOknoIndex()
-
-            if (ScheduleTimetable.getSubjectIndexByTime(Time.current) in range) {
-                val delta = TimeCalculator.getTimerValue()
-                val v = if (delta >= 0) TimeCalculator.stringMin(delta) else ""
-                this@ScheduleViewModel.timeUntilSubjectEnd.postValue(v)
-            } else {
-                this@ScheduleViewModel.timeUntilSubjectEnd.postValue("")
-            }
-            handler.postDelayed(this, TIMER_DELAY_RATE)
-        }
-    }
-
-    val timeUntilSubjectEnd = MutableLiveData<String>().default("")
-
+    //////////// Объекты данных
+    private val weekScheduleRequestStatus = MutableLiveData<RequestStatus>()
+    private val weekSchedule = scheduleRepo.getScheduleWeek(weekScheduleRequestStatus)
     val isThisWeekZnam = false
 
-    fun startTimerUntilSubjectEnd() {
-        handler.postDelayed(timerRunnable, 0)
+    //////////// Представление объектов для UI
+    val scheduleByDayweek by lazy {
+        mapOf(
+            Dayweek.MONDAY to Transformations.map(weekSchedule) { it.monday },
+            Dayweek.TUESDAY to Transformations.map(weekSchedule) { it.tuesday },
+            Dayweek.WEDNESDAY to Transformations.map(weekSchedule) { it.wednesday },
+            Dayweek.THURSDAY to Transformations.map(weekSchedule) { it.thursday },
+            Dayweek.FRIDAY to Transformations.map(weekSchedule) { it.friday },
+            Dayweek.SATURDAY to Transformations.map(weekSchedule) { it.saturday }
+        )
     }
 
-    fun stopTimerUntilSubjectEnd() {
-        handler.removeCallbacks(timerRunnable)
+    val errorMessage: LiveData<String> = Transformations.map(weekScheduleRequestStatus) {
+        if (it.status == Status.ERROR) it.msg
+        else null
     }
+
+
+//    private val timerRunnable = object : Runnable {
+//        override fun run() {
+//            val subjes = weekSchedule.value!!.schedule(TimeCalculator.currentDayweek)
+//            val t = if (isThisWeekZnam) subjes.znam else subjes.chis
+//            val range = t.firstNonOknoIndex()..t.lastNonOknoIndex()
+//
+//            if (ScheduleTimetable.getSubjectIndexByTime(Time.current) in range) {
+//                val delta = TimeCalculator.getTimerValue()
+//                val v = if (delta >= 0) TimeCalculator.stringMin(delta) else ""
+//                this@ScheduleViewModel.timeUntilSubjectEnd.postValue(v)
+//            } else {
+//                this@ScheduleViewModel.timeUntilSubjectEnd.postValue("")
+//            }
+//            handler.postDelayed(this, TIMER_DELAY_RATE)
+//        }
+//    }
+//
+//    val timeUntilSubjectEnd = MutableLiveData<String>().default("")
+//
+//    fun startTimerUntilSubjectEnd() {
+//        handler.postDelayed(timerRunnable, 0)
+//    }
+//
+//    fun stopTimerUntilSubjectEnd() {
+//        handler.removeCallbacks(timerRunnable)
+//    }
 }

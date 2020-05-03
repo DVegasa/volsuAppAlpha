@@ -1,20 +1,51 @@
 package io.github.dvegasa.volsuapplicationalpha.repos
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import io.github.dvegasa.volsuapplicationalpha.MyApplication
+import io.github.dvegasa.volsuapplicationalpha.network.DataRequest
+import io.github.dvegasa.volsuapplicationalpha.network.RequestStatus
+import io.github.dvegasa.volsuapplicationalpha.network.VolsuNikitaApi
 import io.github.dvegasa.volsuapplicationalpha.pojos.ScheduleDay
 import io.github.dvegasa.volsuapplicationalpha.pojos.ScheduleWeek
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus
 import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectStatus.*
+import io.github.dvegasa.volsuapplicationalpha.pojos.web_responses.TimetableResponse
 import io.github.dvegasa.volsuapplicationalpha.utils.default
+import retrofit2.Call
 
 /**
  * Created by Ed Khalturin @DVegasa
  */
 class ScheduleRepo {
 
+    fun getScheduleWeek(requestStatus: MutableLiveData<RequestStatus>): LiveData<ScheduleWeek> {
+
+        return object : DataRequest<List<TimetableResponse>, ScheduleWeek>(requestStatus) {
+            override fun shouldFetch() = true
+
+            override fun getCachedData(): LiveData<ScheduleWeek> {
+                return MyApplication.instance.appDatabase.cacheDao().getScheduleWeek()
+            }
+
+            override fun getRetrofitCall(): Call<List<TimetableResponse>> {
+                return VolsuNikitaApi.create().getFakeTimetable()
+            }
+
+            override fun cacheResult(data: ScheduleWeek) {
+                MyApplication.instance.appDatabase.cacheDao().updateScheduleWeek(data)
+            }
+
+            override fun requestToResult(requst: List<TimetableResponse>): ScheduleWeek {
+                return TimetableResponse.getFake()
+            }
+
+        }.asLiveData()
+    }
+
     /* Fake */
-    fun getFakeScheduleWeek(): MutableLiveData<ScheduleWeek> {
+    fun getFakeScheduleWeek(): LiveData<ScheduleWeek> {
         val algl = "Алгебра и теория чисел (л)"
         val algp = "Алгебра и теория чисел (пр)"
         val infl = "Информатика и программирование"
