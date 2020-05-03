@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/llRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.schedule.ScheduleDayFragment"
-        android:id="@+id/llRoot">
+        tools:context=".ui.schedule.ScheduleDayFragment">
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/llSwitcher"
@@ -13,7 +13,9 @@
             android:layout_height="50dp"
             android:background="@color/colorAccent"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:visibility="gone"
+            android:weightSum="2"
+            tools:visibility="visible">
 
         <FrameLayout
                 android:id="@+id/flChis"
@@ -68,14 +70,16 @@
             layout="@layout/layout_starttime_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp" />
+            android:layout_marginTop="2dp"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
 
     <LinearLayout
+            android:id="@+id/llSubjectLines"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/llSubjectLines"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
 
 </LinearLayout>
