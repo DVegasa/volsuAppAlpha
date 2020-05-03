@@ -54,6 +54,7 @@ abstract class DataRequest
                         requestStatus.postValue(RequestStatus(Status.ERROR, errorStr))
                     }
                 } catch (e: IOException) {
+                    e.printStackTrace()
                     requestStatus.postValue(RequestStatus(Status.ERROR, "Не удалось соединиться"))
                 }
             }
