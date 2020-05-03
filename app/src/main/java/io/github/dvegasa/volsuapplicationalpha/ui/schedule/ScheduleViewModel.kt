@@ -31,7 +31,13 @@ class ScheduleViewModel : ViewModel() {
     //////////// Объекты данных
     private val weekScheduleRequestStatus = MutableLiveData<RequestStatus>()
     private val weekSchedule = scheduleRepo.getScheduleWeek(weekScheduleRequestStatus)
+
     val isThisWeekZnam = false
+
+    //////////// Состояния загрузки
+    val isDataLoading = Transformations.map(weekScheduleRequestStatus) {
+        it.status == Status.LOADING
+    }
 
     //////////// Представление объектов для UI
     val scheduleByDayweek by lazy {

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.FrameLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -12,9 +14,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.snackbar.Snackbar
 import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
+import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import kotlinx.android.synthetic.main.schedule_toolbar.*
 import kotlinx.android.synthetic.main.schedule_toolbar.view.*
@@ -26,6 +30,23 @@ class ScheduleFragment : Fragment() {
     }
 
     private lateinit var vm: ScheduleViewModel
+
+    private val loadingSnackbar by lazy {
+        Snackbar.make(clRoot, "Обновление...", Snackbar.LENGTH_LONG).apply {
+            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                setMargins(0, 0, 0, 100)
+            }
+        }
+    }
+
+    private fun errorSnackBar(msg: String): Snackbar {
+        return Snackbar.make(clRoot, msg, Snackbar.LENGTH_LONG).apply {
+            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
+                setMargins(0, 0, 0, 100)
+            }
+        }
+    }
+
 
     private val dayFragments = arrayOf(
         ScheduleDayFragment.newInstance(Dayweek.MONDAY),
@@ -49,6 +70,8 @@ class ScheduleFragment : Fragment() {
         initToolbar()
         initDayweekButtons()
         initVpProperties()
+        handleErrors()
+        handleLoading()
     }
 
     private fun initToolbar() {
@@ -114,6 +137,24 @@ class ScheduleFragment : Fragment() {
         flDayweek4.setOnClickListener(clickListener)
         flDayweek5.setOnClickListener(clickListener)
         flDayweek6.setOnClickListener(clickListener)
+    }
+
+    private fun handleErrors() {
+        vm.errorMessage.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                errorSnackBar(it).show()
+            }
+        })
+    }
+
+    private fun handleLoading() {
+        vm.isDataLoading.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                loadingSnackbar.show()
+            } else {
+                loadingSnackbar.dismiss()
+            }
+        })
     }
 
     private fun updateCurDayweekUi(selected: Int) {

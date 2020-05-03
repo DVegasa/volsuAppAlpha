@@ -54,5 +54,6 @@
                 android:paddingTop="6dp"
                 android:src="@drawable/ic_arrow_down"
                 tools:ignore="ContentDescription,RtlSymmetry" />
+
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>
