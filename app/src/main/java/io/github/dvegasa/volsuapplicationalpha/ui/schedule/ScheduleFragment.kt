@@ -1,11 +1,14 @@
 package io.github.dvegasa.volsuapplicationalpha.ui.schedule
 
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -18,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.dataprocessing.TimeCalculator
 import io.github.dvegasa.volsuapplicationalpha.pojos.Dayweek
+import io.github.dvegasa.volsuapplicationalpha.utils.color
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.schedule_fragment.*
 import kotlinx.android.synthetic.main.schedule_toolbar.*
@@ -36,14 +40,18 @@ class ScheduleFragment : Fragment() {
             view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
                 setMargins(0, 0, 0, 100)
             }
+            view.setBackgroundColor(context.color(R.color.colorPrimary))
+            setActionTextColor(context.color(android.R.color.white))
         }
     }
 
     private fun errorSnackBar(msg: String): Snackbar {
-        return Snackbar.make(clRoot, msg, Snackbar.LENGTH_LONG).apply {
+        return Snackbar.make(clRoot, msg, Snackbar.LENGTH_INDEFINITE).apply {
             view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
                 setMargins(0, 0, 0, 100)
             }
+            view.setBackgroundColor(context.color(R.color.colorPrimary))
+            setActionTextColor(context.color(android.R.color.white))
         }
     }
 
@@ -70,6 +78,7 @@ class ScheduleFragment : Fragment() {
         initToolbar()
         initDayweekButtons()
         initVpProperties()
+        initBottomTimer()
         handleErrors()
         handleLoading()
     }
@@ -139,6 +148,18 @@ class ScheduleFragment : Fragment() {
         flDayweek6.setOnClickListener(clickListener)
     }
 
+    private fun initBottomTimer() {
+        vm.bottomTimerText.observe(viewLifecycleOwner, Observer {
+            if (it == null) {
+                tvTimerContent.text = ""
+                tvTimerCaption.text = ""
+            } else {
+                tvTimerContent.text = "До конца пары"
+                tvTimerCaption.text = it
+            }
+        })
+    }
+
     private fun handleErrors() {
         vm.errorMessage.observe(viewLifecycleOwner, Observer {
             if (it != null) {
@@ -149,11 +170,7 @@ class ScheduleFragment : Fragment() {
 
     private fun handleLoading() {
         vm.isDataLoading.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                loadingSnackbar.show()
-            } else {
-                loadingSnackbar.dismiss()
-            }
+            toolbarProgressBar.visibility = if (it == true) View.VISIBLE else View.GONE
         })
     }
 

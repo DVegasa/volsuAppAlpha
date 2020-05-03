@@ -6,8 +6,8 @@
             android:id="@+id/menuScheduleTbView"
             android:icon="@drawable/ic_calendar_empty"
             android:orderInCategory="100"
-            app:showAsAction="ifRoom"
-            android:title="Отображение" />
+            android:title="Отображение"
+            app:showAsAction="ifRoom" />
 
 
 </menu>

@@ -45,7 +45,7 @@ class ScheduleDayFragment : Fragment() {
     private lateinit var dayweek: Dayweek
     private lateinit var vm: ScheduleViewModel
 
-    private lateinit var scheduleDay: LiveData<ScheduleDay>
+    private lateinit var scheduleDay: LiveData<ScheduleDay?>
 
 
     override fun onCreateView(
@@ -80,26 +80,29 @@ class ScheduleDayFragment : Fragment() {
     }
 
     private fun updateUI() {
-        defineChisZnamSwitcherVisibility()
-        val toShow =
-            (if (vm.isZnamPicked.value == true) scheduleDay.value?.znam
-            else scheduleDay.value?.chis)!!
+        if (scheduleDay.value != null) {
+            defineChisZnamSwitcherVisibility()
+            val toShow =
+                (if (vm.isZnamPicked.value == true) scheduleDay.value!!.znam
+                else scheduleDay.value!!.chis)
 
-        llSubjectLines.removeAllViews()
-        if (toShow.firstNonOknoIndex() < 0) {
-            llSubjectLines.addView(LayoutInflater.from(context)
-                .inflate(R.layout.layout_subject_line, llSubjectLines, false).apply {
-                    tvTitle.text = "В этот день пар нет"
-                })
-        } else {
-            addSubjects(toShow)
-        }
+            llSubjectLines.removeAllViews()
+            if (toShow.firstNonOknoIndex() < 0) {
+                llSubjectLines.addView(LayoutInflater.from(context)
+                    .inflate(R.layout.layout_subject_line, llSubjectLines, false).apply {
+                        tvTitle.text = "В этот день пар нет"
+                    })
+            } else {
+                addSubjects(toShow)
+            }
 
-        if (toShow.firstNonOknoIndex() >= 1) {
-            llStartTime.visibility = View.VISIBLE
-            tvTime.text = "Начало пар в ${ScheduleTimetable.subjStart[toShow.firstNonOknoIndex()]}"
-        } else {
-            llStartTime.visibility = View.GONE
+            if (toShow.firstNonOknoIndex() >= 1) {
+                llStartTime.visibility = View.VISIBLE
+                tvTime.text =
+                    "Начало пар в ${ScheduleTimetable.subjStart[toShow.firstNonOknoIndex()]}"
+            } else {
+                llStartTime.visibility = View.GONE
+            }
         }
     }
 

@@ -42,12 +42,12 @@ class ScheduleViewModel : ViewModel() {
     //////////// Представление объектов для UI
     val scheduleByDayweek by lazy {
         mapOf(
-            Dayweek.MONDAY to Transformations.map(weekSchedule) { it.monday },
-            Dayweek.TUESDAY to Transformations.map(weekSchedule) { it.tuesday },
-            Dayweek.WEDNESDAY to Transformations.map(weekSchedule) { it.wednesday },
-            Dayweek.THURSDAY to Transformations.map(weekSchedule) { it.thursday },
-            Dayweek.FRIDAY to Transformations.map(weekSchedule) { it.friday },
-            Dayweek.SATURDAY to Transformations.map(weekSchedule) { it.saturday }
+            Dayweek.MONDAY to Transformations.map(weekSchedule) { it?.monday},
+            Dayweek.TUESDAY to Transformations.map(weekSchedule) { it?.tuesday },
+            Dayweek.WEDNESDAY to Transformations.map(weekSchedule) { it?.wednesday },
+            Dayweek.THURSDAY to Transformations.map(weekSchedule) { it?.thursday },
+            Dayweek.FRIDAY to Transformations.map(weekSchedule) { it?.friday },
+            Dayweek.SATURDAY to Transformations.map(weekSchedule) { it?.saturday }
         )
     }
 
@@ -55,6 +55,8 @@ class ScheduleViewModel : ViewModel() {
         if (it.status == Status.ERROR) it.msg
         else null
     }
+
+    val bottomTimerText = MutableLiveData<String>(null)
 
 
 //    private val timerRunnable = object : Runnable {

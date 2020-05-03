@@ -16,6 +16,15 @@
         app:titleTextColor="#fff"
         tools:showIn="@layout/schedule_fragment">
 
+    <ProgressBar
+            android:id="@+id/toolbarProgressBar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminateTint="@android:color/white"
+            android:indeterminateTintMode="src_in"
+            android:layout_gravity="end"
+            />
+
     <RelativeLayout
             android:id="@+id/llSpintbArea"
             android:layout_width="wrap_content"
