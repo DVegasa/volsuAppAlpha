@@ -58,6 +58,9 @@ class ScheduleViewModel : ViewModel() {
 
     val bottomTimerText = MutableLiveData<String>(null)
 
+    fun requestUpdateScheduleWeek() {
+        scheduleRepo.getScheduleWeek(weekScheduleRequestStatus)
+    }
 
 //    private val timerRunnable = object : Runnable {
 //        override fun run() {

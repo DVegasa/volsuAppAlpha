@@ -4,12 +4,14 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -36,22 +38,27 @@ class ScheduleFragment : Fragment() {
     private lateinit var vm: ScheduleViewModel
 
     private val loadingSnackbar by lazy {
-        Snackbar.make(clRoot, "Обновление...", Snackbar.LENGTH_LONG).apply {
-            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                setMargins(0, 0, 0, 100)
-            }
+        Snackbar.make(vpContent, "Обновление...", Snackbar.LENGTH_LONG).apply {
             view.setBackgroundColor(context.color(R.color.colorPrimary))
             setActionTextColor(context.color(android.R.color.white))
         }
     }
 
-    private fun errorSnackBar(msg: String): Snackbar {
-        return Snackbar.make(clRoot, msg, Snackbar.LENGTH_INDEFINITE).apply {
-            view.layoutParams = (view.layoutParams as FrameLayout.LayoutParams).apply {
-                setMargins(0, 0, 0, 100)
-            }
-            view.setBackgroundColor(context.color(R.color.colorPrimary))
+    private val errorLoadingSnackbar by lazy {
+        Snackbar.make(
+            vpContent,
+            "Не удалось подключиться",
+            Snackbar.LENGTH_INDEFINITE
+        ).apply {
+            view.setBackgroundColor(context.color(R.color.colorTextRed))
             setActionTextColor(context.color(android.R.color.white))
+            val layoutParams = this.view.layoutParams as CoordinatorLayout.LayoutParams
+            layoutParams.anchorId = R.id.bottomnav
+            layoutParams.anchorGravity = Gravity.TOP
+            layoutParams.gravity = Gravity.TOP
+            this.view.layoutParams = layoutParams
+            setAction("Повторить") { vm.requestUpdateScheduleWeek() }
+            view.elevation = 2f
         }
     }
 
@@ -162,8 +169,12 @@ class ScheduleFragment : Fragment() {
 
     private fun handleErrors() {
         vm.errorMessage.observe(viewLifecycleOwner, Observer {
+            Log.d("ed__", "UI layer. errorMessage: $it")
             if (it != null) {
-                errorSnackBar(it).show()
+                errorLoadingSnackbar.show()
+                errorLoadingSnackbar.view.visibility = View.VISIBLE
+            } else {
+                errorLoadingSnackbar.view.visibility = View.GONE
             }
         })
     }
