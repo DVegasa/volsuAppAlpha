@@ -84,6 +84,7 @@ data class TimetableResponse(
 
     /* Fake */
     companion object {
+        @Deprecated("")
         fun getFake(): ScheduleWeek {
             val algl = "Алгебра и теория чисел (л)"
             val algp = "Алгебра и теория чисел (пр)"

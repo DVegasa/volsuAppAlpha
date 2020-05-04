@@ -1,6 +1,5 @@
 package io.github.dvegasa.volsuapplicationalpha.network
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
@@ -99,8 +98,8 @@ abstract class DataRequest
     abstract fun cacheResult(data: ResultType)
 
     /**
-     * Адаптирует объект, полученный из интернета ([requst]) в объект, который будет использоваться
+     * Адаптирует объект, полученный из интернета ([request]) в объект, который будет использоваться
      * вдальнейшем внутри приложения ([ResultType])
      */
-    abstract fun requestToResult(requst: RequestType): ResultType
+    abstract fun requestToResult(request: RequestType): ResultType
 }

@@ -1,5 +1,6 @@
 package io.github.dvegasa.volsuapplicationalpha.repos
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.github.dvegasa.volsuapplicationalpha.MyApplication
@@ -37,8 +38,77 @@ class ScheduleRepo {
                 MyApplication.instance.appDatabase.cacheDao().updateScheduleWeek(data)
             }
 
-            override fun requestToResult(requst: List<TimetableResponse>): ScheduleWeek {
-                return TimetableResponse.getFake()
+            override fun requestToResult(request: List<TimetableResponse>): ScheduleWeek {
+                val cells = request[0].timetable[0].cells
+
+                val dayweekMapChis = mutableMapOf<Int, Array<SubjectSchedule>>()
+                val dayweekMapZnam = mutableMapOf<Int, Array<SubjectSchedule>>()
+
+                for (dayweekIndex in 0..5) {
+                    dayweekMapChis[dayweekIndex] = Array(7) { SubjectSchedule.none }
+                    dayweekMapZnam[dayweekIndex] = Array(7) { SubjectSchedule.none }
+                }
+
+                for (cell in cells) {
+                    val dayweekIndex = cell.time[0].day.toInt()
+                    val pairSlot = cell.time[0].pair.toInt()
+
+                    val subjectTitle = cell.lesson[0].discipline[0].name
+                    val teacherName = cell.lesson[0].teacher[0].name
+                    val audi = cell.lesson[0].room[0].name
+
+                    val subjScheduleChis = SubjectSchedule(subjectTitle, teacherName, audi)
+                    dayweekMapChis[dayweekIndex]?.set(pairSlot, subjScheduleChis)
+
+                    val secondIndex = if (cell.lesson.size == 1) 0 else 1
+
+                    val subjectTitleZnam = cell.lesson[secondIndex].discipline[0].name
+                    val teacherNameZnam = cell.lesson[secondIndex].teacher[0].name
+                    val audiZnam = cell.lesson[secondIndex].room[0].name
+
+                    val subjScheduleZnam =
+                        SubjectSchedule(subjectTitleZnam, teacherNameZnam, audiZnam)
+                    dayweekMapZnam[dayweekIndex]?.set(pairSlot, subjScheduleZnam)
+
+                }
+
+                val isChisSubjectEqualZnam = Array(6) { true }
+
+                outside@ for (dayweekIndex in 0..5) {
+                    for (pairSlot in 0..6) {
+                        if (dayweekMapZnam[dayweekIndex]?.get(pairSlot)!!
+                            != dayweekMapChis[dayweekIndex]?.get(pairSlot)
+                        ) {
+                            isChisSubjectEqualZnam[dayweekIndex] = false
+                            continue@outside
+                        }
+                    }
+                }
+
+                val scheduleWeekList = arrayListOf<ScheduleDay>()
+                for (dayweekIndex in 0..5) {
+                    val scheduleDay: ScheduleDay
+                    if (isChisSubjectEqualZnam[dayweekIndex]) {
+                        scheduleDay = ScheduleDay(
+                            chis = ArrayList(dayweekMapChis[dayweekIndex]!!.toList())
+                        )
+                    } else {
+                        scheduleDay = ScheduleDay(
+                            chis = ArrayList(dayweekMapChis[dayweekIndex]!!.toList()),
+                            znam = ArrayList(dayweekMapZnam[dayweekIndex]!!.toList())
+                        )
+                    }
+                    scheduleWeekList.add(scheduleDay)
+                }
+
+                return ScheduleWeek(
+                    scheduleWeekList[0],
+                    scheduleWeekList[1],
+                    scheduleWeekList[2],
+                    scheduleWeekList[3],
+                    scheduleWeekList[4],
+                    scheduleWeekList[5]
+                )
             }
 
         }.asLiveData()
