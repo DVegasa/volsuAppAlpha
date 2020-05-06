@@ -156,13 +156,13 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun initBottomTimer() {
-        vm.bottomTimerText.observe(viewLifecycleOwner, Observer {
+        vm.timeUntilSubjectEnd.observe(viewLifecycleOwner, Observer {
             if (it == null) {
                 tvTimerContent.text = ""
                 tvTimerCaption.text = ""
             } else {
-                tvTimerContent.text = "До конца пары"
-                tvTimerCaption.text = it
+                tvTimerCaption.text = "До конца пары"
+                tvTimerContent.text = it
             }
         })
     }
