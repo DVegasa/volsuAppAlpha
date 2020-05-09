@@ -2,9 +2,8 @@ package io.github.dvegasa.volsuapplicationalpha.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import io.github.dvegasa.volsuapplicationalpha.pojos.ScheduleWeek
+import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleWeek
 
 /**
  * Created by Ed Khalturin @DVegasa

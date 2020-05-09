@@ -1,7 +1,6 @@
 package io.github.dvegasa.volsuapplicationalpha.network
 
-import androidx.lifecycle.MutableLiveData
-import io.github.dvegasa.volsuapplicationalpha.pojos.web_responses.TimetableResponse
+import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.TimetableResponse
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

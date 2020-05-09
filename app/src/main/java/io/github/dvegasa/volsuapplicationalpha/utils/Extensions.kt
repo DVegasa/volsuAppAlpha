@@ -1,11 +1,9 @@
 package io.github.dvegasa.volsuapplicationalpha.utils
 
-import android.app.Application
 import android.content.Context
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.MutableLiveData
-import io.github.dvegasa.volsuapplicationalpha.R
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
+import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.SubjectSchedule
 
 /**
  * Created by Ed Khalturin @DVegasa

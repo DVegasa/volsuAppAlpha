@@ -2,10 +2,7 @@ package io.github.dvegasa.volsuapplicationalpha.db
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import io.github.dvegasa.volsuapplicationalpha.pojos.ScheduleDay
-import io.github.dvegasa.volsuapplicationalpha.pojos.SubjectSchedule
-import java.lang.reflect.Type
+import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleDay
 
 
 /**

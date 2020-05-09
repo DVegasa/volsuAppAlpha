@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.schedule.ScheduleDayFragment">
+        tools:context=".feature.schedule.ui.ScheduleDayFragment">
 
     <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/llSwitcher"

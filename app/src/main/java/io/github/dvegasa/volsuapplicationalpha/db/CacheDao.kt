@@ -2,8 +2,8 @@ package io.github.dvegasa.volsuapplicationalpha.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import io.github.dvegasa.volsuapplicationalpha.pojos.SCHEDULE_WEEK_TABLE_NAME
-import io.github.dvegasa.volsuapplicationalpha.pojos.ScheduleWeek
+import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.SCHEDULE_WEEK_TABLE_NAME
+import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleWeek
 
 /**
  * Created by Ed Khalturin @DVegasa
