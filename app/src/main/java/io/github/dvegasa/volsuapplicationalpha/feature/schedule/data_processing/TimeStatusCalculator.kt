@@ -26,6 +26,7 @@ class TimeStatusCalculator(
     init {
         weekSchedule.observeForever {
             ldExport.value = weekSchedule.value?.schedule(dayweek)
+            initStartTimes()
         }
     }
 
@@ -33,23 +34,23 @@ class TimeStatusCalculator(
         return ldExport
     }
 
-//    private fun initStartTimes() {
-//        ldExport.value?.let { day ->
-//            if (day.chis.isNotEmpty()) {
-//                Log.d("ed__", day.chis.toString())
-//                val slot = day.chis.sorted()[0].slot
-//                day.nonTrivialStartTimeChis =
-//                    if (slot != 0) ScheduleTimetable.subjStart[slot] else null
-//            }
-//
-//            if (day.znam?.isNotEmpty() == true) {
-//                val slot2 = day.znam.sorted()[0].slot
-//                day.nonTrivialStartTimeZnam =
-//                    if (slot2 != 0) ScheduleTimetable.subjStart[slot2] else null
-//            }
-//        }
-//        ldExport.value = ldExport.value
-//    }
+    private fun initStartTimes() {
+        ldExport.value?.let { day ->
+            if (day.chis.isNotEmpty()) {
+                Log.d("ed__", day.chis.toString())
+                val slot = day.chis.sorted()[0].slot
+                day.nonTrivialStartTimeChis =
+                    if (slot != 0) ScheduleTimetable.subjStart[slot] else null
+            }
+
+            if (day.znam?.isNotEmpty() == true) {
+                val slot2 = day.znam.sorted()[0].slot
+                day.nonTrivialStartTimeZnam =
+                    if (slot2 != 0) ScheduleTimetable.subjStart[slot2] else null
+            }
+        }
+        ldExport.value = ldExport.value
+    }
 //
 //    private fun startTimeStatusesTimer() {
 //        handler.post(timeStatusRunnable)
