@@ -149,7 +149,7 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun initBottomTimer() {
-        vm.timeUntilSubjectEnd.observe(viewLifecycleOwner, Observer {
+        vm.bottomTimerText.observe(viewLifecycleOwner, Observer {
             if (it == null) {
                 tvTimerContent.text = ""
                 tvTimerCaption.text = ""
@@ -191,11 +191,7 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun initVpProperties() {
-        val adapter =
-            VpContentPagerAdapter(
-                childFragmentManager,
-                dayFragments
-            )
+        val adapter = VpContentPagerAdapter(childFragmentManager, dayFragments)
         vpContent.adapter = adapter
 
         vpContent.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

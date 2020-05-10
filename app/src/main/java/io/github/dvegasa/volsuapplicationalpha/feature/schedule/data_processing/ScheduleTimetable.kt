@@ -11,65 +11,23 @@ const val IN_BREAK = -10
 
 object ScheduleTimetable {
     val subjStart = arrayOf(
-        Time(
-            8,
-            30
-        ),
-        Time(
-            10,
-            10
-        ),
-        Time(
-            12,
-            0
-        ),
-        Time(
-            13,
-            40
-        ),
-        Time(
-            15,
-            20
-        ),
-        Time(
-            17,
-            0
-        ),
-        Time(
-            18,
-            40
-        )
+        Time(8, 30),
+        Time(10, 10),
+        Time(12, 0),
+        Time(13, 40),
+        Time(15, 20),
+        Time(17, 0),
+        Time(18, 40)
     )
 
     val subjEnd = arrayOf(
-        Time(
-            10,
-            0
-        ),
-        Time(
-            11,
-            40
-        ),
-        Time(
-            13,
-            30
-        ),
-        Time(
-            15,
-            10
-        ),
-        Time(
-            16,
-            50
-        ),
-        Time(
-            18,
-            30
-        ),
-        Time(
-            20,
-            10
-        )
+        Time(10, 0),
+        Time(11, 40),
+        Time(13, 30),
+        Time(15, 10),
+        Time(16, 50),
+        Time(18, 30),
+        Time(20, 10)
     )
 
     fun getSubjectIndexByTime(t: Time): Int {
@@ -80,5 +38,4 @@ object ScheduleTimetable {
         if (t.isAfter(subjEnd[subjEnd.lastIndex])) return AFTER_SUBJECTS
         return IN_BREAK
     }
-
 }

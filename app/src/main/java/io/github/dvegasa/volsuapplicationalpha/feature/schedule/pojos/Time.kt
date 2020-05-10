@@ -1,5 +1,8 @@
 package io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos
 
+import android.os.Parcelable
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.abs
@@ -7,33 +10,30 @@ import kotlin.math.abs
 /**
  * Created by Ed Khalturin @DVegasa
  */
+@Parcelize
 data class Time(
     val h: Int,
     val m: Int
-) {
+): Parcelable {
     companion object {
-
         val hh = SimpleDateFormat("HH", Locale.getDefault())
         val mm = SimpleDateFormat("mm", Locale.getDefault())
 
         val current: Time
             get() {
-                // /* Fake */ return Time(11, 44)
+                 /* Fake */ return Time(11, 44)
 
                 val t = Calendar.getInstance().time
 
                 val h = hh.format(t).toInt()
                 val m = mm.format(t).toInt()
-                return Time(
-                    h,
-                    m
-                )
+                return Time(h, m)
                 /**
                  * TODO[!]: Потенциально опасное место переполнения памяти (создание нового объекта Time() при каждом обращении к Time.current)
                  * Вместо выдачи одного объекта с текущим временем, при каждом вызове данного метода
                  * происходит постоянное создание нового объекта. И хотя, при анонимных созданиях
                  * сборщик мусора Java справляется с их очисткой, стоит иметь ввиду что данный код
-                 * может (но не обязательно) ухудшать производительность.
+                 * может (но не обязательно будет) ухудшать производительность.
                  */
             }
 
@@ -47,6 +47,7 @@ data class Time(
         }
     }
 
+    @IgnoredOnParcel
     val mins: Int = (h * 60) + m
 
     fun delta(t: Time) = abs(this.mins - t.mins)
