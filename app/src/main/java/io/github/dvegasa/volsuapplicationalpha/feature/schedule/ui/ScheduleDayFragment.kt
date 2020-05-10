@@ -80,7 +80,7 @@ class ScheduleDayFragment : Fragment() {
     private fun updateUI() {
         scheduleDay.value?.let {
             val isZnam = vm.isZnamPicked.value == true
-            val toShow = (if (isZnam) it.znam else it.chis)!!
+            val toShow = (if (isZnam) it.znam ?: it.chis else it.chis)
             val nonTrivialStartTime =
                 if (isZnam) it.nonTrivialStartTimeZnam
                 else it.nonTrivialStartTimeChis
@@ -132,37 +132,37 @@ class ScheduleDayFragment : Fragment() {
                 v.tvSubtitle.text = s.teacher
             }
 
-            displayTimeStatus(s, v)
+//            displayTimeStatus(s, v)
             llSubjectLines.addView(v)
         }
     }
 
-    private fun displayTimeStatus(s: ScheduleSubject, v: View) {
-        v.flOngoing.visibility = View.INVISIBLE
-        with(v) {
-            when (s.timeStatus) {
-                TimeStatus.PAST -> {
-                    val c = context.color(R.color.colorSubjSkipped)
-                    tvTitle.setTextColor(c)
-                    tvSubtitle.setTextColor(c)
-                    tvAudi.setTextColor(c)
-                }
-                TimeStatus.ONGOING -> {
-                    flOngoing.visibility = View.VISIBLE
-                }
-                TimeStatus.COMING -> {
-                    tvSubtitle.setTextColor(context.color(R.color.colorAccent))
-                    tvSubtitle.text = s.timeStatusMsg
-                }
-                TimeStatus.FUTURE -> {
-                    val c = context.color(android.R.color.black)
-                    tvTitle.setTextColor(c)
-                    tvSubtitle.setTextColor(c)
-                    tvAudi.setTextColor(c)
-                }
-            }
-        }
-    }
+//    private fun displayTimeStatus(s: ScheduleSubject, v: View) {
+//        v.flOngoing.visibility = View.INVISIBLE
+//        with(v) {
+//            when (s.timeStatus) {
+//                TimeStatus.PAST -> {
+//                    val c = context.color(R.color.colorSubjSkipped)
+//                    tvTitle.setTextColor(c)
+//                    tvSubtitle.setTextColor(c)
+//                    tvAudi.setTextColor(c)
+//                }
+//                TimeStatus.ONGOING -> {
+//                    flOngoing.visibility = View.VISIBLE
+//                }
+//                TimeStatus.COMING -> {
+//                    tvSubtitle.setTextColor(context.color(R.color.colorAccent))
+//                    tvSubtitle.text = s.timeStatusMsg
+//                }
+//                TimeStatus.FUTURE -> {
+//                    val c = context.color(android.R.color.black)
+//                    tvTitle.setTextColor(c)
+//                    tvSubtitle.setTextColor(c)
+//                    tvAudi.setTextColor(c)
+//                }
+//            }
+//        }
+//    }
 
 
     private fun activateChisUISwitcher() {
