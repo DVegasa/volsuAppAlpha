@@ -2,11 +2,10 @@ package io.github.dvegasa.volsuapplicationalpha.feature.rating
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.github.dvegasa.volsuapplicationalpha.utils.default
 
 class RatingViewModel : ViewModel() {
 
-    val chosenSemestr = MutableLiveData<Int>().default(2).apply {
+    val chosenSemestr = MutableLiveData(2).apply {
         observeForever {
             // TODO Загрузить рейтинг для данного семестра
         }

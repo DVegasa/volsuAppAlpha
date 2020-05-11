@@ -2,29 +2,24 @@ package io.github.dvegasa.volsuapplicationalpha.feature.schedule.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-
 import io.github.dvegasa.volsuapplicationalpha.R
-import io.github.dvegasa.volsuapplicationalpha.feature.schedule.data_processing.ScheduleTimetable
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.ScheduleViewModel
+import io.github.dvegasa.volsuapplicationalpha.feature.schedule.data_processing.ScheduleTimetable
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.Dayweek
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleDay
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleSubject
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.TimeStatus
 import io.github.dvegasa.volsuapplicationalpha.utils.color
-import io.github.dvegasa.volsuapplicationalpha.utils.firstNonOknoIndex
-import io.github.dvegasa.volsuapplicationalpha.utils.lastNonOknoIndex
 import kotlinx.android.synthetic.main.layout_starttime_line.*
 import kotlinx.android.synthetic.main.layout_subject_line.view.*
 import kotlinx.android.synthetic.main.schedule_day_fragment.*
-import kotlin.collections.ArrayList
 
 const val DAYWEEK_KEY = "dayweek_key"
 

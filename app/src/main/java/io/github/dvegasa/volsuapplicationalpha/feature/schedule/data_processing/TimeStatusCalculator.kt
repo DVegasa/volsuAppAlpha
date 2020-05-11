@@ -3,9 +3,7 @@ package io.github.dvegasa.volsuapplicationalpha.feature.schedule.data_processing
 import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.*
 
 /**

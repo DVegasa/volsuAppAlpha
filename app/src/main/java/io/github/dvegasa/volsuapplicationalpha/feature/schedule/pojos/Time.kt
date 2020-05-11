@@ -16,8 +16,8 @@ data class Time(
     val m: Int
 ): Parcelable {
     companion object {
-        val hh = SimpleDateFormat("HH", Locale.getDefault())
-        val mm = SimpleDateFormat("mm", Locale.getDefault())
+        private val hh = SimpleDateFormat("HH", Locale.getDefault())
+        private val mm = SimpleDateFormat("mm", Locale.getDefault())
 
         val current: Time
             get() {

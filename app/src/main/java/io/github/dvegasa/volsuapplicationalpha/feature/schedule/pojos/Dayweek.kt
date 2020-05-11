@@ -19,13 +19,13 @@ enum class Dayweek(val value: Int) : Parcelable {
             get() {
                 // /*Fake*/ return Dayweek.THURSDAY
                 return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
-                    Calendar.MONDAY -> Dayweek.MONDAY
-                    Calendar.TUESDAY -> Dayweek.TUESDAY
-                    Calendar.WEDNESDAY -> Dayweek.WEDNESDAY
-                    Calendar.THURSDAY -> Dayweek.THURSDAY
-                    Calendar.FRIDAY -> Dayweek.FRIDAY
-                    Calendar.SATURDAY -> Dayweek.SATURDAY
-                    else -> Dayweek.SUNDAY
+                    Calendar.MONDAY -> MONDAY
+                    Calendar.TUESDAY -> TUESDAY
+                    Calendar.WEDNESDAY -> WEDNESDAY
+                    Calendar.THURSDAY -> THURSDAY
+                    Calendar.FRIDAY -> FRIDAY
+                    Calendar.SATURDAY -> SATURDAY
+                    else -> SUNDAY
                 }
             }
 

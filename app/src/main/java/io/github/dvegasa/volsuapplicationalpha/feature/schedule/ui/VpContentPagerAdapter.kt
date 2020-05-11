@@ -2,7 +2,6 @@ package io.github.dvegasa.volsuapplicationalpha.feature.schedule.ui
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import io.github.dvegasa.volsuapplicationalpha.feature.schedule.ui.ScheduleDayFragment
 
 
 /**

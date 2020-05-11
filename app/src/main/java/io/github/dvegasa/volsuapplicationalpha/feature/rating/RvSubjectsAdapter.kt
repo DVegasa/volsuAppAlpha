@@ -67,7 +67,7 @@ class RvSubjectsAdapter(lifecycleOwner: LifecycleOwner, list: MutableLiveData<Ar
         holder.bind(position)
     }
 
-    inner class VH(val v: View) : RecyclerView.ViewHolder(v) {
+    inner class VH(private val v: View) : RecyclerView.ViewHolder(v) {
         fun bind(pos: Int) {
             if (pos == visibleSubjects.size) {
                 initHiddenTitle(v)

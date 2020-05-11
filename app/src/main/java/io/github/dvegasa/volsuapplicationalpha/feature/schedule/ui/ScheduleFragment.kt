@@ -30,13 +30,6 @@ class ScheduleFragment : Fragment() {
 
     private lateinit var vm: ScheduleViewModel
 
-    private val loadingSnackbar by lazy {
-        Snackbar.make(vpContent, "Обновление...", Snackbar.LENGTH_LONG).apply {
-            view.setBackgroundColor(context.color(R.color.colorPrimary))
-            setActionTextColor(context.color(android.R.color.white))
-        }
-    }
-
     private val errorLoadingSnackbar by lazy {
         Snackbar.make(
             vpContent,

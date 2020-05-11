@@ -1,7 +1,6 @@
 package io.github.dvegasa.volsuapplicationalpha.feature.rating
 
 import androidx.lifecycle.MutableLiveData
-import io.github.dvegasa.volsuapplicationalpha.utils.default
 
 /**
  * Created by Ed Khalturin @DVegasa
@@ -22,7 +21,7 @@ class RatingRepo {
         val r6 = arrayListOf(14, 21, 21, 14, 14, 14, 14, 14, 7, 7, 7, 7, 7, 0, 0)
         val r7 = arrayListOf(75, 55, 77, 74, 78, 96, 56, 46, 67, 67, 75, 44, 0, 0, 0)
 
-        return MutableLiveData<ArrayList<SubjectRating>>().default(
+        return MutableLiveData<ArrayList<SubjectRating>>(
             arrayListOf(
                 SubjectRating(
                     "Алгебра и теория чисел",

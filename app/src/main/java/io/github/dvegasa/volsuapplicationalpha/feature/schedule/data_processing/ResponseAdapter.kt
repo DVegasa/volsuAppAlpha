@@ -1,6 +1,5 @@
 package io.github.dvegasa.volsuapplicationalpha.feature.schedule.data_processing
 
-import android.util.Log
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.*
 
 /**
@@ -100,18 +99,16 @@ class ResponseAdapter(private val timetableResponse: TimetableResponse) {
         val scheduleWeekList = arrayListOf<ScheduleDay>()
         for (dayweekValue in 1..6) {
             val scheduleDay: ScheduleDay
-            if (isChisSubjectEqualZnam[dayweekValue - 1]) {
-                scheduleDay =
-                    ScheduleDay(
-                        chis = ArrayList(dayweekMapChis[Dayweek.byValue(dayweekValue)]!!.toList().sorted()),
-                        znam = null
-                    )
+            scheduleDay = if (isChisSubjectEqualZnam[dayweekValue - 1]) {
+                ScheduleDay(
+                    chis = ArrayList(dayweekMapChis[Dayweek.byValue(dayweekValue)]!!.toList().sorted()),
+                    znam = null
+                )
             } else {
-                scheduleDay =
-                    ScheduleDay(
-                        chis = ArrayList(dayweekMapChis[Dayweek.byValue(dayweekValue)]!!.toList().sorted()),
-                        znam = ArrayList(dayweekMapZnam[Dayweek.byValue(dayweekValue)]!!.toList().sorted())
-                    )
+                ScheduleDay(
+                    chis = ArrayList(dayweekMapChis[Dayweek.byValue(dayweekValue)]!!.toList().sorted()),
+                    znam = ArrayList(dayweekMapZnam[Dayweek.byValue(dayweekValue)]!!.toList().sorted())
+                )
             }
             scheduleWeekList.add(scheduleDay)
         }

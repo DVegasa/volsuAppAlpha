@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleSubject
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.Time
-import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.TimeStatus
 
 /**
  * Created by Ed Khalturin @DVegasa

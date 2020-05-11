@@ -76,13 +76,13 @@ class Statistics {
             }
         }
 
-        fun getTercelBordersIndicies(subj: SubjectRating): Array<Int> {
+        private fun getTercelBordersIndicies(subj: SubjectRating): Array<Int> {
             val iFirst = subj.rates.size - (subj.rates.size / 3)
             val iSecond = subj.rates.size - (subj.rates.size / 3 * 2)
             return arrayOf(iFirst, iSecond)
         }
 
-        fun getSufficientRate(subj: SubjectRating): Int {
+        private fun getSufficientRate(subj: SubjectRating): Int {
             return when {
                 subj.ekzamen.contains("Экзамен") -> 91
                 subj.ekzamen.contains("Зачет с оценкой") -> 91
