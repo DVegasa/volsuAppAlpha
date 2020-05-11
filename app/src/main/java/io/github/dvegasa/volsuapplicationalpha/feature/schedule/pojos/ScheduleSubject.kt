@@ -29,8 +29,6 @@ data class ScheduleSubject(
     fun isOkno() = title == "-"
 
     override fun compareTo(other: ScheduleSubject): Int {
-        if (this.dayweek.value < other.dayweek.value) return -1
-        if (this.dayweek.value > other.dayweek.value) return 1
         if (this.slot < other.slot) return -1
         if (this.slot > other.slot) return 1
         return 0

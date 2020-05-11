@@ -2,6 +2,7 @@ package io.github.dvegasa.volsuapplicationalpha.feature.schedule.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -58,11 +59,11 @@ class ScheduleDayFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         vm = ViewModelProvider(activity!!).get(ScheduleViewModel::class.java)
-        scheduleDay = (vm.scheduleByDayweek[dayweek]).apply {
-            this!!.observe(viewLifecycleOwner, Observer {
-                if (it != null) updateUI()
+        scheduleDay = vm.scheduleByDayweek.getValue(dayweek).apply {
+            observe(viewLifecycleOwner, Observer {
+                updateUI()
             })
-        }!!
+        }
 
         flChis.setOnClickListener { vm.isZnamPicked.value = false }
         flZnam.setOnClickListener { vm.isZnamPicked.value = true }
@@ -131,38 +132,39 @@ class ScheduleDayFragment : Fragment() {
                 v.tvTitle.text = s.title
                 v.tvSubtitle.text = s.teacher
             }
+            v.tvSubtitle.text = v.tvSubtitle.text.toString() + "slot: ${s.slot}"
 
-//            displayTimeStatus(s, v)
+            displayTimeStatus(s, v)
             llSubjectLines.addView(v)
         }
     }
 
-//    private fun displayTimeStatus(s: ScheduleSubject, v: View) {
-//        v.flOngoing.visibility = View.INVISIBLE
-//        with(v) {
-//            when (s.timeStatus) {
-//                TimeStatus.PAST -> {
-//                    val c = context.color(R.color.colorSubjSkipped)
-//                    tvTitle.setTextColor(c)
-//                    tvSubtitle.setTextColor(c)
-//                    tvAudi.setTextColor(c)
-//                }
-//                TimeStatus.ONGOING -> {
-//                    flOngoing.visibility = View.VISIBLE
-//                }
-//                TimeStatus.COMING -> {
-//                    tvSubtitle.setTextColor(context.color(R.color.colorAccent))
-//                    tvSubtitle.text = s.timeStatusMsg
-//                }
-//                TimeStatus.FUTURE -> {
-//                    val c = context.color(android.R.color.black)
-//                    tvTitle.setTextColor(c)
-//                    tvSubtitle.setTextColor(c)
-//                    tvAudi.setTextColor(c)
-//                }
-//            }
-//        }
-//    }
+    private fun displayTimeStatus(s: ScheduleSubject, v: View) {
+        v.flOngoing.visibility = View.INVISIBLE
+        with(v) {
+            when (s.timeStatus) {
+                TimeStatus.PAST -> {
+                    val c = context.color(R.color.colorSubjSkipped)
+                    tvTitle.setTextColor(c)
+                    tvSubtitle.setTextColor(c)
+                    tvAudi.setTextColor(c)
+                }
+                TimeStatus.ONGOING -> {
+                    flOngoing.visibility = View.VISIBLE
+                }
+                TimeStatus.COMING -> {
+                    tvSubtitle.setTextColor(context.color(R.color.colorAccent))
+                    tvSubtitle.text = s.timeStatusMsg
+                }
+                TimeStatus.FUTURE -> {
+                    val c = context.color(android.R.color.black)
+                    tvTitle.setTextColor(c)
+                    tvSubtitle.setTextColor(c)
+                    tvAudi.setTextColor(c)
+                }
+            }
+        }
+    }
 
 
     private fun activateChisUISwitcher() {

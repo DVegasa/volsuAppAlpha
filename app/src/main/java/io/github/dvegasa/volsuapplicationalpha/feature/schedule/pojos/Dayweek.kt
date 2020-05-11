@@ -17,7 +17,7 @@ enum class Dayweek(val value: Int) : Parcelable {
     companion object {
         val current: Dayweek
             get() {
-                 /* Fake */ return Dayweek.WEDNESDAY
+                // /* Fake */ return Dayweek.THURSDAY
                 return when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
                     Calendar.MONDAY -> Dayweek.MONDAY
                     Calendar.TUESDAY -> Dayweek.TUESDAY

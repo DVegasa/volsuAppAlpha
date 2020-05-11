@@ -27,6 +27,7 @@ class TimeStatusCalculator(
         weekSchedule.observeForever {
             ldExport.value = weekSchedule.value?.schedule(dayweek)
             initStartTimes()
+            startTimeStatusesTimer()
         }
     }
 
@@ -51,63 +52,73 @@ class TimeStatusCalculator(
         }
         ldExport.value = ldExport.value
     }
-//
-//    private fun startTimeStatusesTimer() {
-//        handler.post(timeStatusRunnable)
-//    }
-//
-//    private fun stopTimeStatusesTimer() {
-//        handler.removeCallbacks(timeStatusRunnable)
-//    }
-//
-//    private val timeStatusRunnable = object : Runnable {
-//        override fun run() {
-//            val curTime = Time.current
-//            val curDayweek = Dayweek.current
-//
-//            for (subj in ldExport.value!!.chis) { // Назначаем для числительных предметов
-//                if (subj.dayweek != curDayweek) { // Не сегодняшний день недели
-//                    subj.timeStatus = TimeStatus.FUTURE
-//                    continue
-//                }
-//
-//                if (scheduleRepo.isThisWeekZnam()) { // Сегодня знаментаельная неделя
-//                    subj.timeStatus = TimeStatus.FUTURE
-//                    continue
-//                }
-//                // На данном этапе работаем с сегодняшними уроками
-//                val startTime = ScheduleTimetable.subjStart[subj.slot]
-//                val endTime = ScheduleTimetable.subjEnd[subj.slot]
-//
-//                // Для первого урока статус COMING будет поставлен за 10 минут до его начала
-//                val prevSubjEndTime =
-//                    if (subj.slot == 0) Time.fromMins(startTime.mins - 10)
-//                    else ScheduleTimetable.subjEnd[subj.slot - 1]
-//
-//                if (curTime.isBetween(prevSubjEndTime, startTime)) {
-//                    subj.timeStatus = TimeStatus.COMING
-//                    subj.timeStatusMsg = getComingText(startTime.delta(curTime))
-//                    continue
-//                }
-//
-//                if (curTime.isBefore(startTime)) {
-//                    subj.timeStatus = TimeStatus.FUTURE
-//                    continue
-//                }
-//
-//                if (curTime.isBetween(startTime, endTime)) {
-//                    subj.timeStatus = TimeStatus.ONGOING
-//                    continue
-//                }
-//
-//                if (curTime.isAfter(endTime)) {
-//                    subj.timeStatus = TimeStatus.PAST
-//                    continue
-//                }
-//            }
-//            handler.postDelayed(this, TIMER_DELAY_RATE)
-//        }
-//    }
+
+    private fun startTimeStatusesTimer() {
+        handler.post(timeStatusRunnable)
+    }
+
+    private fun stopTimeStatusesTimer() {
+        handler.removeCallbacks(timeStatusRunnable)
+    }
+
+    private val timeStatusRunnable = object : Runnable {
+        override fun run() {
+            for (subj in ldExport.value!!.chis) { // Назначаем для числ предметов
+                defineSubjTimeStatus(subj, isSubjZnam = false)
+            }
+            if (ldExport.value!!.znam != null) { // Назначаем для знам предметов
+                for (subj in ldExport.value!!.znam!!) {
+                    defineSubjTimeStatus(subj, isSubjZnam = true)
+                }
+            }
+            ldExport.value = ldExport.value
+            handler.postDelayed(this, TIMER_DELAY_RATE)
+        }
+    }
+
+    private fun defineSubjTimeStatus(subj: ScheduleSubject, isSubjZnam: Boolean) {
+        val curTime = Time.current
+        val curDayweek = Dayweek.current
+        if (subj.dayweek != curDayweek) { // Не сегодняшний день недели
+            subj.timeStatus = TimeStatus.FUTURE
+            return
+        }
+
+        if (isSubjZnam != scheduleRepo.isThisWeekZnam()) { // Сегодня знаментаельная неделя
+            subj.timeStatus = TimeStatus.FUTURE
+            return
+        }
+        // На данном этапе работаем с сегодняшними уроками
+        val startTime = ScheduleTimetable.subjStart[subj.slot]
+        val endTime = ScheduleTimetable.subjEnd[subj.slot]
+
+        // Для первого урока статус COMING будет поставлен за 10 минут до его начала
+        val prevSubjEndTime =
+            if (subj.slot == 0) Time.fromMins(startTime.mins - 10)
+            else ScheduleTimetable.subjEnd[subj.slot - 1]
+
+        Log.d("ed__", "TimeIssue:\nprevSubjEndTime:$prevSubjEndTime\nstartTime:$startTime")
+        if (curTime.isBetween(prevSubjEndTime, startTime)) {
+            subj.timeStatus = TimeStatus.COMING
+            subj.timeStatusMsg = getComingText(startTime.delta(curTime))
+            return
+        }
+
+        if (curTime.isBefore(startTime)) {
+            subj.timeStatus = TimeStatus.FUTURE
+            return
+        }
+
+        if (curTime.isBetween(startTime, endTime)) {
+            subj.timeStatus = TimeStatus.ONGOING
+            return
+        }
+
+        if (curTime.isAfter(endTime)) {
+            subj.timeStatus = TimeStatus.PAST
+            return
+        }
+    }
 
     private fun getComingText(m: Int): String {
         return when {
