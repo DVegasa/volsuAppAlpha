@@ -1,25 +1,64 @@
 package io.github.dvegasa.volsuapplicationalpha.feature.schedule.data_processing
 
+import android.os.Handler
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleSubject
+import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.Time
+import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.TimeStatus
 
 /**
  * Created by Ed Khalturin @DVegasa
  */
+
+const val BOTTOM_TIMER_UPDATE_RATE = 5 * 1000L
+
 class BottomTimer {
 
-    private val _timerText = MutableLiveData("N минут")
-    val timerText: LiveData<String>
-        get() = _timerText
+    private val handler = Handler()
+    private var subjes: ArrayList<ScheduleSubject>? = null
+
+    private val timerText = MutableLiveData<String>(null)
 
 
-    fun startTimer() {
-        _timerText.postValue("NN минут")
+    fun init(subjes: ArrayList<ScheduleSubject>?): LiveData<String?> {
+        if (subjes != null) {
+            this.subjes = subjes
+            stopTimer()
+            startTimer()
+        }
+        return timerText
     }
 
     fun stopTimer() {
+        handler.removeCallbacks(bottomTimerRunnable)
+    }
 
+    private fun startTimer() {
+        handler.post(bottomTimerRunnable)
+    }
+
+    private val bottomTimerRunnable = object : Runnable {
+        override fun run() {
+            subjes?.let {
+                val curSlot = ScheduleTimetable.getSubjectIndexByTime(Time.current)
+
+                val isAnySubjOngoing = (it.filter { subj ->
+                    subj.slot == curSlot && !subj.isOkno()
+                }).isNotEmpty()
+
+                if (isAnySubjOngoing) {
+                    val timeDelta = Time.current.delta(ScheduleTimetable.subjEnd[curSlot])
+                    if (timeDelta != 0) {
+                        timerText.postValue(stringMin(timeDelta))
+                    } else {
+                        timerText.postValue(null)
+                    }
+                }
+            }
+            if (subjes == null) timerText.postValue(null)
+            handler.postDelayed(this, BOTTOM_TIMER_UPDATE_RATE)
+        }
     }
 
     private fun stringMin(n: Int): String {
@@ -34,35 +73,4 @@ class BottomTimer {
         }
         return "$n $f"
     }
-
-//    private val timerRunnable = object : Runnable {
-//        override fun run() {
-//            if (weekSchedule.value != null) {
-//                val subjes =
-//                    try {
-//                        weekSchedule.value!!.schedule(TimeCalculator.currentDayweek)
-//                    } catch (e: Exception) {
-//                        weekSchedule.value!!.schedule(Dayweek.MONDAY)
-//                    }
-//                val t = if (isThisWeekZnam) subjes.znam else subjes.chis
-//                val range = t?.firstNonOknoIndex()..t.lastNonOknoIndex()
-//
-//                if (ScheduleTimetable.getSubjectIndexByTime(
-//                        Time.current
-//                    ) in range) {
-//                    val delta =
-//                        TimeCalculator.getTimerValue()
-//                    val v = if (delta >= 0) TimeCalculator.stringMin(
-//                        delta
-//                    ) else null
-//                    this@ScheduleViewModel.timeUntilSubjectEnd.postValue(v)
-//                } else {
-//                    this@ScheduleViewModel.timeUntilSubjectEnd.postValue(null)
-//                }
-//            }
-//            handler.postDelayed(this,
-//                TIMER_DELAY_RATE
-//            )
-//        }
-//    }
 }

@@ -132,7 +132,6 @@ class ScheduleDayFragment : Fragment() {
                 v.tvTitle.text = s.title
                 v.tvSubtitle.text = s.teacher
             }
-            v.tvSubtitle.text = v.tvSubtitle.text.toString() + "slot: ${s.slot}"
 
             displayTimeStatus(s, v)
             llSubjectLines.addView(v)
@@ -142,25 +141,36 @@ class ScheduleDayFragment : Fragment() {
     private fun displayTimeStatus(s: ScheduleSubject, v: View) {
         v.flOngoing.visibility = View.INVISIBLE
         with(v) {
+            val black = context.color(android.R.color.black)
+            val weak = context.color(R.color.colorTextWeak)
+            val skipped = context.color(R.color.colorSubjSkipped)
+            val accent = context.color(R.color.colorAccent)
+
             when (s.timeStatus) {
                 TimeStatus.PAST -> {
-                    val c = context.color(R.color.colorSubjSkipped)
-                    tvTitle.setTextColor(c)
-                    tvSubtitle.setTextColor(c)
-                    tvAudi.setTextColor(c)
+                    flOngoing.visibility = View.INVISIBLE
+                    tvTitle.setTextColor(skipped)
+                    tvSubtitle.setTextColor(skipped)
+                    tvAudi.setTextColor(skipped)
                 }
                 TimeStatus.ONGOING -> {
                     flOngoing.visibility = View.VISIBLE
+                    tvTitle.setTextColor(black)
+                    tvSubtitle.setTextColor(weak)
+                    tvAudi.setTextColor(black)
                 }
                 TimeStatus.COMING -> {
-                    tvSubtitle.setTextColor(context.color(R.color.colorAccent))
+                    flOngoing.visibility = View.INVISIBLE
+                    tvTitle.setTextColor(black)
+                    tvSubtitle.setTextColor(accent)
+                    tvAudi.setTextColor(black)
                     tvSubtitle.text = s.timeStatusMsg
                 }
                 TimeStatus.FUTURE -> {
-                    val c = context.color(android.R.color.black)
-                    tvTitle.setTextColor(c)
-                    tvSubtitle.setTextColor(c)
-                    tvAudi.setTextColor(c)
+                    flOngoing.visibility = View.INVISIBLE
+                    tvTitle.setTextColor(black)
+                    tvSubtitle.setTextColor(weak)
+                    tvAudi.setTextColor(black)
                 }
             }
         }

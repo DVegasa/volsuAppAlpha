@@ -1,16 +1,11 @@
 package io.github.dvegasa.volsuapplicationalpha.feature.schedule
 
-import android.os.Handler
-import android.util.Log
 import androidx.lifecycle.*
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.data_processing.*
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.Dayweek
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleDay
-import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.Time
 import io.github.dvegasa.volsuapplicationalpha.network.RequestStatus
 import io.github.dvegasa.volsuapplicationalpha.network.Status
-import io.github.dvegasa.volsuapplicationalpha.utils.firstNonOknoIndex
-import io.github.dvegasa.volsuapplicationalpha.utils.lastNonOknoIndex
 
 class ScheduleViewModel : ViewModel() {
     //////////// Объекты
@@ -27,13 +22,7 @@ class ScheduleViewModel : ViewModel() {
 
     //////////// Объекты данных
     private val weekScheduleRequestStatus = MutableLiveData<RequestStatus>()
-    private val weekSchedule = scheduleRepo.getScheduleWeek(weekScheduleRequestStatus).apply {
-        observeForever {
-            if (weekScheduleRequestStatus.value?.status == Status.OK && it != null) {
-                bottomTimer.startTimer()
-            }
-        }
-    }
+    private val weekSchedule = scheduleRepo.getScheduleWeek(weekScheduleRequestStatus)
 
     //////////// Состояния загрузки
     val isDataLoading = Transformations.map(weekScheduleRequestStatus) {
@@ -43,12 +32,18 @@ class ScheduleViewModel : ViewModel() {
     //////////// Представление объектов для UI
     val scheduleByDayweek: Map<Dayweek, LiveData<ScheduleDay>> by lazy {
         mapOf(
-            Dayweek.MONDAY to TimeStatusCalculator(weekSchedule, Dayweek.MONDAY).initTimeValues(),
-            Dayweek.TUESDAY to TimeStatusCalculator(weekSchedule, Dayweek.TUESDAY).initTimeValues(),
-            Dayweek.WEDNESDAY to TimeStatusCalculator(weekSchedule, Dayweek.WEDNESDAY).initTimeValues(),
-            Dayweek.THURSDAY to TimeStatusCalculator(weekSchedule, Dayweek.THURSDAY).initTimeValues(),
-            Dayweek.FRIDAY to TimeStatusCalculator(weekSchedule, Dayweek.FRIDAY).initTimeValues(),
-            Dayweek.SATURDAY to TimeStatusCalculator(weekSchedule, Dayweek.SATURDAY).initTimeValues()
+            Dayweek.MONDAY to TimeStatusCalculator(weekSchedule, Dayweek.MONDAY)
+                .initTimeValues(),
+            Dayweek.TUESDAY to TimeStatusCalculator(weekSchedule, Dayweek.TUESDAY)
+                .initTimeValues(),
+            Dayweek.WEDNESDAY to TimeStatusCalculator(weekSchedule, Dayweek.WEDNESDAY)
+                .initTimeValues(),
+            Dayweek.THURSDAY to TimeStatusCalculator(weekSchedule, Dayweek.THURSDAY)
+                .initTimeValues(),
+            Dayweek.FRIDAY to TimeStatusCalculator(weekSchedule, Dayweek.FRIDAY)
+                .initTimeValues(),
+            Dayweek.SATURDAY to TimeStatusCalculator(weekSchedule, Dayweek.SATURDAY)
+                .initTimeValues()
         )
     }
 
@@ -57,16 +52,16 @@ class ScheduleViewModel : ViewModel() {
         else null
     }
 
-    val bottomTimerText = bottomTimer.timerText
+    val bottomTimerText = Transformations.switchMap(weekSchedule) {
+        val todaySubjes =
+            if (scheduleRepo.isThisWeekZnam()) weekSchedule.value?.schedule(Dayweek.current)?.znam
+            else weekSchedule.value?.schedule(Dayweek.current)?.chis
+        bottomTimer.init(todaySubjes)
+    }
 
     //////////////////
 
     fun requestUpdateScheduleWeek() {
         scheduleRepo.getScheduleWeek(weekScheduleRequestStatus)
-    }
-
-    override fun onCleared() {
-        bottomTimer.stopTimer()
-        super.onCleared()
     }
 }

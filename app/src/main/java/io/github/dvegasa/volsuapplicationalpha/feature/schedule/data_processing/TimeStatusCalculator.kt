@@ -101,7 +101,7 @@ class TimeStatusCalculator(
             if (subj.slot == 0) Time.fromMins(startTime.mins - 10)
             else ScheduleTimetable.subjEnd[subj.slot - 1]
 
-        if (curTime.isBetween(prevSubjEndTime, startTime)) {
+        if (curTime.isBetween(prevSubjEndTime, startTime) && curTime.mins != startTime.mins) {
             subj.timeStatus = TimeStatus.COMING
             subj.timeStatusMsg = getComingText(startTime.delta(curTime))
             return
@@ -112,13 +112,13 @@ class TimeStatusCalculator(
             return
         }
 
-        if (curTime.isBetween(startTime, endTime)) {
-            subj.timeStatus = TimeStatus.ONGOING
+        if (curTime.isAfter(endTime) || curTime.mins == endTime.mins) {
+            subj.timeStatus = TimeStatus.PAST
             return
         }
 
-        if (curTime.isAfter(endTime)) {
-            subj.timeStatus = TimeStatus.PAST
+        if (curTime.isBetween(startTime, endTime)) {
+            subj.timeStatus = TimeStatus.ONGOING
             return
         }
     }
