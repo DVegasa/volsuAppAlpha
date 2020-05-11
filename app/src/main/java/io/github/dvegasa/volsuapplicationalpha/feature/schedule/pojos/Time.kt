@@ -21,7 +21,7 @@ data class Time(
 
         val current: Time
             get() {
-                // /* Fake */ return Time(13, 33)
+                // /* Fake */ return Time(15, 11)
 
                 val t = Calendar.getInstance().time
 

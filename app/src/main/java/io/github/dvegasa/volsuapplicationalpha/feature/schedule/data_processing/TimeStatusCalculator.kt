@@ -27,7 +27,10 @@ class TimeStatusCalculator(
         weekSchedule.observeForever {
             ldExport.value = weekSchedule.value?.schedule(dayweek)
             initStartTimes()
-            startTimeStatusesTimer()
+            if (Dayweek.current == dayweek) {
+                stopTimeStatusesTimer()
+                startTimeStatusesTimer()
+            }
         }
     }
 
@@ -63,6 +66,7 @@ class TimeStatusCalculator(
 
     private val timeStatusRunnable = object : Runnable {
         override fun run() {
+            Log.d("ed__", "Handler work")
             for (subj in ldExport.value!!.chis) { // Назначаем для числ предметов
                 defineSubjTimeStatus(subj, isSubjZnam = false)
             }
@@ -97,7 +101,6 @@ class TimeStatusCalculator(
             if (subj.slot == 0) Time.fromMins(startTime.mins - 10)
             else ScheduleTimetable.subjEnd[subj.slot - 1]
 
-        Log.d("ed__", "TimeIssue:\nprevSubjEndTime:$prevSubjEndTime\nstartTime:$startTime")
         if (curTime.isBetween(prevSubjEndTime, startTime)) {
             subj.timeStatus = TimeStatus.COMING
             subj.timeStatusMsg = getComingText(startTime.delta(curTime))
