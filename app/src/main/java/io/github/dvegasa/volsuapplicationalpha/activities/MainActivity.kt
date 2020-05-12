@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import io.github.dvegasa.volsuapplicationalpha.R
-import io.github.dvegasa.volsuapplicationalpha.feature.notification.NotificationFragment
+import io.github.dvegasa.volsuapplicationalpha.feature.notification.ui.NotificationFragment
 import io.github.dvegasa.volsuapplicationalpha.feature.menu.MenuFragment
 import io.github.dvegasa.volsuapplicationalpha.feature.rating.RatingFragment
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.ui.ScheduleFragment
@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     private val fragmentLists = listOf(
         ScheduleFragment.newInstance(),
         RatingFragment.newInstance(),
-        NotificationFragment.newInstance(),
         NotificationFragment.newInstance()
     )
 
