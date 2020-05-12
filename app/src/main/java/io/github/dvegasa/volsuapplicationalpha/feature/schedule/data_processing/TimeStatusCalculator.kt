@@ -25,7 +25,7 @@ class TimeStatusCalculator(
         weekSchedule.observeForever {
             ldExport.value = weekSchedule.value?.schedule(dayweek)
             initStartTimes()
-            if (Dayweek.current == dayweek) {
+            if (Dayweek.current == dayweek && ldExport.value != null) {
                 stopTimeStatusesTimer()
                 startTimeStatusesTimer()
             }
