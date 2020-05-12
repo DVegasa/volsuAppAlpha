@@ -49,7 +49,7 @@
                     android:layout_height="46dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
-                    android:src="@drawable/test_avatar" />
+                    android:src="@drawable/ava_khalturin" />
 
             <LinearLayout
                     android:id="@+id/linearLayout"

@@ -39,7 +39,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_dayweek_selected">
+                android:background="@drawable/bg_dayweek_selected_bottomsharp">
 
             <TextView
                     android:id="@+id/tvDayweek1"

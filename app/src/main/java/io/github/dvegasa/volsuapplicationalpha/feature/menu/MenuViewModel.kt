@@ -4,6 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MenuViewModel : ViewModel() {
-    val username = MutableLiveData("Александр Михайловский")
+    val username = MutableLiveData("Эдуард Халтурин")
     val userSubtitle = MutableLiveData("МОСб-192, №962941")
 }

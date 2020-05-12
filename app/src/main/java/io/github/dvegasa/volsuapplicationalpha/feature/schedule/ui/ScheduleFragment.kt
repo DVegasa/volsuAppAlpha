@@ -179,7 +179,12 @@ class ScheduleFragment : Fragment() {
             fls[i].setBackgroundColor(0)
             tvs[i].setTextColor(Color.WHITE)
         }
-        fls[selected - 1].setBackgroundResource(R.drawable.bg_dayweek_selected)
+        val bgRes =
+            if (vm.scheduleByDayweek[Dayweek.byValue(selected)]?.value?.isChisZnamIdentical == false)
+                R.drawable.bg_dayweek_selected_bottomsmooth
+            else R.drawable.bg_dayweek_selected_bottomsharp
+
+        fls[selected - 1].setBackgroundResource(bgRes)
         tvs[selected - 1].setTextColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
     }
 
