@@ -95,10 +95,10 @@ class ScheduleFragment : Fragment() {
         )
         val adapter = ArrayAdapter<CharSequence>(
             toolbarSchedule.context,
-            R.layout.spintb_item,
+            R.layout.global_spintb_item,
             titles
         )
-        adapter.setDropDownViewResource(R.layout.spintb_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.global_spintb_dropdown_item)
         toolbarSchedule.spintb.adapter = adapter
         llSpintbArea.setOnClickListener {
             spintb.performClick()

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.github.dvegasa.volsuapplicationalpha.R
-import kotlinx.android.synthetic.main.layout_menu_item.view.*
+import kotlinx.android.synthetic.main.menu_layout_item.view.*
 
 /**
  * Created by Ed Khalturin @DVegasa
@@ -24,7 +24,7 @@ class MenuBuilder(private val context: Context) {
         val inflater = LayoutInflater.from(context)
         val list = arrayListOf<View>()
         for (item in items) {
-            val view = inflater.inflate(R.layout.layout_menu_item, container, false)
+            val view = inflater.inflate(R.layout.menu_layout_item, container, false)
             view.ivIcon.setImageResource(item.first)
             view.tvTitle.text = item.second
             list.add(view)
@@ -47,7 +47,7 @@ class MenuBuilder(private val context: Context) {
         val inflater = LayoutInflater.from(context)
         val list = arrayListOf<View>()
         for (item in items) {
-            val view = inflater.inflate(R.layout.layout_menu_item, container, false)
+            val view = inflater.inflate(R.layout.menu_layout_item, container, false)
             view.ivIcon.setImageResource(item.first)
             view.tvTitle.text = item.second
             list.add(view)

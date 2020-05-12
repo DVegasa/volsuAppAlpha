@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            app:fontFamily="@font/montserrat"
+            app:fontFamily="@font/montserrat_bold"
             tools:text="47" />
 
     <LinearLayout
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:gravity="center_vertical"
-                    app:fontFamily="@font/montserrat"
+                    app:fontFamily="@font/montserrat_bold"
                     tools:text="2 из 25" />
 
             <TextView
@@ -100,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:gravity="center_vertical"
-                    app:fontFamily="@font/montserrat"
+                    app:fontFamily="@font/montserrat_bold"
                     tools:text="32" />
 
             <TextView

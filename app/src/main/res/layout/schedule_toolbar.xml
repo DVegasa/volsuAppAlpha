@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#fff"
-                app:fontFamily="@font/montserrat"
+                app:fontFamily="@font/montserrat_bold"
                 tools:text="Кафедра" />
 
         <ImageView

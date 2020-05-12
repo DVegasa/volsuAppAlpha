@@ -2,14 +2,13 @@ package io.github.dvegasa.volsuapplicationalpha.activities
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem
 import io.github.dvegasa.volsuapplicationalpha.R
-import io.github.dvegasa.volsuapplicationalpha.feature.main.MainFragment
+import io.github.dvegasa.volsuapplicationalpha.feature.notification.NotificationFragment
 import io.github.dvegasa.volsuapplicationalpha.feature.menu.MenuFragment
 import io.github.dvegasa.volsuapplicationalpha.feature.rating.RatingFragment
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.ui.ScheduleFragment
@@ -23,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     private val fragmentLists = listOf(
         ScheduleFragment.newInstance(),
         RatingFragment.newInstance(),
-        MainFragment.newInstance(),
-        MainFragment.newInstance()
+        NotificationFragment.newInstance(),
+        NotificationFragment.newInstance()
     )
 
     private val menuFragment = MenuFragment.newInstance()

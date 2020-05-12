@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:text="ПН"
                     android:textColor="@color/colorPrimary"
-                    app:fontFamily="@font/montserrat" />
+                    app:fontFamily="@font/montserrat_bold" />
         </FrameLayout>
 
         <FrameLayout
@@ -66,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ВТ"
-                    app:fontFamily="@font/montserrat" />
+                    app:fontFamily="@font/montserrat_bold" />
         </FrameLayout>
 
         <FrameLayout
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="СР"
-                    app:fontFamily="@font/montserrat" />
+                    app:fontFamily="@font/montserrat_bold" />
         </FrameLayout>
 
         <FrameLayout
@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ЧТ"
-                    app:fontFamily="@font/montserrat" />
+                    app:fontFamily="@font/montserrat_bold" />
         </FrameLayout>
 
         <FrameLayout
@@ -120,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ПТ"
-                    app:fontFamily="@font/montserrat" />
+                    app:fontFamily="@font/montserrat_bold" />
         </FrameLayout>
 
         <FrameLayout
@@ -138,7 +138,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="СБ"
-                    app:fontFamily="@font/montserrat" />
+                    app:fontFamily="@font/montserrat_bold" />
         </FrameLayout>
 
         <FrameLayout
@@ -154,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="ВТ"
-                    app:fontFamily="@font/montserrat" />
+                    app:fontFamily="@font/montserrat_bold" />
         </FrameLayout>
     </LinearLayout>
 
@@ -185,11 +185,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:fontFamily="@font/montserrat"
+            android:fontFamily="@font/montserrat_bold"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="20sp"
-            app:fontFamily="@font/montserrat"
+            app:fontFamily="@font/montserrat_bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

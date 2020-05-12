@@ -62,10 +62,10 @@ class RatingFragment : Fragment() {
         )
         val adapter = ArrayAdapter<CharSequence>(
             toolbarRating.context,
-            R.layout.spintb_item, // Выбранный элемент (заменяет toolbar.title)
+            R.layout.global_spintb_item, // Выбранный элемент (заменяет toolbar.title)
             semesters
         )
-        adapter.setDropDownViewResource(R.layout.spintb_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.global_spintb_dropdown_item)
         toolbarRating.spintb.adapter = adapter
         llSpintbArea.setOnClickListener {
             spintb.performClick()

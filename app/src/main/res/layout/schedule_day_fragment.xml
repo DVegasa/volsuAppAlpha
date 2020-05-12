@@ -35,7 +35,7 @@
                     android:text="ЧИСЛИТЕЛЬ"
                     android:textAlignment="center"
                     android:textColor="#FFF"
-                    app:fontFamily="@font/montserrat"
+                    app:fontFamily="@font/montserrat_bold"
                     tools:background="@drawable/bg_chisznam_picker"
                     tools:textColor="@color/colorPrimary" />
         </FrameLayout>
@@ -58,7 +58,7 @@
                     android:text="ЗНАМЕНАТЕЛЬ"
                     android:textAlignment="center"
                     android:textColor="#FFF"
-                    app:fontFamily="@font/montserrat" />
+                    app:fontFamily="@font/montserrat_bold" />
         </FrameLayout>
     </LinearLayout>
 
@@ -67,7 +67,7 @@
             android:layout_height="8dp" />
 
     <include
-            layout="@layout/layout_starttime_line"
+            layout="@layout/schedule_starttime_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"

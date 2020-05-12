@@ -18,7 +18,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import io.github.dvegasa.volsuapplicationalpha.R
 import io.github.dvegasa.volsuapplicationalpha.utils.color
-import kotlinx.android.synthetic.main.item_subject.view.*
+import kotlinx.android.synthetic.main.rating_item_subject.view.*
 
 /**
  * Created by Ed Khalturin @DVegasa
@@ -55,7 +55,7 @@ class RvSubjectsAdapter(lifecycleOwner: LifecycleOwner, list: MutableLiveData<Ar
 
     // ok
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_subject, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.rating_item_subject, parent, false)
         return VH(v)
     }
 

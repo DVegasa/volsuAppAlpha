@@ -17,8 +17,8 @@ import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleDa
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.ScheduleSubject
 import io.github.dvegasa.volsuapplicationalpha.feature.schedule.pojos.TimeStatus
 import io.github.dvegasa.volsuapplicationalpha.utils.color
-import kotlinx.android.synthetic.main.layout_starttime_line.*
-import kotlinx.android.synthetic.main.layout_subject_line.view.*
+import kotlinx.android.synthetic.main.schedule_starttime_line.*
+import kotlinx.android.synthetic.main.schedule_layout_subject_line.view.*
 import kotlinx.android.synthetic.main.schedule_day_fragment.*
 
 const val DAYWEEK_KEY = "dayweek_key"
@@ -93,7 +93,7 @@ class ScheduleDayFragment : Fragment() {
 
             if (toShow.isEmpty()) {
                 llSubjectLines.addView(LayoutInflater.from(context)
-                    .inflate(R.layout.layout_subject_line, llSubjectLines, false).apply {
+                    .inflate(R.layout.schedule_layout_subject_line, llSubjectLines, false).apply {
                         tvTitle.text = "В этот день пар нет"
                     })
             } else {
@@ -115,7 +115,7 @@ class ScheduleDayFragment : Fragment() {
     private fun addSubjects(toShow: ArrayList<ScheduleSubject>) {
         for (s in toShow) {
             val v = LayoutInflater.from(context)
-                .inflate(R.layout.layout_subject_line, llSubjectLines, false)
+                .inflate(R.layout.schedule_layout_subject_line, llSubjectLines, false)
 
             if (s.isOkno()) {
                 v.tvTitle.text = "Окно"
