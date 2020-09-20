@@ -28,6 +28,14 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res-global']
+            file('src/main/res-screens')
+                    .listFiles()
+                    .each { res.srcDirs += it.path }
+        }
+    }
 }
 
 dependencies {

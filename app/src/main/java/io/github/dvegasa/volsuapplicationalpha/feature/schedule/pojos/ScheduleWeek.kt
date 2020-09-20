@@ -31,6 +31,6 @@ data class ScheduleWeek(
         Dayweek.THURSDAY -> thursday
         Dayweek.FRIDAY -> friday
         Dayweek.SATURDAY -> saturday
-        Dayweek.SUNDAY -> throw Exception("Attempt to get schedule for Dayweek.SUNDAY")
+        Dayweek.SUNDAY -> monday // throw Exception("Attempt to get schedule for Dayweek.SUNDAY")
     }
 }
